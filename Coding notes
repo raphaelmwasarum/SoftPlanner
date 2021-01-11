@@ -1,0 +1,74 @@
+Root - The Main description of the app
+Children - the various components of the app.
+
+
+E.g.
+
+1. Project Tree:
+
+		AppTreeStructurePlanner ---> InputProcessor. Parses input for:
+										- Adding a new project
+										- Editing a project
+										- Deleting a project
+										- Showing all saved projects
+										- Adding a component node
+										- Editing a component node
+										- Deleting a component node
+										- Opening a project
+										- Showing current project tree
+										- Showing current project schedule
+
+								---> ProjectAddition
+								---> ProjectModification
+								---> ProjectRemoval
+								---> ComponentAddition
+								---> ComponentModification
+								---> ComponentRemoval
+								---> TreeViewer. Shows the project tree
+								---> Scheduler:
+										- Adds a component to the schedule
+										- Edits a component's place in the schedule
+										- Removes a component from the schedule
+										- Shows the project coding schedule
+
+2. Entities:
+
+	- Project
+		- Name
+		- ProjectRoot_ID
+
+	- Component
+		- Name
+		- Description
+		- PseudoCode
+		- Parent_ID
+
+
+3. Services
+
+	- KeyGenerator
+	- DataService
+		- local (local repository) (default)
+		- io (input output services)
+		- web (web services)
+	- Factories (encapsulated creation of components inside components)
+	- Communication (facilitates decoupled communication among components as an alternative to Dependency Injection)
+
+4. Process tree. Shows all the possible sequences of tasks that a user can go through in the app.
+
+	input processing -->  Add new project
+						- Show all projects
+						- Open a project
+							- Edit project
+							- Show project tree
+							- Show project schedule
+							- Add new component
+							- Edit a component
+							- Delete component(s)
+						- Delete a project
+
+
+
+
+
+
