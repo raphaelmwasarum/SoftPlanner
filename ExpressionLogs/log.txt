@@ -359,3 +359,427 @@ Writing code for class ComponentDetailAccessor.java has failed.
 [DEBUG]: Date: 2021-01-13 19:48:21,181. Milliseconds since start up: 1646. [AppConsole] - Building startup components successful.
 [DEBUG]: Date: 2021-01-13 19:48:21,181. Milliseconds since start up: 1646. [SoftPlannerConsole] - App is starting...
 [DEBUG]: Date: 2021-01-13 19:48:21,182. Milliseconds since start up: 1647. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-13 19:54:15,970. Milliseconds since start up: 1. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 19:54:15,973. Milliseconds since start up: 4. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 19:54:15,985. Milliseconds since start up: 16. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 19:54:15,985. Milliseconds since start up: 16. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 19:54:16,098. Milliseconds since start up: 129. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 19:54:16,099. Milliseconds since start up: 130. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 19:54:16,109. Milliseconds since start up: 140. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 19:54:16,109. Milliseconds since start up: 140. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 19:54:16,111. Milliseconds since start up: 142. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 19:54:16,111. Milliseconds since start up: 142. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 19:54:16,310. Milliseconds since start up: 341. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 19:54:16,311. Milliseconds since start up: 342. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 19:54:16,314. Milliseconds since start up: 345. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,314. Milliseconds since start up: 345. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,314. Milliseconds since start up: 345. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,315. Milliseconds since start up: 346. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,315. Milliseconds since start up: 346. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,317. Milliseconds since start up: 348. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,317. Milliseconds since start up: 348. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,325. Milliseconds since start up: 356. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,325. Milliseconds since start up: 356. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,325. Milliseconds since start up: 356. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,326. Milliseconds since start up: 357. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,326. Milliseconds since start up: 357. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,326. Milliseconds since start up: 357. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,326. Milliseconds since start up: 357. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 19:54:16,350. Milliseconds since start up: 381. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 19:54:16,738. Milliseconds since start up: 769. [SQLiteSession] - connection object 1927963027 created successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,743. Milliseconds since start up: 774. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,744. Milliseconds since start up: 775. Connection object 1927963027 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,744. Milliseconds since start up: 775. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 19:54:16,745. Milliseconds since start up: 776. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,745. Milliseconds since start up: 776. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 19:54:16,745. Milliseconds since start up: 776. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 19:54:16,746. Milliseconds since start up: 777. [SQLiteSession] - connection object 1198197478 created successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. Connection object 1198197478 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 19:54:16,747. Milliseconds since start up: 778. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 19:54:16,749. Milliseconds since start up: 780. [SQLiteSession] - connection object 106297322 created successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,749. Milliseconds since start up: 780. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,749. Milliseconds since start up: 780. Connection object 106297322 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,749. Milliseconds since start up: 780. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 19:54:16,750. Milliseconds since start up: 781. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,750. Milliseconds since start up: 781. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 19:54:16,750. Milliseconds since start up: 781. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 19:54:16,751. Milliseconds since start up: 782. [SQLiteSession] - connection object 1262110193 created successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,752. Milliseconds since start up: 783. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,752. Milliseconds since start up: 783. Connection object 1262110193 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 19:54:16,752. Milliseconds since start up: 783. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 19:54:16,752. Milliseconds since start up: 783. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,753. Milliseconds since start up: 784. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 19:54:16,753. Milliseconds since start up: 784. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 19:54:16,755. Milliseconds since start up: 786. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 19:54:16,755. Milliseconds since start up: 786. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 19:54:16,762. Milliseconds since start up: 793. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,762. Milliseconds since start up: 793. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 19:54:16,762. Milliseconds since start up: 793. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,762. Milliseconds since start up: 793. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,762. Milliseconds since start up: 793. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 19:54:16,763. Milliseconds since start up: 794. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 19:54:16,763. Milliseconds since start up: 794. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 19:54:16,763. Milliseconds since start up: 794. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-13 20:13:01,133. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:13:01,136. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:13:01,150. Milliseconds since start up: 17. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:13:01,150. Milliseconds since start up: 17. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:13:01,253. Milliseconds since start up: 120. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 20:13:01,256. Milliseconds since start up: 123. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 20:13:01,269. Milliseconds since start up: 136. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:13:01,269. Milliseconds since start up: 136. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:13:01,281. Milliseconds since start up: 148. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:13:01,281. Milliseconds since start up: 148. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:13:01,482. Milliseconds since start up: 349. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:13:01,482. Milliseconds since start up: 349. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:13:01,502. Milliseconds since start up: 369. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:13:01,502. Milliseconds since start up: 369. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:13:01,506. Milliseconds since start up: 373. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:13:01,506. Milliseconds since start up: 373. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:13:01,507. Milliseconds since start up: 374. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,507. Milliseconds since start up: 374. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,507. Milliseconds since start up: 374. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,517. Milliseconds since start up: 384. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,517. Milliseconds since start up: 384. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,518. Milliseconds since start up: 385. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,518. Milliseconds since start up: 385. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,519. Milliseconds since start up: 386. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,519. Milliseconds since start up: 386. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:13:01,519. Milliseconds since start up: 386. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 20:13:01,534. Milliseconds since start up: 401. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:13:02,237. Milliseconds since start up: 1104. [SQLiteSession] - connection object 1723290893 created successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,242. Milliseconds since start up: 1109. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,244. Milliseconds since start up: 1111. Connection object 1723290893 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,244. Milliseconds since start up: 1111. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:13:02,244. Milliseconds since start up: 1111. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,244. Milliseconds since start up: 1111. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 20:13:02,244. Milliseconds since start up: 1111. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:13:02,246. Milliseconds since start up: 1113. [SQLiteSession] - connection object 547441493 created successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,246. Milliseconds since start up: 1113. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,247. Milliseconds since start up: 1114. Connection object 547441493 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,247. Milliseconds since start up: 1114. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:13:02,247. Milliseconds since start up: 1114. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,247. Milliseconds since start up: 1114. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 20:13:02,247. Milliseconds since start up: 1114. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:13:02,248. Milliseconds since start up: 1115. [SQLiteSession] - connection object 1839206329 created successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,249. Milliseconds since start up: 1116. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,249. Milliseconds since start up: 1116. Connection object 1839206329 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,249. Milliseconds since start up: 1116. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:13:02,250. Milliseconds since start up: 1117. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,250. Milliseconds since start up: 1117. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 20:13:02,250. Milliseconds since start up: 1117. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:13:02,251. Milliseconds since start up: 1118. [SQLiteSession] - connection object 552674617 created successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,252. Milliseconds since start up: 1119. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,252. Milliseconds since start up: 1119. Connection object 552674617 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:13:02,253. Milliseconds since start up: 1120. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:13:02,253. Milliseconds since start up: 1120. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 20:13:02,253. Milliseconds since start up: 1120. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:13:02,254. Milliseconds since start up: 1121. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:13:02,255. Milliseconds since start up: 1122. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:13:02,256. Milliseconds since start up: 1123. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:13:02,261. Milliseconds since start up: 1128. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:13:02,262. Milliseconds since start up: 1129. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,008. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:14:21,011. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:14:21,018. Milliseconds since start up: 10. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:14:21,018. Milliseconds since start up: 10. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:14:21,151. Milliseconds since start up: 143. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 20:14:21,154. Milliseconds since start up: 146. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 20:14:21,162. Milliseconds since start up: 154. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:14:21,162. Milliseconds since start up: 154. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:14:21,165. Milliseconds since start up: 157. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:14:21,166. Milliseconds since start up: 158. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:14:21,329. Milliseconds since start up: 321. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,329. Milliseconds since start up: 321. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,329. Milliseconds since start up: 321. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,357. Milliseconds since start up: 349. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:14:21,357. Milliseconds since start up: 349. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:14:21,359. Milliseconds since start up: 351. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,360. Milliseconds since start up: 352. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,360. Milliseconds since start up: 352. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,360. Milliseconds since start up: 352. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,360. Milliseconds since start up: 352. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,362. Milliseconds since start up: 354. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,362. Milliseconds since start up: 354. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,362. Milliseconds since start up: 354. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,363. Milliseconds since start up: 355. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,363. Milliseconds since start up: 355. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,363. Milliseconds since start up: 355. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 20:14:21,373. Milliseconds since start up: 365. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:14:21,861. Milliseconds since start up: 853. [SQLiteSession] - connection object 1770070706 created successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,866. Milliseconds since start up: 858. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,867. Milliseconds since start up: 859. Connection object 1770070706 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,867. Milliseconds since start up: 859. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:14:21,868. Milliseconds since start up: 860. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,868. Milliseconds since start up: 860. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 20:14:21,868. Milliseconds since start up: 860. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:14:21,869. Milliseconds since start up: 861. [SQLiteSession] - connection object 552674617 created successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,870. Milliseconds since start up: 862. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,871. Milliseconds since start up: 863. Connection object 552674617 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,871. Milliseconds since start up: 863. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:14:21,871. Milliseconds since start up: 863. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,871. Milliseconds since start up: 863. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 20:14:21,871. Milliseconds since start up: 863. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:14:21,873. Milliseconds since start up: 865. [SQLiteSession] - connection object 402808045 created successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,873. Milliseconds since start up: 865. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,873. Milliseconds since start up: 865. Connection object 402808045 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,874. Milliseconds since start up: 866. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:14:21,874. Milliseconds since start up: 866. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,874. Milliseconds since start up: 866. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 20:14:21,874. Milliseconds since start up: 866. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:14:21,876. Milliseconds since start up: 868. [SQLiteSession] - connection object 977160959 created successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,876. Milliseconds since start up: 868. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,877. Milliseconds since start up: 869. Connection object 977160959 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:14:21,877. Milliseconds since start up: 869. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:14:21,877. Milliseconds since start up: 869. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,878. Milliseconds since start up: 870. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:14:21,879. Milliseconds since start up: 871. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:14:21,881. Milliseconds since start up: 873. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:14:21,881. Milliseconds since start up: 873. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:14:21,887. Milliseconds since start up: 879. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,887. Milliseconds since start up: 879. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,911. Milliseconds since start up: 903. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,911. Milliseconds since start up: 903. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:14:21,912. Milliseconds since start up: 904. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,912. Milliseconds since start up: 904. [PostProcessor] - Builder has been created successfully. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,912. Milliseconds since start up: 904. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,912. Milliseconds since start up: 904. [PostProcessor] - Builder has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,920. Milliseconds since start up: 912. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0]
+[DEBUG]: Date: 2021-01-13 20:14:21,945. Milliseconds since start up: 937. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-13 20:14:21,945. Milliseconds since start up: 937. [PostProcessor] - InputProcessor has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,945. Milliseconds since start up: 937. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,946. Milliseconds since start up: 938. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,946. Milliseconds since start up: 938. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:14:21,946. Milliseconds since start up: 938. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 20:14:21,946. Milliseconds since start up: 938. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 20:14:21,946. Milliseconds since start up: 938. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-13 20:14:21,947. Milliseconds since start up: 939. [InputProcessor] - Starting [InputProcessor of id: 7.0] with console interface.
+[DEBUG]: Date: 2021-01-13 20:18:58,135. Milliseconds since start up: 1. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:18:58,137. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:18:58,143. Milliseconds since start up: 9. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:18:58,143. Milliseconds since start up: 9. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:18:58,259. Milliseconds since start up: 125. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 20:18:58,259. Milliseconds since start up: 125. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 20:18:58,268. Milliseconds since start up: 134. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:18:58,268. Milliseconds since start up: 134. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:18:58,270. Milliseconds since start up: 136. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:18:58,270. Milliseconds since start up: 136. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:18:58,419. Milliseconds since start up: 285. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,419. Milliseconds since start up: 285. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,419. Milliseconds since start up: 285. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,437. Milliseconds since start up: 303. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:18:58,437. Milliseconds since start up: 303. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:18:58,448. Milliseconds since start up: 314. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:58,448. Milliseconds since start up: 314. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:58,448. Milliseconds since start up: 314. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,449. Milliseconds since start up: 315. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,449. Milliseconds since start up: 315. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,450. Milliseconds since start up: 316. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:58,450. Milliseconds since start up: 316. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:58,450. Milliseconds since start up: 316. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,450. Milliseconds since start up: 316. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,451. Milliseconds since start up: 317. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:18:58,451. Milliseconds since start up: 317. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 20:18:58,474. Milliseconds since start up: 340. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:18:58,989. Milliseconds since start up: 855. [SQLiteSession] - connection object 1770070706 created successfully.
+[DEBUG]: Date: 2021-01-13 20:18:58,994. Milliseconds since start up: 860. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 20:18:58,995. Milliseconds since start up: 861. Connection object 1770070706 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:18:58,996. Milliseconds since start up: 862. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:18:58,996. Milliseconds since start up: 862. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 20:18:58,996. Milliseconds since start up: 862. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 20:18:58,996. Milliseconds since start up: 862. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:18:58,998. Milliseconds since start up: 864. [SQLiteSession] - connection object 552674617 created successfully.
+[DEBUG]: Date: 2021-01-13 20:18:58,998. Milliseconds since start up: 864. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 20:18:58,999. Milliseconds since start up: 865. Connection object 552674617 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:18:58,999. Milliseconds since start up: 865. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:18:58,999. Milliseconds since start up: 865. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 20:18:58,999. Milliseconds since start up: 865. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 20:18:58,999. Milliseconds since start up: 865. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:18:59,001. Milliseconds since start up: 867. [SQLiteSession] - connection object 402808045 created successfully.
+[DEBUG]: Date: 2021-01-13 20:18:59,002. Milliseconds since start up: 868. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 20:18:59,002. Milliseconds since start up: 868. Connection object 402808045 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:18:59,002. Milliseconds since start up: 868. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:18:59,002. Milliseconds since start up: 868. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 20:18:59,002. Milliseconds since start up: 868. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 20:18:59,003. Milliseconds since start up: 869. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:18:59,004. Milliseconds since start up: 870. [SQLiteSession] - connection object 977160959 created successfully.
+[DEBUG]: Date: 2021-01-13 20:18:59,005. Milliseconds since start up: 871. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 20:18:59,005. Milliseconds since start up: 871. Connection object 977160959 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:18:59,005. Milliseconds since start up: 871. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:18:59,005. Milliseconds since start up: 871. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 20:18:59,006. Milliseconds since start up: 872. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:18:59,006. Milliseconds since start up: 872. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:18:59,008. Milliseconds since start up: 874. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:18:59,008. Milliseconds since start up: 874. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:18:59,014. Milliseconds since start up: 880. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:59,015. Milliseconds since start up: 881. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:59,026. Milliseconds since start up: 892. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:59,027. Milliseconds since start up: 893. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:18:59,027. Milliseconds since start up: 893. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:18:59,027. Milliseconds since start up: 893. [PostProcessor] - Builder has been created successfully. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:18:59,028. Milliseconds since start up: 894. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:18:59,028. Milliseconds since start up: 894. [PostProcessor] - Builder has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:18:59,033. Milliseconds since start up: 899. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0]
+[DEBUG]: Date: 2021-01-13 20:18:59,035. Milliseconds since start up: 901. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-13 20:20:20,400. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:20:20,403. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:20:20,410. Milliseconds since start up: 10. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:20:20,410. Milliseconds since start up: 10. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:20:20,505. Milliseconds since start up: 105. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 20:20:20,505. Milliseconds since start up: 105. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 20:20:20,520. Milliseconds since start up: 120. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:20:20,520. Milliseconds since start up: 120. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:20:20,522. Milliseconds since start up: 122. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:20:20,523. Milliseconds since start up: 123. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:20:20,716. Milliseconds since start up: 316. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,716. Milliseconds since start up: 316. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,716. Milliseconds since start up: 316. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,732. Milliseconds since start up: 332. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:20:20,732. Milliseconds since start up: 332. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:20:20,734. Milliseconds since start up: 334. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:20,734. Milliseconds since start up: 334. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:20,734. Milliseconds since start up: 334. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,735. Milliseconds since start up: 335. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,735. Milliseconds since start up: 335. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,736. Milliseconds since start up: 336. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:20,736. Milliseconds since start up: 336. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:20,737. Milliseconds since start up: 337. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,737. Milliseconds since start up: 337. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,737. Milliseconds since start up: 337. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:20:20,737. Milliseconds since start up: 337. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 20:20:20,747. Milliseconds since start up: 347. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:20:21,135. Milliseconds since start up: 735. [SQLiteSession] - connection object 511354923 created successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,140. Milliseconds since start up: 740. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,142. Milliseconds since start up: 742. Connection object 511354923 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,142. Milliseconds since start up: 742. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,142. Milliseconds since start up: 742. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,142. Milliseconds since start up: 742. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 20:20:21,142. Milliseconds since start up: 742. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:20:21,144. Milliseconds since start up: 744. [SQLiteSession] - connection object 402808045 created successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,144. Milliseconds since start up: 744. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,144. Milliseconds since start up: 744. Connection object 402808045 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,144. Milliseconds since start up: 744. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,145. Milliseconds since start up: 745. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,145. Milliseconds since start up: 745. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 20:20:21,145. Milliseconds since start up: 745. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:20:21,146. Milliseconds since start up: 746. [SQLiteSession] - connection object 977160959 created successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. Connection object 977160959 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 20:20:21,147. Milliseconds since start up: 747. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:20:21,149. Milliseconds since start up: 749. [SQLiteSession] - connection object 1464177809 created successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,150. Milliseconds since start up: 750. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,150. Milliseconds since start up: 750. Connection object 1464177809 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:20:21,150. Milliseconds since start up: 750. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,150. Milliseconds since start up: 750. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,152. Milliseconds since start up: 752. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:20:21,152. Milliseconds since start up: 752. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:20:21,154. Milliseconds since start up: 754. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:20:21,154. Milliseconds since start up: 754. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:20:21,159. Milliseconds since start up: 759. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,160. Milliseconds since start up: 760. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,175. Milliseconds since start up: 775. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,175. Milliseconds since start up: 775. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,176. Milliseconds since start up: 776. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,176. Milliseconds since start up: 776. [PostProcessor] - Builder has been created successfully. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,192. Milliseconds since start up: 792. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,192. Milliseconds since start up: 792. [PostProcessor] - Builder has been created successfully. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-13 20:20:21,192. Milliseconds since start up: 792. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,193. Milliseconds since start up: 793. [PostProcessor] - Builder has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,199. Milliseconds since start up: 799. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0]
+[DEBUG]: Date: 2021-01-13 20:20:21,201. Milliseconds since start up: 801. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,201. Milliseconds since start up: 801. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 8.0]
+[DEBUG]: Date: 2021-01-13 20:20:21,201. Milliseconds since start up: 801. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 8.0] successful..
+[DEBUG]: Date: 2021-01-13 20:20:21,205. Milliseconds since start up: 805. [PostProcessor] - InputProcessor has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,205. Milliseconds since start up: 805. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,205. Milliseconds since start up: 805. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,206. Milliseconds since start up: 806. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:20:21,206. Milliseconds since start up: 806. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 20:20:21,206. Milliseconds since start up: 806. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 20:20:21,206. Milliseconds since start up: 806. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-13 20:20:21,207. Milliseconds since start up: 807. [InputProcessor] - Starting [InputProcessor of id: 7.0] with console interface.
+[DEBUG]: Date: 2021-01-13 20:23:22,611. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:23:22,614. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 20:23:22,629. Milliseconds since start up: 18. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:23:22,630. Milliseconds since start up: 19. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 20:23:22,752. Milliseconds since start up: 141. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 20:23:22,753. Milliseconds since start up: 142. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 20:23:22,768. Milliseconds since start up: 157. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:23:22,768. Milliseconds since start up: 157. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 20:23:22,771. Milliseconds since start up: 160. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:23:22,771. Milliseconds since start up: 160. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 20:23:23,021. Milliseconds since start up: 410. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:23:23,021. Milliseconds since start up: 410. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 20:23:23,027. Milliseconds since start up: 416. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,028. Milliseconds since start up: 417. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,028. Milliseconds since start up: 417. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,028. Milliseconds since start up: 417. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,029. Milliseconds since start up: 418. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,038. Milliseconds since start up: 427. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,038. Milliseconds since start up: 427. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,039. Milliseconds since start up: 428. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,040. Milliseconds since start up: 429. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,040. Milliseconds since start up: 429. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,041. Milliseconds since start up: 430. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,041. Milliseconds since start up: 430. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,041. Milliseconds since start up: 430. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,042. Milliseconds since start up: 431. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-13 20:23:23,076. Milliseconds since start up: 465. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:23:23,492. Milliseconds since start up: 881. [SQLiteSession] - connection object 511354923 created successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,497. Milliseconds since start up: 886. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,498. Milliseconds since start up: 887. Connection object 511354923 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,498. Milliseconds since start up: 887. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,498. Milliseconds since start up: 887. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,499. Milliseconds since start up: 888. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-13 20:23:23,499. Milliseconds since start up: 888. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:23:23,501. Milliseconds since start up: 890. [SQLiteSession] - connection object 402808045 created successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,501. Milliseconds since start up: 890. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,502. Milliseconds since start up: 891. Connection object 402808045 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,502. Milliseconds since start up: 891. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,502. Milliseconds since start up: 891. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,502. Milliseconds since start up: 891. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-13 20:23:23,502. Milliseconds since start up: 891. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:23:23,504. Milliseconds since start up: 893. [SQLiteSession] - connection object 977160959 created successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,505. Milliseconds since start up: 894. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,505. Milliseconds since start up: 894. Connection object 977160959 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,505. Milliseconds since start up: 894. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,505. Milliseconds since start up: 894. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,506. Milliseconds since start up: 895. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-13 20:23:23,506. Milliseconds since start up: 895. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-13 20:23:23,508. Milliseconds since start up: 897. [SQLiteSession] - connection object 1464177809 created successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,511. Milliseconds since start up: 900. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,511. Milliseconds since start up: 900. Connection object 1464177809 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-13 20:23:23,512. Milliseconds since start up: 901. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,512. Milliseconds since start up: 901. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,513. Milliseconds since start up: 902. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:23:23,513. Milliseconds since start up: 902. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 20:23:23,515. Milliseconds since start up: 904. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:23:23,515. Milliseconds since start up: 904. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 20:23:23,520. Milliseconds since start up: 909. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,521. Milliseconds since start up: 910. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,538. Milliseconds since start up: 927. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,539. Milliseconds since start up: 928. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,540. Milliseconds since start up: 929. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,540. Milliseconds since start up: 929. [PostProcessor] - Builder has been created successfully. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,558. Milliseconds since start up: 947. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,558. Milliseconds since start up: 947. [PostProcessor] - Builder has been created successfully. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-13 20:23:23,559. Milliseconds since start up: 948. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,559. Milliseconds since start up: 948. [PostProcessor] - Builder has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,566. Milliseconds since start up: 955. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0]
+[DEBUG]: Date: 2021-01-13 20:23:23,569. Milliseconds since start up: 958. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputProcessor of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,569. Milliseconds since start up: 958. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 8.0]
+[DEBUG]: Date: 2021-01-13 20:23:23,570. Milliseconds since start up: 959. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 8.0] successful..
+[DEBUG]: Date: 2021-01-13 20:23:23,573. Milliseconds since start up: 962. [PostProcessor] - InputProcessor has been created successfully. Name in spring configuration: inputProcessor.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,574. Milliseconds since start up: 963. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,574. Milliseconds since start up: 963. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,574. Milliseconds since start up: 963. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 20:23:23,574. Milliseconds since start up: 963. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 20:23:23,575. Milliseconds since start up: 964. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 20:23:23,575. Milliseconds since start up: 964. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-13 20:23:23,575. Milliseconds since start up: 964. [InputProcessor] - Starting [InputProcessor of id: 7.0] with console interface.
