@@ -1,0 +1,74 @@
+[DEBUG]: Date: 2021-01-13 16:51:39,429. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 16:51:39,432. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 16:51:39,438. Milliseconds since start up: 9. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 16:51:39,438. Milliseconds since start up: 9. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 16:51:39,519. Milliseconds since start up: 90. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 16:51:39,520. Milliseconds since start up: 91. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 16:51:39,526. Milliseconds since start up: 97. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 16:51:39,526. Milliseconds since start up: 97. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 16:51:39,527. Milliseconds since start up: 98. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 16:51:39,527. Milliseconds since start up: 98. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 16:51:39,583. Milliseconds since start up: 154. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,583. Milliseconds since start up: 154. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,584. Milliseconds since start up: 155. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,597. Milliseconds since start up: 168. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 16:51:39,597. Milliseconds since start up: 168. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 16:51:39,599. Milliseconds since start up: 170. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,599. Milliseconds since start up: 170. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,599. Milliseconds since start up: 170. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,600. Milliseconds since start up: 171. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,600. Milliseconds since start up: 171. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,601. Milliseconds since start up: 172. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,601. Milliseconds since start up: 172. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,601. Milliseconds since start up: 172. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,601. Milliseconds since start up: 172. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,601. Milliseconds since start up: 172. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,602. Milliseconds since start up: 173. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 16:51:39,602. Milliseconds since start up: 173. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 16:51:39,604. Milliseconds since start up: 175. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 16:51:39,605. Milliseconds since start up: 176. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 16:51:39,611. Milliseconds since start up: 182. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,611. Milliseconds since start up: 182. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:51:39,611. Milliseconds since start up: 182. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,611. Milliseconds since start up: 182. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,612. Milliseconds since start up: 183. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:51:39,612. Milliseconds since start up: 183. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 16:51:39,613. Milliseconds since start up: 184. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 16:51:39,613. Milliseconds since start up: 184. [SoftPlannerConsole] - Hello. I'm an instance of the Student Information System console.
+[DEBUG]: Date: 2021-01-13 16:53:42,489. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 16:53:42,492. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-13 16:53:42,500. Milliseconds since start up: 11. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 16:53:42,500. Milliseconds since start up: 11. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-13 16:53:42,566. Milliseconds since start up: 77. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-13 16:53:42,566. Milliseconds since start up: 77. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-13 16:53:42,579. Milliseconds since start up: 90. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 16:53:42,579. Milliseconds since start up: 90. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-13 16:53:42,590. Milliseconds since start up: 101. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 16:53:42,591. Milliseconds since start up: 102. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-13 16:53:42,670. Milliseconds since start up: 181. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 16:53:42,670. Milliseconds since start up: 181. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-13 16:53:42,673. Milliseconds since start up: 184. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,674. Milliseconds since start up: 185. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,674. Milliseconds since start up: 185. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,674. Milliseconds since start up: 185. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,675. Milliseconds since start up: 186. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,682. Milliseconds since start up: 193. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,683. Milliseconds since start up: 194. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,683. Milliseconds since start up: 194. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,684. Milliseconds since start up: 195. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,684. Milliseconds since start up: 195. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,684. Milliseconds since start up: 195. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,685. Milliseconds since start up: 196. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,685. Milliseconds since start up: 196. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,686. Milliseconds since start up: 197. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 16:53:42,686. Milliseconds since start up: 197. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-13 16:53:42,688. Milliseconds since start up: 199. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 16:53:42,689. Milliseconds since start up: 200. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-13 16:53:42,713. Milliseconds since start up: 224. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,713. Milliseconds since start up: 224. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-13 16:53:42,714. Milliseconds since start up: 225. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,714. Milliseconds since start up: 225. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,714. Milliseconds since start up: 225. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-13 16:53:42,714. Milliseconds since start up: 225. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-13 16:53:42,715. Milliseconds since start up: 226. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-13 16:53:42,716. Milliseconds since start up: 227. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
