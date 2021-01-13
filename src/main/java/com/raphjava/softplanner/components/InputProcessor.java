@@ -106,6 +106,19 @@ public class InputProcessor extends ComponentBase
         printCommands.setAction(this::printCommands);
         getCommands().add(printCommands);
 
+        Action addNewProject = actionFactory.createProduct();
+        addNewProject.setCommandDescription("Add New Project");
+        addNewProject.setAction(this::addNewProject);
+        getCommands().add(addNewProject);
+
+    }
+
+    private void addNewProject()
+    {
+        System.out.println("Adding new project");
+        //TODO Continue from here.
+        System.out.println("Adding new project complete.");
+
     }
 
     private ComponentBase currentContent;
