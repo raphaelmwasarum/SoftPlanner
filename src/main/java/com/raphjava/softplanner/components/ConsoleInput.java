@@ -33,7 +33,6 @@ public class ConsoleInput extends ComponentBase
     public void cleanUp()
     {
         super.cleanUp();
-        sendMessage(Notification.ForcedCloseCleanUp);
     }
 
     public Optional<String> getInput()
@@ -46,7 +45,7 @@ public class ConsoleInput extends ComponentBase
         catch (NoSuchElementException x)
         {
             System.out.println("Forced close. Beginning pre-closing operations...please wait...");
-            cleanUp();
+            sendMessage(Notification.ForcedCloseCleanUp);
             System.out.println("pre-closing operations complete.");
             System.out.println("Stopping program.");
             System.exit(0);

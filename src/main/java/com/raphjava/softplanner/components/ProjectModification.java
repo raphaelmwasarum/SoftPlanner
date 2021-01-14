@@ -28,6 +28,8 @@ public class ProjectModification extends ComponentBase
     }
 
     public final static String FACTORY = "projectModificationFactory";
+
+
     @Lazy
     @org.springframework.stereotype.Component(FACTORY)
     @Scope(Singleton)

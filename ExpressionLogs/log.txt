@@ -4211,3 +4211,114 @@ Writing code for class ComponentDetailAccessor.java has failed.
 [DEBUG]: Date: 2021-01-14 20:22:44,955. Milliseconds since start up: 4497. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: Action of id: 11.0 successful..
 [DEBUG]: Date: 2021-01-14 20:22:44,955. Milliseconds since start up: 4497. [LoggingStuCommunication] - [LoggingStuCommunication]. Sending message: ForcedCloseCleanUp successful.
 [DEBUG]: Date: 2021-01-14 20:22:44,955. Milliseconds since start up: 4497. [LoggingStuCommunication] - [LoggingStuCommunication]. Sending message: ForcedCloseCleanUp successful.
+[DEBUG]: Date: 2021-01-14 20:32:47,442. Milliseconds since start up: 0. [PostProcessor] - ListenerManager instance is about to be created. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-14 20:32:47,445. Milliseconds since start up: 3. [PostProcessor] - ListenerManager has been created successfully. Name in spring configuration: listenerManager
+[DEBUG]: Date: 2021-01-14 20:32:47,454. Milliseconds since start up: 12. [PostProcessor] - Binder instance is about to be created. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-14 20:32:47,454. Milliseconds since start up: 12. [PostProcessor] - Binder has been created successfully. Name in spring configuration: binder
+[DEBUG]: Date: 2021-01-14 20:32:47,645. Milliseconds since start up: 203. [AppConsole] - AppConsole is starting...
+[DEBUG]: Date: 2021-01-14 20:32:47,645. Milliseconds since start up: 203. [AppConsole] - Building startup components...
+[DEBUG]: Date: 2021-01-14 20:32:47,664. Milliseconds since start up: 222. [PostProcessor] - TCKeyGenerator instance is about to be created. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-14 20:32:47,664. Milliseconds since start up: 222. [PostProcessor] - TCKeyGenerator has been created successfully. Name in spring configuration: TCKeyGenerator
+[DEBUG]: Date: 2021-01-14 20:32:47,667. Milliseconds since start up: 225. [PostProcessor] - QumbuqaComponent instance is about to be created. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-14 20:32:47,667. Milliseconds since start up: 225. [PostProcessor] - QumbuqaComponent has been created successfully. Name in spring configuration: qumbuqaComponent
+[DEBUG]: Date: 2021-01-14 20:32:47,865. Milliseconds since start up: 423. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:47,865. Milliseconds since start up: 423. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:47,880. Milliseconds since start up: 438. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,880. Milliseconds since start up: 438. [PostProcessor] - Builder has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,880. Milliseconds since start up: 438. [PostProcessor] - QuDataService has been created successfully. Name in spring configuration: quDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,893. Milliseconds since start up: 451. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:47,893. Milliseconds since start up: 451. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:47,897. Milliseconds since start up: 455. [PostProcessor] - StuCommunication instance is about to be created. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-14 20:32:47,897. Milliseconds since start up: 455. [PostProcessor] - StuCommunication has been created successfully. Name in spring configuration: stuCommunication
+[DEBUG]: Date: 2021-01-14 20:32:47,897. Milliseconds since start up: 455. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,897. Milliseconds since start up: 455. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,898. Milliseconds since start up: 456. [PostProcessor] - LoggingStuCommunication has been created successfully. Name in spring configuration: loggingStuCommunication.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,898. Milliseconds since start up: 456. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,898. Milliseconds since start up: 456. [PostProcessor] - Builder has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,899. Milliseconds since start up: 457. [PostProcessor] - LoggingQuDataService has been created successfully. Name in spring configuration: loggingQuDataService.Builder
+[DEBUG]: Date: 2021-01-14 20:32:47,899. Milliseconds since start up: 457. [AppConsole] - Getting all used ids by ComponentDetail entities.
+[DEBUG]: Date: 2021-01-14 20:32:47,910. Milliseconds since start up: 468. [LoggingQuDataService] - Operation id: 3.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-14 20:32:48,316. Milliseconds since start up: 874. [SQLiteSession] - connection object 1839206329 created successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,342. Milliseconds since start up: 900. [SQLiteSession] - Building data table from results of query SELECT componentdetail_1.ComponentDetail_ID, componentdetail_1.Name, componentdetail_1.Description, componentdetail_1.PseudoCode FROM componentdetail componentdetail_1  successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,344. Milliseconds since start up: 902. Connection object 1839206329 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,344. Milliseconds since start up: 902. [LoggingQuDataService] - Operation id: 3.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,344. Milliseconds since start up: 902. [AppConsole] - Getting all used ids by ComponentDetail entities successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,346. Milliseconds since start up: 904. [AppConsole] - Getting all used ids by SubComponent entities.
+[DEBUG]: Date: 2021-01-14 20:32:48,349. Milliseconds since start up: 907. [LoggingQuDataService] - Operation id: 4.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-14 20:32:48,352. Milliseconds since start up: 910. [SQLiteSession] - connection object 482307698 created successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,353. Milliseconds since start up: 911. [SQLiteSession] - Building data table from results of query SELECT subcomponent_2.SubComponent_ID FROM subcomponent subcomponent_2  successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,355. Milliseconds since start up: 913. Connection object 482307698 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,356. Milliseconds since start up: 914. [LoggingQuDataService] - Operation id: 4.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,356. Milliseconds since start up: 914. [AppConsole] - Getting all used ids by SubComponent entities successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,356. Milliseconds since start up: 914. [AppConsole] - Getting all used ids by Component entities.
+[DEBUG]: Date: 2021-01-14 20:32:48,356. Milliseconds since start up: 914. [LoggingQuDataService] - Operation id: 5.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-14 20:32:48,358. Milliseconds since start up: 916. [SQLiteSession] - connection object 1765702 created successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,360. Milliseconds since start up: 918. [SQLiteSession] - Building data table from results of query SELECT component_3.Component_ID FROM component component_3  successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,360. Milliseconds since start up: 918. Connection object 1765702 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,360. Milliseconds since start up: 918. [LoggingQuDataService] - Operation id: 5.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,361. Milliseconds since start up: 919. [AppConsole] - Getting all used ids by Component entities successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,361. Milliseconds since start up: 919. [AppConsole] - Getting all used ids by Project entities.
+[DEBUG]: Date: 2021-01-14 20:32:48,361. Milliseconds since start up: 919. [LoggingQuDataService] - Operation id: 6.0. Carrying out Reading operations with one unit of work.
+[DEBUG]: Date: 2021-01-14 20:32:48,363. Milliseconds since start up: 921. [SQLiteSession] - connection object 263833514 created successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,365. Milliseconds since start up: 923. [SQLiteSession] - Building data table from results of query SELECT project_4.Project_ID, project_4.Name FROM project project_4  successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,365. Milliseconds since start up: 923. Connection object 263833514 closed and disposed successfully.
+[DEBUG]: Date: 2021-01-14 20:32:48,365. Milliseconds since start up: 923. [LoggingQuDataService] - Operation id: 6.0Carrying out Reading operations with one unit of work. successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,365. Milliseconds since start up: 923. [AppConsole] - Getting all used ids by Project entities successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,367. Milliseconds since start up: 925. [PostProcessor] - InstanceGetter instance is about to be created. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-14 20:32:48,367. Milliseconds since start up: 925. [PostProcessor] - InstanceGetter has been created successfully. Name in spring configuration: instanceGetter
+[DEBUG]: Date: 2021-01-14 20:32:48,369. Milliseconds since start up: 927. [PostProcessor] - DispatcherWrapper instance is about to be created. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-14 20:32:48,369. Milliseconds since start up: 927. [PostProcessor] - DispatcherWrapper has been created successfully. Name in spring configuration: dispatcherWrapper
+[DEBUG]: Date: 2021-01-14 20:32:48,376. Milliseconds since start up: 934. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,376. Milliseconds since start up: 934. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,397. Milliseconds since start up: 955. [PostProcessor] - TCLoggerFactory instance is about to be created. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,397. Milliseconds since start up: 955. [PostProcessor] - TCLoggerFactory has been created successfully. Name in spring configuration: TCLoggerFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,417. Milliseconds since start up: 975. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,418. Milliseconds since start up: 976. [PostProcessor] - Builder has been created successfully. Name in spring configuration: actionFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,419. Milliseconds since start up: 977. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,421. Milliseconds since start up: 979. [PostProcessor] - Builder has been created successfully. Name in spring configuration: componentBase.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,435. Milliseconds since start up: 993. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: consoleInput.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,435. Milliseconds since start up: 993. [PostProcessor] - Builder has been created successfully. Name in spring configuration: consoleInput.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,447. Milliseconds since start up: 1005. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [ConsoleInput of id: 7.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,450. Milliseconds since start up: 1008. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [ConsoleInput of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,455. Milliseconds since start up: 1013. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [ConsoleInput of id: 7.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,455. Milliseconds since start up: 1013. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [ConsoleInput of id: 7.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,455. Milliseconds since start up: 1013. [PostProcessor] - ConsoleInput has been created successfully. Name in spring configuration: consoleInput.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,456. Milliseconds since start up: 1014. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: projectAdditionFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,456. Milliseconds since start up: 1014. [PostProcessor] - Builder has been created successfully. Name in spring configuration: projectAdditionFactory
+[DEBUG]: Date: 2021-01-14 20:32:48,460. Milliseconds since start up: 1018. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [ConsoleInput of id: 8.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,460. Milliseconds since start up: 1018. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [ConsoleInput of id: 8.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,460. Milliseconds since start up: 1018. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [ConsoleInput of id: 8.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,460. Milliseconds since start up: 1018. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [ConsoleInput of id: 8.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,460. Milliseconds since start up: 1018. [PostProcessor] - ConsoleInput has been created successfully. Name in spring configuration: consoleInput.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,461. Milliseconds since start up: 1019. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: inputResolution.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,461. Milliseconds since start up: 1019. [PostProcessor] - Builder has been created successfully. Name in spring configuration: inputResolution.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,461. Milliseconds since start up: 1019. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [InputResolution of id: 9.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,461. Milliseconds since start up: 1019. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [InputResolution of id: 9.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,462. Milliseconds since start up: 1020. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputResolution of id: 9.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,462. Milliseconds since start up: 1020. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [InputResolution of id: 9.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,462. Milliseconds since start up: 1020. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [Action of id: 10.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,462. Milliseconds since start up: 1020. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [Action of id: 10.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,463. Milliseconds since start up: 1021. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 10.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,463. Milliseconds since start up: 1021. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 10.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,470. Milliseconds since start up: 1028. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [Action of id: 11.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,470. Milliseconds since start up: 1028. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type Message for object [Action of id: 11.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,470. Milliseconds since start up: 1028. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 11.0]
+[DEBUG]: Date: 2021-01-14 20:32:48,471. Milliseconds since start up: 1029. [LoggingStuCommunication] - [LoggingStuCommunication]. Registering for a message of type MessageWithContent for object [Action of id: 11.0] successful..
+[DEBUG]: Date: 2021-01-14 20:32:48,479. Milliseconds since start up: 1037. [PostProcessor] - InputResolution has been created successfully. Name in spring configuration: inputResolution.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,479. Milliseconds since start up: 1037. [PostProcessor] - Builder instance is about to be created. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,479. Milliseconds since start up: 1037. [PostProcessor] - Builder has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,479. Milliseconds since start up: 1037. [PostProcessor] - SoftPlannerConsole has been created successfully. Name in spring configuration: softPlannerConsole.Builder
+[DEBUG]: Date: 2021-01-14 20:32:48,479. Milliseconds since start up: 1037. [AppConsole] - Building startup components successful.
+[DEBUG]: Date: 2021-01-14 20:32:48,485. Milliseconds since start up: 1043. [SoftPlannerConsole] - App is starting...
+[DEBUG]: Date: 2021-01-14 20:32:48,485. Milliseconds since start up: 1043. [SoftPlannerConsole] - Hello. I'm an instance of the Soft planner console.
+[DEBUG]: Date: 2021-01-14 20:32:48,485. Milliseconds since start up: 1043. [InputResolution] - Starting [InputResolution of id: 9.0] with console interface.
+[DEBUG]: Date: 2021-01-14 20:32:53,155. Milliseconds since start up: 5713. [LoggingStuCommunication] - [LoggingStuCommunication]. Sending message: ForcedCloseCleanUp
+[DEBUG]: Date: 2021-01-14 20:32:57,477. Milliseconds since start up: 10035. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: ConsoleInput of id: 7.0
+[DEBUG]: Date: 2021-01-14 20:32:57,478. Milliseconds since start up: 10036. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: ConsoleInput of id: 7.0 successful..
+[DEBUG]: Date: 2021-01-14 20:32:57,479. Milliseconds since start up: 10037. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: InputResolution of id: 9.0
+[DEBUG]: Date: 2021-01-14 20:32:57,479. Milliseconds since start up: 10037. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: InputResolution of id: 9.0 successful..
+[DEBUG]: Date: 2021-01-14 20:32:57,479. Milliseconds since start up: 10037. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: Action of id: 10.0
+[DEBUG]: Date: 2021-01-14 20:32:57,480. Milliseconds since start up: 10038. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: Action of id: 10.0 successful..
+[DEBUG]: Date: 2021-01-14 20:32:57,480. Milliseconds since start up: 10038. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: Action of id: 11.0
+[DEBUG]: Date: 2021-01-14 20:32:57,480. Milliseconds since start up: 10038. [LoggingStuCommunication] - [LoggingStuCommunication]. Unregistering object: Action of id: 11.0 successful..
+[DEBUG]: Date: 2021-01-14 20:32:57,480. Milliseconds since start up: 10038. [LoggingStuCommunication] - [LoggingStuCommunication]. Sending message: ForcedCloseCleanUp successful.
