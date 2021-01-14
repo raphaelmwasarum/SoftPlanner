@@ -8,19 +8,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.Scanner;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
-public class InputProcessor extends ComponentBase
+public class InputResolution extends ComponentBase
 {
 
 
-    private InputProcessor(Builder builder)
+    private InputResolution(Builder builder)
     {
         super(builder.baseBuilder);
         inputService = builder.inputService;
-        actionFactory = builder.actionFactory;
         projectAdditionFactory = builder.projectAdditionFactory;
     }
 
@@ -34,23 +32,19 @@ public class InputProcessor extends ComponentBase
     public void start()
     {
         debug(String.format("Starting [%s] with console interface.", this));
-        String input = "";
-        while (input != null && !input.equalsIgnoreCase("q"))
+        Optional<String> input = Optional.empty();
+        while (Optional.of(
+
+                /*If input has data it returns it otherwise returns empty string*/
+                !input.orElse("")
+
+                /*If input data is q loop stops, otherwise it continues.*/
+                .equalsIgnoreCase("q")).orElse(true))
         {
             System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
-            final boolean[] rightInput = new boolean[1];
             input = inputService.getInput();
-            getCommand(input).ifPresent(c ->
-            {
-                c.getAction().run();
-                rightInput[0] = true;
-            });
-
-            if (!rightInput[0] && !input.equalsIgnoreCase("q"))
-            {
-                System.out.println("Wrong input. Type \"commands\" to see available commands.");
-
-            }
+                    input.flatMap(this::getCommand)
+                    .ifPresent(c -> c.getAction().run());
 
 
         }
@@ -75,8 +69,6 @@ public class InputProcessor extends ComponentBase
     }
 
     private ConsoleInput inputService;
-
-    private Factory<Action> actionFactory;
 
 
     private void printCommands()
@@ -133,17 +125,16 @@ public class InputProcessor extends ComponentBase
     @Lazy
     @Component
     @Scope(Singleton)
-    public static final class Builder extends AbFactoryBean<InputProcessor>
+    public static final class Builder extends AbFactoryBean<InputResolution>
     {
 
         private ComponentBase.Builder baseBuilder;
         private ConsoleInput inputService;
-        private Factory<Action> actionFactory;
         private Factory<ProjectAddition> projectAdditionFactory;
 
         private Builder()
         {
-            super(InputProcessor.class);
+            super(InputResolution.class);
         }
 
         @Autowired
@@ -160,12 +151,6 @@ public class InputProcessor extends ComponentBase
             return this;
         }
 
-        @Autowired
-        public Builder actionFactory(@Named(Action.FACTORY) Factory<Action> actionFactory)
-        {
-            this.actionFactory = actionFactory;
-            return this;
-        }
 
         @Autowired
         public Builder projectAdditionFactory(@Named(ProjectAddition.FACTORY) Factory<ProjectAddition> projectAdditionFactory)
@@ -174,9 +159,9 @@ public class InputProcessor extends ComponentBase
             return this;
         }
 
-        public InputProcessor build()
+        public InputResolution build()
         {
-            InputProcessor ip = new InputProcessor(this);
+            InputResolution ip = new InputResolution(this);
             ip.initialize();
             return ip;
         }

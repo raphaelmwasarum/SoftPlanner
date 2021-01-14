@@ -38,6 +38,7 @@ import static com.raphjava.softplanner.annotations.Scope.Singleton;
  */
 public class ComponentBase extends RaphJavaObject
 {
+    protected final Factory<Action> actionFactory;
     private NotifyingCollection<Action> commands = new net.raphjava.raphtility.collectionmanipulation.NotifyingCollection<>();
 
 
@@ -78,17 +79,17 @@ public class ComponentBase extends RaphJavaObject
 
     //region viewModelID
 
-    private double viewModelID;
+    private double componentID;
 
-    public void setViewModelID(double viewModelID)
+    public void setComponentID(double componentID)
     {
-        this.viewModelID = viewModelID;
+        this.componentID = componentID;
 
     }
 
-    public double getViewModelID()
+    public double getComponentID()
     {
-        return viewModelID;
+        return componentID;
     }
 
     //endregion
@@ -138,16 +139,15 @@ public class ComponentBase extends RaphJavaObject
     protected ComponentBase(Builder builder)
     {
         dataService = builder.dataService;
+        actionFactory = builder.actionFactory;
         communication = builder.communication;
         dispatcherHelper = builder.dispatcherHelper;
         keyGenerator = builder.keyGenerator;
         loggerFactory = builder.loggerFactory;
-//        viewInitialization = builder.viewInitialization;
-//        dialogViewModelFactory = builder.dialogViewModelFactory;
         binder = builder.binder;
         myLoggerName = getClass().getSimpleName();
         logger = loggerFactory.createLogger(myLoggerName);
-        setViewModelID(keyGenerator.getKey());
+        setComponentID(keyGenerator.getKey());
         subscribeToMessages();
     }
 
@@ -160,6 +160,7 @@ public class ComponentBase extends RaphJavaObject
     @SuppressWarnings("unchecked")
     private void subscribeToMessages()
     {
+        register(Notification.ForcedCloseCleanUp, irr -> cleanUp());
         register(Notification.RepositoryHasChanged, Collection.class, coll ->
         {
             ArrayList<Class> changedEntities = new ArrayList<Class>();
@@ -272,7 +273,7 @@ public class ComponentBase extends RaphJavaObject
 
     public void onViewCreated()
     {
-        debug("View for " + myLoggerName + " of id: " + getViewModelID() + " has been created.");
+        debug("View for " + myLoggerName + " of id: " + getComponentID() + " has been created.");
     }
 
     public void cleanUp()
@@ -316,7 +317,7 @@ public class ComponentBase extends RaphJavaObject
     @Override
     public String toString()
     {
-        return myLoggerName + " of id: " + viewModelID;
+        return myLoggerName + " of id: " + componentID;
     }
 
     protected int getKey()
@@ -375,41 +376,41 @@ public class ComponentBase extends RaphJavaObject
     @SuppressWarnings("unchecked")
     public void register(Notification notification, Consumer action)
     {
-        communication.register(this, net.raphjava.raphtility.messaging.Message.class, new MessengerAction<>(notification, getViewModelID(), action));
+        communication.register(this, net.raphjava.raphtility.messaging.Message.class, new MessengerAction<>(notification, getComponentID(), action));
     }
 
     @SuppressWarnings("unchecked")
     public <TContent> void register(Notification notification, Class<TContent> contentClass, Consumer<TContent> action)
     {
         Consumer<MessageWithContent<OperationContent<TContent, Void>, Type, Double, Notification>> actionWrapper = m -> action.accept(m.getContent().getContent1());
-        communication.register(this, MessageWithContent.class, new MessengerAction<>(notification, getViewModelID(), actionWrapper));
+        communication.register(this, MessageWithContent.class, new MessengerAction<>(notification, getComponentID(), actionWrapper));
     }
 
     @SuppressWarnings("unchecked")
     public <TContent1, TContent2> void register(Notification notification, Class<TContent1> content1Class, Class<TContent2> content2Class, BiConsumer<TContent1, TContent2> action)
     {
         Consumer<MessageWithContent<OperationContent<TContent1, TContent2>, Type, Double, Notification>> actionWrap = m -> action.accept(m.getContent().getContent1(), m.getContent().getContent2());
-        communication.register(this, MessageWithContent.class, new MessengerAction<>(notification, getViewModelID(), actionWrap));
+        communication.register(this, MessageWithContent.class, new MessengerAction<>(notification, getComponentID(), actionWrap));
     }
 
     public void sendMessage(Notification notification, Type... senderType)
     {
-        communication.sendMessage(notification, getViewModelID(), senderType);
+        communication.sendMessage(notification, getComponentID(), senderType);
     }
 
     public <Content> void sendMessage(Notification notification, Content content, Type... senderType)
     {
-        communication.sendMessage(notification, new OperationContent<Content, Void>(0, content), getViewModelID(), senderType);
+        communication.sendMessage(notification, new OperationContent<Content, Void>(0, content), getComponentID(), senderType);
     }
 
     public <CallbackParameter> void sendMessage(Notification notification, Consumer<CallbackParameter> afterProcessAction, Type... senderType)
     {
-        communication.sendMessage(notification, new OperationContent<Consumer<CallbackParameter>, Void>(0, afterProcessAction), getViewModelID(), senderType);
+        communication.sendMessage(notification, new OperationContent<Consumer<CallbackParameter>, Void>(0, afterProcessAction), getComponentID(), senderType);
     }
 
     public <Content, CallbackParameter> void sendMessage(Notification notification, Content content, Consumer<CallbackParameter> afterProcessAction)
     {
-        communication.sendMessage(notification, new OperationContent<Content, Consumer<CallbackParameter>>(0, content, afterProcessAction), getViewModelID());
+        communication.sendMessage(notification, new OperationContent<Content, Consumer<CallbackParameter>>(0, content, afterProcessAction), getComponentID());
     }
 
     public void unRegister(Object object)
@@ -509,6 +510,7 @@ public class ComponentBase extends RaphJavaObject
         private DispatcherHelper dispatcherHelper;
         private KeyGenerator keyGenerator;
         private LoggerFactory loggerFactory;
+        private Factory<Action> actionFactory;
 //        private Consumer<TheViewModelBase> viewInitialization;
 //        private Factory<DialogViewModel> dialogViewModelFactory;
         private Binder binder;
@@ -540,6 +542,12 @@ public class ComponentBase extends RaphJavaObject
 //            return this;
 //        }
 
+        @Autowired
+        public Builder actionFactory(@Named(Action.FACTORY) Factory<Action> actionFactory)
+        {
+            this.actionFactory = actionFactory;
+            return this;
+        }
 
         @Autowired
         public Builder setDataService(@Logging DataService val)

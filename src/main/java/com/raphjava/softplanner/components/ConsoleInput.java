@@ -1,10 +1,16 @@
 package com.raphjava.softplanner.components;
 
+import com.raphjava.softplanner.data.models.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
@@ -22,16 +28,63 @@ public class ConsoleInput extends ComponentBase
         return new Builder();
     }
 
-    public int getInt()
+
+    @Override
+    public void cleanUp()
     {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        super.cleanUp();
+        sendMessage(Notification.ForcedCloseCleanUp);
     }
 
-    public String getInput()
+    public Optional<String> getInput()
     {
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
+        try
+        {
+            return Optional.of(scanner.nextLine());
+        }
+        catch (NoSuchElementException x)
+        {
+            System.out.println("Forced close. Beginning pre-closing operations...please wait...");
+            cleanUp();
+            System.out.println("pre-closing operations complete.");
+            System.out.println("Stopping program.");
+            System.exit(0);
+            return Optional.empty();
+        }
+
+
+
+
+//        try
+//        {
+//            String rd = reader.readLine();
+//            if (rd == null) return Optional.empty();
+//            return Optional.of(rd);
+//        }
+//        catch (IOException e)
+//        {
+//            System.out.println("Input error.");
+//            return Optional.empty();
+//        }
+        /*if(scanner.hasNext()) return Optional.of(scanner.nextLine());
+        else
+        {
+            System.out.println("Input error.");
+            return Optional.empty();
+        }
+*/
+        /*try
+        {
+
+            return Optional.of(scanner.nextLine());
+        }
+        catch (Exception x)
+        {
+            System.out.println("Input error. Enter correct input or q to leave input port.");
+
+            return Optional.empty();
+        }*/
     }
 
 

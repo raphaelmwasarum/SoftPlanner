@@ -40,8 +40,7 @@ public class ProjectAddition extends ComponentBase
     public void startAsConsole()
     {
         System.out.println(String.format("Enter new project details in the following format: %s", projectDataTemplate));
-        String data = inputService.getInput();
-        processData(data).ifPresent(this::addNewProject);
+        inputService.getInput().flatMap(this::processData).ifPresent(this::addNewProject);
 
     }
 
@@ -69,6 +68,8 @@ public class ProjectAddition extends ComponentBase
                             {
                                 Project p = ps.iterator().next();
                                 if(p == null) System.out.println(failureMessage);
+                                if(p.getId() != project.getId()) System.out.println(failureMessage +
+                                        " the repository copy is not equal to the domain copy.");
                             }
 
                         }));
@@ -81,6 +82,16 @@ public class ProjectAddition extends ComponentBase
 
     }
 
+
+    private void initialize()
+    {
+        Action anp = actionFactory.createProduct();
+        anp.setCommandDescription("Add New Project");
+        anp.setAction(this::startAsConsole);
+        getCommands().add(anp);
+
+
+    }
 
 
     private List<String> splitToProperties(String rawData)
@@ -166,13 +177,13 @@ public class ProjectAddition extends ComponentBase
         return true;
 
     }
-
     @Lazy
     @org.springframework.stereotype.Component(FACTORY)
     @Scope(Singleton)
     public static final class Builder extends AbFactoryBean<ProjectAddition>
     {
         private ComponentBase.Builder baseBuilder;
+
         private ConsoleInput inputService;
 
         private Builder()
@@ -193,10 +204,13 @@ public class ProjectAddition extends ComponentBase
             this.inputService = inputService;
             return this;
         }
-
         public ProjectAddition build()
         {
-            return new ProjectAddition(this);
+            ProjectAddition pa = new ProjectAddition(this);
+            pa.initialize();
+            return pa;
+
         }
+
     }
 }

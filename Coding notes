@@ -6,7 +6,7 @@ E.g.
 
 1. Project Tree:
 
-		AppTreeStructurePlanner ---> InputProcessor. Parses input for:
+		AppTreeStructurePlanner ---> InputResolution. Maps input to the components that can process the input:
 										- Adding a new project
 										- Editing a project
 										- Deleting a project
@@ -46,6 +46,7 @@ E.g.
 
 3. Services
 
+    - ConsoleInput
 	- KeyGenerator
 	- DataService
 		- local (local repository) (default)
