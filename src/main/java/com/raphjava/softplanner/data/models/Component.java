@@ -46,4 +46,11 @@ public class Component extends EntityBase
     {
         this.detail = detail;
     }
+
+    @Override
+    public boolean equals(Object otherObject)
+    {
+
+        return super.equals(otherObject);
+    }
 }

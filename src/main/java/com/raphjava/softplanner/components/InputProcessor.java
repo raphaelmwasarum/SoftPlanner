@@ -19,7 +19,9 @@ public class InputProcessor extends ComponentBase
     private InputProcessor(Builder builder)
     {
         super(builder.baseBuilder);
+        inputService = builder.inputService;
         actionFactory = builder.actionFactory;
+        projectAdditionFactory = builder.projectAdditionFactory;
     }
 
     public static Builder newBuilder()
@@ -27,18 +29,7 @@ public class InputProcessor extends ComponentBase
         return new Builder();
     }
 
-    public int getInt()
-    {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
-    }
 
-
-    public String getInput()
-    {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
 
     public void start()
     {
@@ -48,7 +39,7 @@ public class InputProcessor extends ComponentBase
         {
             System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
             final boolean[] rightInput = new boolean[1];
-            input = getInput();
+            input = inputService.getInput();
             getCommand(input).ifPresent(c ->
             {
                 c.getAction().run();
@@ -83,6 +74,8 @@ public class InputProcessor extends ComponentBase
 
     }
 
+    private ConsoleInput inputService;
+
     private Factory<Action> actionFactory;
 
 
@@ -113,11 +106,14 @@ public class InputProcessor extends ComponentBase
 
     }
 
+
+    private Factory<ProjectAddition> projectAdditionFactory;
+
+
     private void addNewProject()
     {
-        System.out.println("Adding new project");
-        //TODO Continue from here.
-        System.out.println("Adding new project complete.");
+        ProjectAddition pa = projectAdditionFactory.createProduct();
+        pa.startAsConsole();
 
     }
 
@@ -141,7 +137,9 @@ public class InputProcessor extends ComponentBase
     {
 
         private ComponentBase.Builder baseBuilder;
+        private ConsoleInput inputService;
         private Factory<Action> actionFactory;
+        private Factory<ProjectAddition> projectAdditionFactory;
 
         private Builder()
         {
@@ -156,15 +154,28 @@ public class InputProcessor extends ComponentBase
         }
 
         @Autowired
+        public Builder inputService(ConsoleInput inputService)
+        {
+            this.inputService = inputService;
+            return this;
+        }
+
+        @Autowired
         public Builder actionFactory(@Named(Action.FACTORY) Factory<Action> actionFactory)
         {
             this.actionFactory = actionFactory;
             return this;
         }
 
+        @Autowired
+        public Builder projectAdditionFactory(@Named(ProjectAddition.FACTORY) Factory<ProjectAddition> projectAdditionFactory)
+        {
+            this.projectAdditionFactory = projectAdditionFactory;
+            return this;
+        }
+
         public InputProcessor build()
         {
-
             InputProcessor ip = new InputProcessor(this);
             ip.initialize();
             return ip;

@@ -93,6 +93,8 @@ public class ComponentBase extends RaphJavaObject
 
     //endregion
 
+
+
     private String myLoggerName;
 
     public String getMyLoggerName()
