@@ -23,6 +23,7 @@ public class ProjectAddition extends ComponentBase
     {
         super(builder.baseBuilder);
         inputService = builder.inputService;
+        projectDataParser = builder.projectDataParser;
     }
 
     public static Builder newBuilder()
@@ -36,11 +37,12 @@ public class ProjectAddition extends ComponentBase
 
     private ConsoleInput inputService;
 
+    private ProjectDataParser projectDataParser;
 
     public void startAsConsole()
     {
         System.out.println(String.format("Enter new project details in the following format: %s", projectDataTemplate));
-        inputService.getInput().flatMap(this::processData).ifPresent(this::addNewProject);
+        inputService.getInput().flatMap(projectDataParser::processData).ifPresent(this::addNewProject);
 
     }
 
@@ -68,7 +70,7 @@ public class ProjectAddition extends ComponentBase
                             {
                                 Project p = ps.iterator().next();
                                 if(p == null) System.out.println(failureMessage);
-                                if(p.getId() != project.getId()) System.out.println(failureMessage +
+                                else if(p.getId() != project.getId()) System.out.println(failureMessage +
                                         " the repository copy is not equal to the domain copy.");
                             }
 
@@ -94,89 +96,6 @@ public class ProjectAddition extends ComponentBase
     }
 
 
-    private List<String> splitToProperties(String rawData)
-    {
-        return split(rawData, ",");
-
-    }
-
-    private List<String> split(String data, String delimiter)
-    {
-        Collection<String> rawResults = Arrays.asList(data.split(delimiter));
-        return asExp(rawResults).where(s -> !s.isEmpty()).list();
-    }
-
-
-    private Optional<Project> processData(String rawData)
-    {
-        //Validate data.
-        //Parse data.
-        //instantiate new project object.
-
-        ArrayList<Boolean> validData = new ArrayList<>();
-        List<String> propertyData = splitToProperties(rawData);
-
-        Project project = new Project();
-        project.setId(getKey());
-
-        com.raphjava.softplanner.data.models.Component root = new com.raphjava.softplanner.data.models.Component();
-        root.setId(getKey());
-
-        project.setRoot(root);
-
-        ComponentDetail rootDetail = new ComponentDetail();
-        rootDetail.setId(getKey());
-        root.setDetail(rootDetail);
-        rootDetail.setComponent(root);
-
-        ArrayList<String> errorMessages = new ArrayList<>();
-        boolean nameIsValid = setName(propertyData, project);
-        validData.add(nameIsValid);
-
-        if (!nameIsValid) errorMessages.add("Check " + PROJECT_NAME_DATA_KEY);
-        Boolean middleNameIsValid = setDescription(propertyData, root);
-        validData.add(middleNameIsValid);
-
-        if (validData.all(b -> b)) return Optional.of(project);
-        else
-        {
-            System.out.println("Parsing and processing of student data failed.");
-            errorMessages.forEach(System.out::println);
-            return Optional.empty();
-        }
-
-    }
-
-    private final static String PROJECT_DESCRIPTION_DATA_KEY = "Description";
-
-    private Boolean setDescription(List<String> propertyData, com.raphjava.softplanner.data.models.Component root)
-    {
-        String data = propertyData.firstOrDefault(d -> d.contains(PROJECT_DESCRIPTION_DATA_KEY));
-        List<String> sData = split(data, "-");
-        String rawFirstName = sData.firstOrDefault(d -> !d.contains(PROJECT_DESCRIPTION_DATA_KEY));
-        String fn = rawFirstName.replace("]", "");
-        if (fn.isEmpty()) return false;
-        fn = fn.trim();
-        root.getDetail().setDescription(fn);
-        return true;
-
-    }
-
-    private String PROJECT_NAME_DATA_KEY = "Project name";
-
-    private boolean setName(List<String> propertyData, Project project)
-    {
-        String data = propertyData.firstOrDefault(d -> d.contains(PROJECT_NAME_DATA_KEY));
-        List<String> sData = split(data, "-");
-        String rawFirstName = sData.firstOrDefault(d -> !d.contains(PROJECT_NAME_DATA_KEY));
-        String fn = rawFirstName.replace("]", "");
-        if (fn.isEmpty()) return false;
-        fn = fn.trim();
-        project.setName(fn);
-        project.getRoot().getDetail().setName(fn);
-        return true;
-
-    }
     @Lazy
     @org.springframework.stereotype.Component(FACTORY)
     @Scope(Singleton)
@@ -185,6 +104,7 @@ public class ProjectAddition extends ComponentBase
         private ComponentBase.Builder baseBuilder;
 
         private ConsoleInput inputService;
+        private ProjectDataParser projectDataParser;
 
         private Builder()
         {
@@ -204,6 +124,14 @@ public class ProjectAddition extends ComponentBase
             this.inputService = inputService;
             return this;
         }
+
+        @Autowired
+        public Builder projectDataParser(ProjectDataParser projectDataParser)
+        {
+            this.projectDataParser = projectDataParser;
+            return this;
+        }
+
         public ProjectAddition build()
         {
             ProjectAddition pa = new ProjectAddition(this);

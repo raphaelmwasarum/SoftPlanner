@@ -21,6 +21,7 @@ E.g.
 								---> ProjectAddition
 								---> ProjectModification
 								---> ProjectRemoval
+								---> ProjectAccess
 								---> ComponentAddition
 								---> ComponentModification
 								---> ComponentRemoval

@@ -19,6 +19,8 @@ public class InputResolution extends ComponentBase
     {
         super(builder.baseBuilder);
         inputService = builder.inputService;
+        projectSelection = builder.projectSelection;
+        projectAccessFactory = builder.projectAccessFactory;
         projectAdditionFactory = builder.projectAdditionFactory;
     }
 
@@ -95,6 +97,28 @@ public class InputResolution extends ComponentBase
         addNewProject.setCommandDescription("Add New Project");
         addNewProject.setAction(this::addNewProject);
         getCommands().add(addNewProject);
+        
+        Action openProject = actionFactory.createProduct();
+        openProject.setCommandDescription("Open Project");
+        openProject.setAction(this::openProject);
+        getCommands().add(openProject);
+
+    }
+
+    private ProjectSelection projectSelection;
+    private Factory<ProjectAccess> projectAccessFactory;
+
+    private void openProject()
+    {
+        projectSelection.setSelectionPurpose("open");
+        projectSelection.startAsConsole().ifPresent(p ->
+        {
+            ProjectAccess pa = projectAccessFactory.createProduct();
+            pa.setProject(p);
+            setCurrentContent(pa);
+            pa.startAsConsole();
+        });
+
 
     }
 
@@ -130,6 +154,8 @@ public class InputResolution extends ComponentBase
 
         private ComponentBase.Builder baseBuilder;
         private ConsoleInput inputService;
+        private ProjectSelection projectSelection;
+        private Factory<ProjectAccess> projectAccessFactory;
         private Factory<ProjectAddition> projectAdditionFactory;
 
         private Builder()
@@ -148,6 +174,20 @@ public class InputResolution extends ComponentBase
         public Builder inputService(ConsoleInput inputService)
         {
             this.inputService = inputService;
+            return this;
+        }
+
+        @Autowired
+        public Builder projectSelection(ProjectSelection projectSelection)
+        {
+            this.projectSelection = projectSelection;
+            return this;
+        }
+
+        @Autowired
+        public Builder projectAccessFactory(@Named(ProjectAccess.FACTORY) Factory<ProjectAccess> projectAccessFactory)
+        {
+            this.projectAccessFactory = projectAccessFactory;
             return this;
         }
 

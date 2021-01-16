@@ -15,6 +15,7 @@ import net.raphjava.raphtility.asynchrony.Task;
 import net.raphjava.raphtility.asynchrony.TaskResult;
 import net.raphjava.raphtility.collectionmanipulation.ArrayList;
 import net.raphjava.raphtility.collectionmanipulation.interfaces.Explorable;
+import net.raphjava.raphtility.collectionmanipulation.interfaces.List;
 import net.raphjava.raphtility.collectionmanipulation.interfaces.NotifyingCollection;
 import net.raphjava.raphtility.interfaceImplementations.Property;
 import net.raphjava.raphtility.logging.interfaces.Log;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -150,6 +152,14 @@ public class ComponentBase extends RaphJavaObject
         setComponentID(keyGenerator.getKey());
         subscribeToMessages();
     }
+
+
+    protected List<String> split(String data, String delimiter)
+    {
+        Collection<String> rawResults = Arrays.asList(data.split(delimiter));
+        return asExp(rawResults).where(s -> !s.isEmpty()).list();
+    }
+
 
     protected boolean stringsMatch(String o, String n)
     {

@@ -65,7 +65,7 @@ public class ComponentAccessor extends EntityAccessorBase implements Accessor
 				break;
 			case "getSubComponents":
 				return entity.getSubComponents();
-			case "setProject":
+			case "setSelectedProject":
 				entity.setProject((Project) parameter);
 				break;
 			case "getProject":
