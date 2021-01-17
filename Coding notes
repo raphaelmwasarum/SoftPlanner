@@ -65,7 +65,8 @@ E.g.
 							- Show project tree
 							- Show project schedule
 							- Add new component
-							- Edit a component
+							- Open component
+							    - Edit a component
 							- Delete component(s)
 						- Delete a project
 

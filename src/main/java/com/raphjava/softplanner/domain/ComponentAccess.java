@@ -19,27 +19,27 @@ import java.util.Objects;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
-public class ProjectAccess extends ComponentBase
+public class ComponentAccess extends ComponentBase
 {
 
-    private Project project;
+    private Component component;
 
-    public void setProject(Project project)
+    public void setComponent(Component component)
     {
-        this.project = project;
+        this.component = component;
     }
 
-    public Project getProject()
+    public Component getComponent()
     {
-        return project;
+        return component;
     }
 
-    private ProjectAccess(Builder builder)
+    private ComponentAccess(Builder builder)
     {
         super(builder.baseBuilder);
         componentAdditionFactory = builder.componentAdditionFactory;
-        projectRemovalFactory = builder.projectRemovalFactory;
-        projectModification = builder.projectModification;
+        componentRemovalFactory = builder.componentRemovalFactory;
+        componentModification = builder.componentModification;
     }
 
     public static Builder newBuilder()
@@ -51,30 +51,18 @@ public class ProjectAccess extends ComponentBase
     private void initialize()
     {
         loadCommands();
-
-
         myEntities.addAll(Arrays.asList(Project.class, Component.class, SubComponent.class, SubComponentDetail.class));
     }
 
     private void loadCommands()
     {
-        Action anp = actionFactory.createProduct();
-        anp.setCommandDescription("Edit project");
-        anp.setAction(this::editProject);
-        getCommands().add(anp);
-
-        Action deleteProject = actionFactory.createProduct();
-        deleteProject.setCommandDescription("Delete Project");
-        deleteProject.setAction(this::deleteProject);
-        getCommands().add(deleteProject);
-
         Action addComponent = actionFactory.createProduct();
-        addComponent.setCommandDescription("Add Component To Project");
-        addComponent.setAction(this::addComponentToProject);
+        addComponent.setCommandDescription("Add new Sub-component");
+        addComponent.setAction(this::addSubComponentToComponent);
         getCommands().add(addComponent);
 
         Action showComponents = actionFactory.createProduct();
-        showComponents.setCommandDescription("Show Project Components");
+        showComponents.setCommandDescription("Show Component's Sub-components");
         showComponents.setAction(this::showComponents);
         getCommands().add(showComponents);
 
@@ -88,11 +76,17 @@ public class ProjectAccess extends ComponentBase
 
     private Factory<ComponentAccess> componentAccessFactory;
 
+
     private void openComponent()
     {
-        //TODO Continue from here.
-
-
+        ComponentSelection cs = componentSelectionFactory.createProduct();
+        cs.setComponent(component);
+        cs.setSelectionPurpose("open");
+        cs.startAsConsole().ifPresent(c ->
+        {
+            componentAccessFactory
+        });
+        
     }
 
     @Override
@@ -100,24 +94,24 @@ public class ProjectAccess extends ComponentBase
     {
         super.handleRepositoryChanges(changedEntities);
         System.out.println("Refreshing current project data in line with recent repository changes. Please wait...");
-        dataService.read(r -> r.get(Project.class, project.getId()).eagerLoad(e -> e.include(path(Project.ROOT,
+       /* dataService.read(r -> r.get(Project.class, component.getId()).eagerLoad(e -> e.include(path(Project.ROOT,
                 Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT)))
                 .onSuccess(project1 ->
                 {
-                    setProject(project1);
+                    setComponent(project1);
                     System.out.println("Project refresh action successful.");
                 })
                 .onFailure(() -> System.out.println("Failed to refresh project. Current project details may not be" +
-                        " in sync with repository state. You may need to restart app.")));
+                        " in sync with repository state. You may need to restart app.")));*/
 
     }
 
     private void showComponents()
     {
         StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
-        project.getRoot().getSubComponents().forEach(sc ->
+        component.getSubComponents().forEach(sc ->
         {
-            com.raphjava.softplanner.data.models.Component x = sc.getSubComponentDetail().getComponent();
+            Component x = sc.getSubComponentDetail().getComponent();
             sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
         });
         sb.append("Project's components end of list.");
@@ -128,74 +122,74 @@ public class ProjectAccess extends ComponentBase
     private Factory<ComponentAddition> componentAdditionFactory;
 
 
-    private void addComponentToProject()
+    private void addSubComponentToComponent()
     {
-        System.out.println("Adding component to project...");
+        System.out.println("Adding sub-component to component...");
         ComponentAddition ca = componentAdditionFactory.createProduct();
-        ca.setParent(project.getRoot());
+        ca.setParent(component);
         ca.startAsConsole();
     }
 
 
-    private Factory<ProjectRemoval> projectRemovalFactory;
+    private Factory<ComponentRemoval> componentRemovalFactory;
 
 
-    private void deleteProject()
+    private void deleteComponent()
     {
-        ProjectRemoval pr = projectRemovalFactory.createProduct();
-        pr.setProject(project);
+        ComponentRemoval pr = componentRemovalFactory.createProduct();
+        pr.setComponent(component);
         pr.startAsConsole();
     }
 
-    private ProjectModification projectModification;
+    private ComponentModification componentModification;
 
 
-    private void editProject()
+    private void editComponent()
     {
-        projectModification.setProject(project);
-        if (projectModification.startAsConsole())
+        componentModification.setComponent(component);
+        if (componentModification.startAsConsole())
         {
-            dataService.read(r -> r.get(Project.class, project.getId())
-                    .eagerLoad(e -> e.include(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)))
+            dataService.read(r -> r.get(Component.class, component.getId())
+//                    .eagerLoad(e -> e.include(path(Project.ROOT, Component.SUB_COMPONENT_DETAIL)))
                     .onSuccess(p ->
                     {
-                        setProject(p);
+                        setComponent(p);
                         startAsConsole();
                     })
-                    .onFailure(() -> System.out.println(String.format("Failure refreshing project data in %s", this))));
+                    .onFailure(() -> System.out.println(String.format("Failure refreshing component data in %s", this))));
         }
     }
 
     public void startAsConsole()
     {
         ensureProjectLoaded();
-        System.out.println(String.format("Project with the following details is now open: Project name: %s. " +
-                "Project description: %s", project.getName(), project.getRoot().getDescription()));
+        System.out.println(String.format("Component with the following details is now open: Component name: %s. " +
+                "Component description: %s", component.getName(), component.getDescription()));
 
     }
 
     private void ensureProjectLoaded()
     {
-        Objects.requireNonNull(project, "Project to be accessed has not been set.");
+        Objects.requireNonNull(component, "Component to be accessed has not been set.");
     }
 
-    public static final String FACTORY = "projectAccessFactory";
+    public static final String FACTORY = "componentAccessFactory";
 
     @Lazy
     @org.springframework.stereotype.Component(FACTORY)
     @Scope(Singleton)
-    public static final class Builder extends AbFactoryBean<ProjectAccess>
+    public static final class Builder extends AbFactoryBean<ComponentAccess>
     {
 
 
         private ComponentBase.Builder baseBuilder;
         private Factory<ComponentAddition> componentAdditionFactory;
-        private Factory<ProjectRemoval> projectRemovalFactory;
-        private ProjectModification projectModification;
+        private Factory<ComponentRemoval> componentRemovalFactory;
+        private ComponentModification componentModification;
 
         private Builder()
         {
-            super(ProjectAccess.class);
+            super(ComponentAccess.class);
         }
 
         @Autowired
@@ -213,22 +207,22 @@ public class ProjectAccess extends ComponentBase
         }
 
         @Autowired
-        public Builder projectRemovalFactory(@Named(ProjectRemoval.FACTORY) Factory<ProjectRemoval> projectRemovalFactory)
+        public Builder projectRemovalFactory(@Named(ComponentRemoval.FACTORY) Factory<ComponentRemoval> projectRemovalFactory)
         {
-            this.projectRemovalFactory = projectRemovalFactory;
+            this.componentRemovalFactory = projectRemovalFactory;
             return this;
         }
 
         @Autowired
-        public Builder projectModification(ProjectModification projectModification)
+        public Builder projectModification(ComponentModification projectModification)
         {
-            this.projectModification = projectModification;
+            this.componentModification = projectModification;
             return this;
         }
 
-        public synchronized ProjectAccess build()
+        public synchronized ComponentAccess build()
         {
-            ProjectAccess pa = new ProjectAccess(this);
+            ComponentAccess pa = new ComponentAccess(this);
             pa.initialize();
             return pa;
         }
