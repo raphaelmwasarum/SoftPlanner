@@ -1,10 +1,17 @@
-package com.raphjava.softplanner.components;
+package com.raphjava.softplanner.domain;
 
+import com.raphjava.softplanner.annotations.Named;
+import com.raphjava.softplanner.components.AbFactoryBean;
+import com.raphjava.softplanner.components.ComponentBase;
+import com.raphjava.softplanner.components.ConsoleInput;
+import com.raphjava.softplanner.components.interfaces.Factory;
+import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Project;
+import com.raphjava.softplanner.data.models.SubComponent;
+import com.raphjava.softplanner.data.models.SubComponentDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -17,6 +24,7 @@ public class ProjectSelection extends ComponentBase
     {
         super(builder.baseBuilder);
         inputProcessor = builder.inputProcessor;
+        projectsFactory = builder.projectsFactory;
     }
 
     public static Builder newBuilder()
@@ -33,15 +41,15 @@ public class ProjectSelection extends ComponentBase
         this.selectionPurpose = selectionPurpose;
     }
 
+    private Factory<Projects> projectsFactory;
+
     public Optional<Project> startAsConsole()
     {
         System.out.println("Fetching saved projects. Please wait...");
-        dataService.read(r -> r
-                .getAll(Project.class)
-                .eagerLoad(e -> e.include(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.DETAIL)))
-                .onSuccess(ps ->
+        projectsFactory.createProduct().get(path(Project.ROOT, Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT))
+                .ifPresent(ps ->
                 {
-                    if(ps.isEmpty()) System.out.println("There are no existing projects.");
+                    if (ps.isEmpty()) System.out.println("There are no existing projects.");
                     else
                     {
                         StringBuilder projectDescriptions = new StringBuilder();
@@ -50,12 +58,11 @@ public class ProjectSelection extends ComponentBase
                         inputProcessor.getInput().ifPresent(i ->
                         {
                             Project sp = asExp(ps).firstOrDefault(p -> String.valueOf(p.getId()).equals(i.trim()));
-                            if(sp == null) System.out.println("Error in selection");
+                            if (sp == null) System.out.println("Error in selection");
                             else setSelectedProject(sp);
                         });
                     }
-                })
-                .onFailure(() -> System.out.println("Failure fetching saved projects. See log for details.")));
+                });
 
         Optional<Project> rez = selectedProject != null ? Optional.of(selectedProject) : Optional.empty();
         setSelectedProject(null);
@@ -73,12 +80,13 @@ public class ProjectSelection extends ComponentBase
 
 
     @Lazy
-    @Component(FACTORY)
+    @org.springframework.stereotype.Component(FACTORY)
     @Scope(Singleton)
     public static final class Builder extends AbFactoryBean<ProjectSelection>
     {
         private ComponentBase.Builder baseBuilder;
         private ConsoleInput inputProcessor;
+        private Factory<Projects> projectsFactory;
 
         private Builder()
         {
@@ -96,6 +104,13 @@ public class ProjectSelection extends ComponentBase
         public Builder inputProcessor(ConsoleInput inputProcessor)
         {
             this.inputProcessor = inputProcessor;
+            return this;
+        }
+
+        @Autowired
+        public Builder projectsFactory(@Named(Projects.FACTORY) Factory<Projects> projectsFactory)
+        {
+            this.projectsFactory = projectsFactory;
             return this;
         }
 

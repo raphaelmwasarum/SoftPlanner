@@ -2,14 +2,14 @@ package com.raphjava.softplanner.data.models;
 
 public class SubComponent extends EntityBase
 {
-    public static final String DETAIL = "detail";
+    public static final String SUB_COMPONENT_DETAIL = "subComponentDetail";
 
     public static final String PARENT_COMPONENT = "parentComponent";
 
 
     private Component parentComponent;
 
-    private ComponentDetail detail;
+    private SubComponentDetail subComponentDetail;
 
     public Component getParentComponent()
     {
@@ -21,13 +21,13 @@ public class SubComponent extends EntityBase
         this.parentComponent = parentComponent;
     }
 
-    public ComponentDetail getDetail()
+    public SubComponentDetail getSubComponentDetail()
     {
-        return detail;
+        return subComponentDetail;
     }
 
-    public void setDetail(ComponentDetail detail)
+    public void setSubComponentDetail(SubComponentDetail subComponentDetail)
     {
-        this.detail = detail;
+        this.subComponentDetail = subComponentDetail;
     }
 }

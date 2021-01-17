@@ -2,12 +2,16 @@ package com.raphjava.softplanner.components;
 
 import com.raphjava.softplanner.annotations.Named;
 import com.raphjava.softplanner.components.interfaces.Factory;
+import com.raphjava.softplanner.data.models.Notification;
+import com.raphjava.softplanner.data.models.Project;
+import com.raphjava.softplanner.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -19,6 +23,8 @@ public class InputResolution extends ComponentBase
     {
         super(builder.baseBuilder);
         inputService = builder.inputService;
+        projectsFactory = builder.projectsFactory;
+        projectRemovalFactory = builder.projectRemovalFactory;
         projectSelection = builder.projectSelection;
         projectAccessFactory = builder.projectAccessFactory;
         projectAdditionFactory = builder.projectAdditionFactory;
@@ -30,7 +36,6 @@ public class InputResolution extends ComponentBase
     }
 
 
-
     public void start()
     {
         debug(String.format("Starting [%s] with console interface.", this));
@@ -40,16 +45,22 @@ public class InputResolution extends ComponentBase
                 /*If input has data it returns it otherwise returns empty string*/
                 !input.orElse("")
 
-                /*If input data is q loop stops, otherwise it continues.*/
-                .equalsIgnoreCase("q")).orElse(true))
+                        /*If input data is q loop stops, otherwise it continues.*/
+                        .equalsIgnoreCase("q")).orElse(true))
         {
             System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
             input = inputService.getInput();
-                    input.flatMap(this::getCommand)
-                    .ifPresent(c -> c.getAction().run());
+            boolean[] commandExists = new boolean[1];
+            input.flatMap(this::getCommand).ifPresent(c ->
+            {
+                c.getAction().run();
+                commandExists[0] = true;
+            });
 
-
+            if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) System.out.println("Command doesn't exist.");
         }
+        sendMessage(Notification.CleanUp);
+        System.out.println("Exiting application");
     }
 
     public ComponentBase getCurrentContent()
@@ -67,7 +78,6 @@ public class InputResolution extends ComponentBase
         setCurrentContent(this);
         loadCommands();
 
-
     }
 
     private ConsoleInput inputService;
@@ -77,19 +87,24 @@ public class InputResolution extends ComponentBase
     {
         StringBuilder sb = new StringBuilder();
         sb.append("***** Available commands shown below: *****\n\n");
-        if(!currentContent.equals(this)) currentContent.getCommands().forEach(c -> sb.append(c.getCommandDescription()).append("\n"));
-        getCommands().forEach(c -> sb.append(c.getCommandDescription()).append("\n"));
-        sb.append("\"q\" - to quit.");
+        Set<String> commands = new HashSet<>();
+        if (!currentContent.equals(this))
+        {
+            currentContent.getCommands().forEach(c -> commands.add(c.getCommandDescription()));
+        }
+        getCommands().forEach(c -> commands.add(c.getCommandDescription()));
+        commands.add("q - to quit.");
+        List<String> sorted = Arrays.asList(Stream.of(commands.toArray()).sorted().toArray(String[]::new));
+        sorted.forEach(n -> sb.append(n).append("\n"));
         sb.append("\n\n***** Available commands.*****\n\n\n");
         System.out.println(sb.toString());
-
     }
 
 
     private void loadCommands()
     {
         Action printCommands = actionFactory.createProduct();
-        printCommands.setCommandDescription("commands");
+        printCommands.setCommandDescription("Commands");
         printCommands.setAction(this::printCommands);
         getCommands().add(printCommands);
 
@@ -97,12 +112,47 @@ public class InputResolution extends ComponentBase
         addNewProject.setCommandDescription("Add New Project");
         addNewProject.setAction(this::addNewProject);
         getCommands().add(addNewProject);
-        
+
         Action openProject = actionFactory.createProduct();
         openProject.setCommandDescription("Open Project");
         openProject.setAction(this::openProject);
         getCommands().add(openProject);
 
+        Action deleteProject = actionFactory.createProduct();
+        deleteProject.setCommandDescription("Delete Project");
+        deleteProject.setAction(this::deleteProject);
+        getCommands().add(deleteProject);
+
+        Action showProjects = actionFactory.createProduct();
+        showProjects.setCommandDescription("Show projects");
+        showProjects.setAction(this::showProjects);
+        getCommands().add(showProjects);
+
+    }
+
+    private Factory<Projects> projectsFactory;
+
+    private void showProjects()
+    {
+        projectsFactory.createProduct().get(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)).ifPresent(ps ->
+        {
+            if(ps.isEmpty()) System.out.println("There are no existing projects.");
+            else
+            {
+                StringBuilder projectDescriptions = new StringBuilder();
+                ps.forEach(p -> projectDescriptions.append(String.format("%s. Project ID: %s", p.getName(), p.getId())).append("\n"));
+                System.out.println(String.format("The following are the currently saved projects:\n\n%s", projectDescriptions));
+            }
+        });
+
+    }
+
+    private Factory<ProjectRemoval> projectRemovalFactory;
+
+    private void deleteProject()
+    {
+        ProjectRemoval pr = projectRemovalFactory.createProduct();
+        pr.startAsConsole();
     }
 
     private ProjectSelection projectSelection;
@@ -138,10 +188,11 @@ public class InputResolution extends ComponentBase
 
     private Optional<Action> getCommand(String commandId)
     {
-        Action comm = currentContent.getCommands().firstOrDefault(c -> c.getCommandDescription().equalsIgnoreCase(commandId));
+        String id = commandId.trim();
+        Action comm = currentContent.getCommands().firstOrDefault(c -> c.getCommandDescription().equalsIgnoreCase(id));
         if (comm == null)
         {
-            comm = getCommands().firstOrDefault(c -> c.getCommandDescription().equalsIgnoreCase(commandId));
+            comm = getCommands().firstOrDefault(c -> c.getCommandDescription().equalsIgnoreCase(id));
         }
         return comm != null ? Optional.of(comm) : Optional.empty();
     }
@@ -154,6 +205,8 @@ public class InputResolution extends ComponentBase
 
         private ComponentBase.Builder baseBuilder;
         private ConsoleInput inputService;
+        private Factory<Projects> projectsFactory;
+        private Factory<ProjectRemoval> projectRemovalFactory;
         private ProjectSelection projectSelection;
         private Factory<ProjectAccess> projectAccessFactory;
         private Factory<ProjectAddition> projectAdditionFactory;
@@ -174,6 +227,20 @@ public class InputResolution extends ComponentBase
         public Builder inputService(ConsoleInput inputService)
         {
             this.inputService = inputService;
+            return this;
+        }
+
+        @Autowired
+        public Builder projectsFactory(@Named(Projects.FACTORY) Factory<Projects> projectsFactory)
+        {
+            this.projectsFactory = projectsFactory;
+            return this;
+        }
+
+        @Autowired
+        public Builder projectRemovalFactory(@Named(ProjectRemoval.FACTORY) Factory<ProjectRemoval> projectRemovalFactory)
+        {
+            this.projectRemovalFactory = projectRemovalFactory;
             return this;
         }
 

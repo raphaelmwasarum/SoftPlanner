@@ -1,6 +1,8 @@
-package com.raphjava.softplanner.components;
+package com.raphjava.softplanner.domain;
 
-import com.raphjava.softplanner.data.models.ComponentDetail;
+import com.raphjava.softplanner.components.AbFactoryBean;
+import com.raphjava.softplanner.components.ComponentBase;
+import com.raphjava.softplanner.components.ConsoleInput;
 import com.raphjava.softplanner.data.models.Project;
 import net.raphjava.raphtility.collectionmanipulation.ArrayList;
 import net.raphjava.raphtility.collectionmanipulation.interfaces.List;
@@ -17,7 +19,7 @@ public class ProjectDataParser extends ComponentBase
     private ProjectDataParser(Builder builder)
     {
         super(builder.baseBuilder);
-        inputService = builder.inputService;
+//        inputService = builder.inputService;
     }
 
     public static Builder newBuilder()
@@ -33,7 +35,7 @@ public class ProjectDataParser extends ComponentBase
 
     private String projectDataTemplate = "[Project name-Soft Planner], [Description-Helps in the planning the development of an app]";
 
-    private ConsoleInput inputService;
+//    private ConsoleInput inputService;
 
 
 
@@ -49,7 +51,7 @@ public class ProjectDataParser extends ComponentBase
         String fn = rawFirstName.replace("]", "");
         if (fn.isEmpty()) return false;
         fn = fn.trim();
-        root.getDetail().setDescription(fn);
+        root.setDescription(fn);
         return true;
 
     }
@@ -67,7 +69,7 @@ public class ProjectDataParser extends ComponentBase
         if (fn.isEmpty()) return false;
         fn = fn.trim();
         project.setName(fn);
-        project.getRoot().getDetail().setName(fn);
+        project.getRoot().setName(fn);
         return true;
 
     }
@@ -89,10 +91,10 @@ public class ProjectDataParser extends ComponentBase
 
         project.setRoot(root);
 
-        ComponentDetail rootDetail = new ComponentDetail();
+     /*   SubComponentDetail rootDetail = new SubComponentDetail();
         rootDetail.setId(getKey());
-        root.setDetail(rootDetail);
-        rootDetail.setComponent(root);
+        root.setSubComponentDetail(rootDetail);
+        rootDetail.setComponent(root);*/
 
         ArrayList<String> errorMessages = new ArrayList<>();
         boolean nameIsValid = setName(propertyData, project);
@@ -108,7 +110,7 @@ public class ProjectDataParser extends ComponentBase
         if (validData.all(b -> b)) return Optional.of(project);
         else
         {
-            System.out.println("Parsing and processing of student data failed.");
+            System.out.println("Parsing and processing of project data failed.");
             errorMessages.forEach(System.out::println);
             return Optional.empty();
         }

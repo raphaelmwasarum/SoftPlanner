@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
@@ -45,7 +42,7 @@ public class ConsoleInput extends ComponentBase
         catch (NoSuchElementException x)
         {
             System.out.println("Forced close. Beginning pre-closing operations...please wait...");
-            sendMessage(Notification.ForcedCloseCleanUp);
+            sendMessage(Notification.CleanUp);
             System.out.println("pre-closing operations complete.");
             System.out.println("Stopping program.");
             System.exit(0);

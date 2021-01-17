@@ -170,12 +170,12 @@ public class ComponentBase extends RaphJavaObject
     @SuppressWarnings("unchecked")
     private void subscribeToMessages()
     {
-        register(Notification.ForcedCloseCleanUp, irr -> cleanUp());
+        register(Notification.CleanUp, irr -> cleanUp());
         register(Notification.RepositoryHasChanged, Collection.class, coll ->
         {
             ArrayList<Class> changedEntities = new ArrayList<Class>();
             if (repositoryChangeAffectsMe((Collection<Class>) coll, changedEntities))
-                handleRepositoryChangesAsync(changedEntities);
+                handleRepositoryChanges(changedEntities);
         });
     }
 
@@ -196,7 +196,7 @@ public class ComponentBase extends RaphJavaObject
      */
     protected Explorable<Class> myEntities = new ArrayList<Class>();
 
-    protected void handleRepositoryChangesAsync(Collection<Class> changedEntities)
+    protected void handleRepositoryChanges(Collection<Class> changedEntities)
     {
     }
 
@@ -319,7 +319,9 @@ public class ComponentBase extends RaphJavaObject
                 message = "Action was not done successfully";
             }
         }
-        dispatcherHelper.checkBeginInvokeOnUI(() -> sendMessage(Notification.ShowDialog, message));
+//        dispatcherHelper.checkBeginInvokeOnUI(() -> sendMessage(Notification.ShowDialog, message));
+        System.out.println(message);
+        debug(message);
     }
 
     protected KeyGenerator keyGenerator;

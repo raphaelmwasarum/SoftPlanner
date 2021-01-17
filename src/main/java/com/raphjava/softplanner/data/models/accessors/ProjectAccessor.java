@@ -8,7 +8,7 @@ import com.raphjava.softplanner.data.models.accessors.EntityAccessorBase;
  
  The code for this class has been generated, therefore any changes to it will be overwritten when its generated again.
  
- Generation done on 13/01/2021 at 1946 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
+ Generation done on 17/01/2021 at 0243 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
  
  
  *******************************************************************************************************************************************************************/
@@ -16,8 +16,8 @@ import net.raphjava.raphtility.lambda.LambdaSettable;
 import net.raphjava.raphtility.models.EntityBase;
 import net.raphjava.qumbuqa.commons.components.interfaces.Accessor;
 import com.raphjava.softplanner.data.models.Project;
-import java.lang.String;
 import com.raphjava.softplanner.data.models.Component;
+import java.lang.String;
 
 
 public class ProjectAccessor extends EntityAccessorBase implements Accessor

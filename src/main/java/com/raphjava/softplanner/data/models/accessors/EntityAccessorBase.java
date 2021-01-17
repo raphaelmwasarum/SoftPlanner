@@ -8,7 +8,7 @@ import net.raphjava.raphtility.models.EntityBase;
  
  The code for this class has been generated, therefore any changes to it will be overwritten when its generated again.
  
- Generation done on 13/01/2021 at 1946 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
+ Generation done on 17/01/2021 at 0243 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
  
  
  *******************************************************************************************************************************************************************/
@@ -24,6 +24,8 @@ public class EntityAccessorBase
 		isAnEntityBaseCall.setItem(true);
 		switch (propertyName)
 		{
+			case "getId":
+				return entity.getId();
 			case "setId":
 				entity.setId((int) parameter);
 				break;
@@ -47,8 +49,6 @@ public class EntityAccessorBase
 			case "setInRepository":
 				entity.setInRepository((boolean) parameter);
 				break;
-			case "getId":
-				return entity.getId();
 			case "getClass":
 				return entity.getClass();
 				default:

@@ -1,5 +1,9 @@
-package com.raphjava.softplanner.components;
+package com.raphjava.softplanner.domain;
 
+import com.raphjava.softplanner.components.AbFactoryBean;
+import com.raphjava.softplanner.components.Action;
+import com.raphjava.softplanner.components.ComponentBase;
+import com.raphjava.softplanner.components.ConsoleInput;
 import com.raphjava.softplanner.data.models.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -73,21 +77,21 @@ public class ProjectModification extends ComponentBase
     {
         boolean[] success = new boolean[1];
         project.setName(newData.getName());
-        project.getRoot().getDetail().setDescription(newData.getRoot().getDetail().getDescription());
-        project.getRoot().getDetail().setPseudoCode(newData.getRoot().getDetail().getPseudoCode());
+        project.getRoot().setDescription(newData.getRoot().getDescription());
+        project.getRoot().setPseudoCode(newData.getRoot().getPseudoCode());
         System.out.println(String.format("Editing project with the following details: Project name: %s. " +
-                "Project description: %s. Please wait...", newData.getName(), newData.getRoot().getDetail().getDescription()));
+                "Project description: %s. Please wait...", newData.getName(), newData.getRoot().getDescription()));
 
         dataService.write(w -> w
-                .update(project.getRoot().getDetail())
-                .update(project.getRoot(), e -> e.include(com.raphjava.softplanner.data.models.Component.DETAIL))
+//                .update(project.getRoot().getSubComponentDetail())
+                .update(project.getRoot()/*, e -> e.include(com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)*/)
                 .update(project, e -> e.include(Project.ROOT))
                 .commit()
                 .onSuccess(() ->
                 {
                     dataService.read(r -> r
                             .get(Project.class, e -> e.equation().path("id").constant(project.getId()))
-                            .eagerLoad(l -> l.include(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.DETAIL)))
+                            .eagerLoad(l -> l.include(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)))
                             .onSuccess(ps ->
                             {
                                 success[0] = true;

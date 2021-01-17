@@ -1,17 +1,14 @@
-package com.raphjava.softplanner.components;
+package com.raphjava.softplanner.domain;
 
+import com.raphjava.softplanner.components.AbFactoryBean;
+import com.raphjava.softplanner.components.Action;
+import com.raphjava.softplanner.components.ComponentBase;
+import com.raphjava.softplanner.components.ConsoleInput;
 import com.raphjava.softplanner.data.models.Component;
-import com.raphjava.softplanner.data.models.ComponentDetail;
 import com.raphjava.softplanner.data.models.Project;
-import net.raphjava.raphtility.collectionmanipulation.ArrayList;
-import net.raphjava.raphtility.collectionmanipulation.interfaces.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -50,18 +47,18 @@ public class ProjectAddition extends ComponentBase
     {
 
         System.out.println(String.format("Adding new project with the following details: Project name: %s. " +
-                "Project description: %s. Please wait...", project.getName(), project.getRoot().getDetail().getDescription()));
+                "Project description: %s. Please wait...", project.getName(), project.getRoot().getDescription()));
 
         dataService.write(w -> w
-            .add(project.getRoot().getDetail())
-            .add(project.getRoot(), e -> e.include(Component.DETAIL))
+//            .add(project.getRoot().getSubComponentDetail())
+            .add(project.getRoot()/*, e -> e.include(Component.SUB_COMPONENT_DETAIL)*/)
             .add(project, e -> e.include(Project.ROOT))
             .commit()
             .onSuccess(() ->
             {
                 dataService.read(r -> r
                     .get(Project.class, e -> e.equation().path("id").constant(project.getId()))
-                        .eagerLoad(l -> l.include(path(Project.ROOT, Component.DETAIL)))
+                        .eagerLoad(l -> l.include(path(Project.ROOT, Component.SUB_COMPONENT_DETAIL)))
                         .onSuccess(ps ->
                         {
                             String failureMessage = "Adding of project failed.";

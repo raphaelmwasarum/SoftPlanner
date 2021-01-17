@@ -9,7 +9,7 @@ public class Component extends EntityBase
 
     public static final String PROJECT = "project";
     public static final String SUB_COMPONENTS = "subComponents";
-    public static final String DETAIL = "detail";
+    public static final String SUB_COMPONENT_DETAIL = "subComponentDetail";
 
     private Project project;
 
@@ -25,7 +25,7 @@ public class Component extends EntityBase
 
     private Collection<SubComponent> subComponents = new LinkedHashSet<>();
 
-    private ComponentDetail detail;
+    private SubComponentDetail subComponentDetail;
 
     public Collection<SubComponent> getSubComponents()
     {
@@ -37,20 +37,55 @@ public class Component extends EntityBase
         this.subComponents = subComponents;
     }
 
-    public ComponentDetail getDetail()
+    public SubComponentDetail getSubComponentDetail()
     {
-        return detail;
+        return subComponentDetail;
     }
 
-    public void setDetail(ComponentDetail detail)
+    public void setSubComponentDetail(SubComponentDetail subComponentDetail)
     {
-        this.detail = detail;
+        this.subComponentDetail = subComponentDetail;
     }
 
-    @Override
-    public boolean equals(Object otherObject)
-    {
+    private String name;
 
-        return super.equals(otherObject);
+    private String description;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getPseudoCode()
+    {
+        return pseudoCode;
+    }
+
+    public void setPseudoCode(String pseudoCode)
+    {
+        this.pseudoCode = pseudoCode;
+    }
+
+    private String pseudoCode;
+
+    public void addSubComponent(SubComponent subComponent)
+    {
+        subComponents.add(subComponent);
+        subComponent.setParentComponent(this);
     }
 }

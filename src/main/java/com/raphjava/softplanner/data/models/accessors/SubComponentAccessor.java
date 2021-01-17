@@ -8,7 +8,7 @@ import com.raphjava.softplanner.data.models.accessors.EntityAccessorBase;
  
  The code for this class has been generated, therefore any changes to it will be overwritten when its generated again.
  
- Generation done on 13/01/2021 at 1946 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
+ Generation done on 17/01/2021 at 0243 hrs by Coder. The Coder was programmed by Raphael Mwasaru Mwangangi.
  
  
  *******************************************************************************************************************************************************************/
@@ -16,8 +16,8 @@ import net.raphjava.raphtility.lambda.LambdaSettable;
 import net.raphjava.raphtility.models.EntityBase;
 import net.raphjava.qumbuqa.commons.components.interfaces.Accessor;
 import com.raphjava.softplanner.data.models.SubComponent;
-import com.raphjava.softplanner.data.models.ComponentDetail;
 import com.raphjava.softplanner.data.models.Component;
+import com.raphjava.softplanner.data.models.SubComponentDetail;
 
 
 public class SubComponentAccessor extends EntityAccessorBase implements Accessor
@@ -54,11 +54,11 @@ public class SubComponentAccessor extends EntityAccessorBase implements Accessor
 				break;
 			case "getId":
 				return entity.getId();
-			case "setDetail":
-				entity.setDetail((ComponentDetail) parameter);
+			case "setSubComponentDetail":
+				entity.setSubComponentDetail((SubComponentDetail) parameter);
 				break;
-			case "getDetail":
-				return entity.getDetail();
+			case "getSubComponentDetail":
+				return entity.getSubComponentDetail();
 			case "setParentComponent":
 				entity.setParentComponent((Component) parameter);
 				break;
