@@ -6,7 +6,6 @@ import com.raphjava.softplanner.components.ComponentBase;
 import com.raphjava.softplanner.components.ConsoleInput;
 import com.raphjava.softplanner.components.interfaces.Factory;
 import com.raphjava.softplanner.data.models.Component;
-import com.raphjava.softplanner.data.models.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -34,16 +33,18 @@ public class ComponentSelection extends ComponentBase
 
     private String selectionPurpose;
 
-    public void setSelectionPurpose(String selectionPurpose)
+    public ComponentSelection setSelectionPurpose(String selectionPurpose)
     {
         this.selectionPurpose = selectionPurpose;
+        return this;
     }
 
     private Component component;
 
-    public void setComponent(Component component)
+    public ComponentSelection setComponent(Component component)
     {
         this.component = component;
+        return this;
     }
 
     public Optional<Component> startAsConsole()

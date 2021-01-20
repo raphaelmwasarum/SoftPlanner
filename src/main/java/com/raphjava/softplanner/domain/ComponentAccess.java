@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -24,9 +22,10 @@ public class ComponentAccess extends ComponentBase
 
     private Component component;
 
-    public void setComponent(Component component)
+    public ComponentAccess setComponent(Component component)
     {
         this.component = component;
+        return this;
     }
 
     public Component getComponent()
@@ -76,17 +75,14 @@ public class ComponentAccess extends ComponentBase
 
     private Factory<ComponentAccess> componentAccessFactory;
 
+    private Map<Component, ComponentAccess> openComponents = new HashMap<>();
+
 
     private void openComponent()
     {
-        ComponentSelection cs = componentSelectionFactory.createProduct();
-        cs.setComponent(component);
-        cs.setSelectionPurpose("open");
-        cs.startAsConsole().ifPresent(c ->
-        {
-            componentAccessFactory
-        });
-        
+        componentSelectionFactory.createProduct().setComponent(component).setSelectionPurpose("open")
+                .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
+                .createProduct().setComponent(key)).startAsConsole());
     }
 
     @Override

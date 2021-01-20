@@ -11,6 +11,7 @@ import com.raphjava.softplanner.data.interfaces.DataService;
 import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.interfaces.Communication;
 import com.raphjava.softplanner.main.RaphJavaObject;
+import com.raphjava.softplanner.services.ConsoleOutputService;
 import net.raphjava.raphtility.asynchrony.Task;
 import net.raphjava.raphtility.asynchrony.TaskResult;
 import net.raphjava.raphtility.collectionmanipulation.ArrayList;
@@ -41,6 +42,7 @@ import static com.raphjava.softplanner.annotations.Scope.Singleton;
 public class ComponentBase extends RaphJavaObject
 {
     protected final Factory<Action> actionFactory;
+    protected String TAG = getClass().getSimpleName();
     private NotifyingCollection<Action> commands = new net.raphjava.raphtility.collectionmanipulation.NotifyingCollection<>();
 
 
@@ -73,6 +75,13 @@ public class ComponentBase extends RaphJavaObject
         showViewDelegate.accept(dialog.length != 0 && dialog[0]);
     }
 
+    protected ConsoleOutputService outputService;
+
+    protected void show(String message)
+    {
+        outputService.show(String.format("[%s]", TAG), message);
+
+    }
 
 
     protected DataService dataService;
@@ -131,10 +140,11 @@ public class ComponentBase extends RaphJavaObject
     }
 
     /**
-     * This field is here for facilitating  generation of builders in viewmodels so that
+     * This field is here for facilitating  generation of builders for a component so that
      * when you're creating new builder code using Alt + Insert, you just select this field as one
      * of the fields to include in the generation, so that every time you do this you'll only have
-     * to add super(builder.baseBuilder) code after the generation.
+     * to add super(builder.baseBuilder) code to the builder's product's (a component in this case) constructor after the generation.
+     * (There'll always be a constructor missing super() error that will be corrected by the insertion of this code.)
      */
     protected Builder baseBuilder;
 
@@ -523,37 +533,20 @@ public class ComponentBase extends RaphJavaObject
         private KeyGenerator keyGenerator;
         private LoggerFactory loggerFactory;
         private Factory<Action> actionFactory;
-//        private Consumer<TheViewModelBase> viewInitialization;
-//        private Factory<DialogViewModel> dialogViewModelFactory;
         private Binder binder;
-        private Factory<Action> actionViewModelFactory;
-//        private Factory<ConsoleInputViewModel> consoleInputViewModelFactory;
+        private Factory<ConsoleOutputService> consoleOutputServiceFactory;
 
         private Builder()
         {
+
         }
 
-//        @Autowired
-//        public Builder setDialogViewModelFactory(@Named(DialogViewModel.FACTORY) Factory<DialogViewModel> dialogViewModelFactory)
-//        {
-//            this.dialogViewModelFactory = dialogViewModelFactory;
-//            return this;
-//        }
-
-//        @Autowired
-//        public Builder viewInitialization(Consumer<TheViewModelBase> viewInitialization)
-//        {
-//            this.viewInitialization = viewInitialization;
-//            return this;
-//        }
-
-//        @Autowired
-//        public Builder dialogViewModelFactory(@Named(DialogViewModel.FACTORY) Factory<DialogViewModel> dialogViewModelFactory)
-//        {
-//
-//            return this;
-//        }
-
+        @Autowired
+        public Builder outputService(@Named(ConsoleOutputService.FACTORY) Factory<ConsoleOutputService> consoleOutputServiceFactory)
+        {
+            this.consoleOutputServiceFactory = consoleOutputServiceFactory;
+            return this;
+        }
         @Autowired
         public Builder actionFactory(@Named(Action.FACTORY) Factory<Action> actionFactory)
         {
@@ -603,17 +596,6 @@ public class ComponentBase extends RaphJavaObject
             return this;
         }
 
-        public Builder actionViewModelFactory(Factory<Action> actionViewModelFactory)
-        {
-            this.actionViewModelFactory = actionViewModelFactory;
-            return this;
-        }
-
-//        public Builder consoleInputViewModelFactory(Factory<ConsoleInputViewModel> consoleInputViewModelFactory)
-//        {
-//            this.consoleInputViewModelFactory = consoleInputViewModelFactory;
-//            return this;
-//        }
     }
 
 }

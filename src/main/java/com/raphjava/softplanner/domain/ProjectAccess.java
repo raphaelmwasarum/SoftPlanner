@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -37,6 +35,8 @@ public class ProjectAccess extends ComponentBase
     private ProjectAccess(Builder builder)
     {
         super(builder.baseBuilder);
+        componentSelectionFactory = builder.componentSelectionFactory;
+        componentAccessFactory = builder.componentAccessFactory;
         componentAdditionFactory = builder.componentAdditionFactory;
         projectRemovalFactory = builder.projectRemovalFactory;
         projectModification = builder.projectModification;
@@ -88,11 +88,13 @@ public class ProjectAccess extends ComponentBase
 
     private Factory<ComponentAccess> componentAccessFactory;
 
+    private Map<Component, ComponentAccess> openComponents = new HashMap<>();
+
     private void openComponent()
     {
-        //TODO Continue from here.
-
-
+        componentSelectionFactory.createProduct().setComponent(project.getRoot()).setSelectionPurpose("open")
+                .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
+                .createProduct().setComponent(key)).startAsConsole());
     }
 
     @Override
@@ -117,7 +119,7 @@ public class ProjectAccess extends ComponentBase
         StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
         project.getRoot().getSubComponents().forEach(sc ->
         {
-            com.raphjava.softplanner.data.models.Component x = sc.getSubComponentDetail().getComponent();
+            Component x = sc.getSubComponentDetail().getComponent();
             sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
         });
         sb.append("Project's components end of list.");
@@ -156,7 +158,7 @@ public class ProjectAccess extends ComponentBase
         if (projectModification.startAsConsole())
         {
             dataService.read(r -> r.get(Project.class, project.getId())
-                    .eagerLoad(e -> e.include(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)))
+                    .eagerLoad(e -> e.include(path(Project.ROOT, Component.SUB_COMPONENT_DETAIL)))
                     .onSuccess(p ->
                     {
                         setProject(p);
@@ -189,6 +191,8 @@ public class ProjectAccess extends ComponentBase
 
 
         private ComponentBase.Builder baseBuilder;
+        private Factory<ComponentSelection> componentSelectionFactory;
+        private Factory<ComponentAccess> componentAccessFactory;
         private Factory<ComponentAddition> componentAdditionFactory;
         private Factory<ProjectRemoval> projectRemovalFactory;
         private ProjectModification projectModification;
@@ -202,6 +206,20 @@ public class ProjectAccess extends ComponentBase
         public Builder baseBuilder(ComponentBase.Builder baseBuilder)
         {
             this.baseBuilder = baseBuilder;
+            return this;
+        }
+
+        @Autowired
+        public Builder componentSelectionFactory(@Named(ComponentSelection.FACTORY) Factory<ComponentSelection> componentSelectionFactory)
+        {
+            this.componentSelectionFactory = componentSelectionFactory;
+            return this;
+        }
+
+        @Autowired
+        public Builder componentAccessFactory(@Named(ComponentAccess.FACTORY) Factory<ComponentAccess> componentAccessFactory)
+        {
+            this.componentAccessFactory = componentAccessFactory;
             return this;
         }
 

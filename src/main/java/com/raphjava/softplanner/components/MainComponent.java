@@ -5,6 +5,7 @@ import com.raphjava.softplanner.components.interfaces.Factory;
 import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.domain.*;
+import com.raphjava.softplanner.services.ConsoleOutputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -12,28 +13,33 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Stream;
+import java.util.zip.CheckedOutputStream;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
-public class InputResolution extends ComponentBase
+public class MainComponent extends ComponentBase
 {
 
 
-    private InputResolution(Builder builder)
+    private MainComponent(Builder builder)
     {
         super(builder.baseBuilder);
+        outputService = builder.outputService;
         inputService = builder.inputService;
         projectsFactory = builder.projectsFactory;
         projectRemovalFactory = builder.projectRemovalFactory;
         projectSelection = builder.projectSelection;
         projectAccessFactory = builder.projectAccessFactory;
         projectAdditionFactory = builder.projectAdditionFactory;
+        TAG = String.format("%s-%s", SoftPlannerConsole.class.getSimpleName(), "Main");
     }
 
     public static Builder newBuilder()
     {
         return new Builder();
     }
+
+
 
 
     public void start()
@@ -48,7 +54,8 @@ public class InputResolution extends ComponentBase
                         /*If input data is q loop stops, otherwise it continues.*/
                         .equalsIgnoreCase("q")).orElse(true))
         {
-            System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
+//            System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
+            show("Enter command. (Enter \"commands\" to see available commands.):");
             input = inputService.getInput();
             boolean[] commandExists = new boolean[1];
             input.flatMap(this::getCommand).ifPresent(c ->
@@ -57,10 +64,10 @@ public class InputResolution extends ComponentBase
                 commandExists[0] = true;
             });
 
-            if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) System.out.println("Command doesn't exist.");
+            if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) show("Command doesn't exist.");
         }
         sendMessage(Notification.CleanUp);
-        System.out.println("Exiting application");
+        show("Exiting application");
     }
 
     public ComponentBase getCurrentContent()
@@ -200,7 +207,7 @@ public class InputResolution extends ComponentBase
     @Lazy
     @Component
     @Scope(Singleton)
-    public static final class Builder extends AbFactoryBean<InputResolution>
+    public static final class Builder extends AbFactoryBean<MainComponent>
     {
 
         private ComponentBase.Builder baseBuilder;
@@ -210,10 +217,11 @@ public class InputResolution extends ComponentBase
         private ProjectSelection projectSelection;
         private Factory<ProjectAccess> projectAccessFactory;
         private Factory<ProjectAddition> projectAdditionFactory;
+        private ConsoleOutputService outputService;
 
         private Builder()
         {
-            super(InputResolution.class);
+            super(MainComponent.class);
         }
 
         @Autowired
@@ -266,12 +274,18 @@ public class InputResolution extends ComponentBase
             return this;
         }
 
-        public InputResolution build()
+        public MainComponent build()
         {
-            InputResolution ip = new InputResolution(this);
+            MainComponent ip = new MainComponent(this);
             ip.initialize();
             return ip;
         }
 
+        @Autowired
+        public Builder outputService(ConsoleOutputService outputService)
+        {
+            this.outputService = outputService;
+            return this;
+        }
     }
 }

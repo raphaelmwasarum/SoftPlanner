@@ -20,6 +20,7 @@ public class ComponentModification extends ComponentBase
 {
 
     private Component parent;
+    private Component component;
 
 
     public void setParent(Component parent)
@@ -45,14 +46,16 @@ public class ComponentModification extends ComponentBase
 
     private String componentDataTemplate = "[Component name-Input processor], [Description-Processes input entered by the user], [PseudoCode-Enter your pseudo code here.]";
 
-    public void startAsConsole()
+    public boolean startAsConsole()
     {
         System.out.println(String.format("Enter new component details in the following format: %s", componentDataTemplate));
-        inputService.getInput().flatMap(componentDataParser::processData).ifPresent(this::editComponent);
+        boolean[] success = new boolean[1];
+        inputService.getInput().flatMap(componentDataParser::processData).ifPresent(c -> success[0] = editComponent(c));
+        return success[0];
 
     }
 
-    private void editComponent(Component component)
+    private boolean editComponent(Component component)
     {
         ensureParentExists();
         boolean[] success = new boolean[1];
@@ -82,6 +85,8 @@ public class ComponentModification extends ComponentBase
             successFailedNotificationResult(true, "Modification of component");
             sendMessage(Notification.RepositoryHasChanged, Arrays.asList(Component.class, SubComponent.class, SubComponentDetail.class));
         }
+
+        return success[0];
     }
 
     private void ensureParentExists()
@@ -96,6 +101,12 @@ public class ComponentModification extends ComponentBase
     }
 
     public static final String FACTORY = "componentModificationFactory";
+
+    public ComponentModification setComponent(Component component)
+    {
+        this.component = component;
+        return this;
+    }
 
 
     @Lazy
