@@ -18,6 +18,7 @@ public class ConsoleInput extends ComponentBase
     private ConsoleInput(Builder builder)
     {
         super(builder.baseBuilder);
+        shutDown = builder.shutDown;
     }
 
     public static Builder newBuilder()
@@ -25,6 +26,7 @@ public class ConsoleInput extends ComponentBase
         return new Builder();
     }
 
+    private SystemExit shutDown;
 
     @Override
     public void cleanUp()
@@ -41,11 +43,7 @@ public class ConsoleInput extends ComponentBase
         }
         catch (NoSuchElementException x)
         {
-            System.out.println("Forced close. Beginning pre-closing operations...please wait...");
-            sendMessage(Notification.CleanUp);
-            System.out.println("pre-closing operations complete.");
-            System.out.println("Stopping program.");
-            System.exit(0);
+            shutDown.shutDown("Forced close. ");
             return Optional.empty();
         }
 
@@ -90,6 +88,7 @@ public class ConsoleInput extends ComponentBase
     public static final class Builder extends AbFactoryBean<ConsoleInput>
     {
         private ComponentBase.Builder baseBuilder;
+        private SystemExit shutDown;
 
         private Builder()
         {
@@ -100,6 +99,13 @@ public class ConsoleInput extends ComponentBase
         public Builder baseBuilder(ComponentBase.Builder baseBuilder)
         {
             this.baseBuilder = baseBuilder;
+            return this;
+        }
+
+        @Autowired
+        public Builder shutDown(SystemExit shutDown)
+        {
+            this.shutDown = shutDown;
             return this;
         }
 

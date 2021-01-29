@@ -46,7 +46,7 @@ public class ConsoleOutputService extends ComponentBase
         @Autowired
         public Builder baseBuilder(ComponentBase.Builder baseBuilder)
         {
-            this.baseBuilder = baseBuilder;//TODO Continue from here. Chicken - egg situation causing null pointer.
+            this.baseBuilder = baseBuilder;//TODO Continue from here. Chicken - egg situation causing null pointer. Solved by injecting ConsoleOutputService in every class that will need instead of injecting it through the baseBuilder.
             return this;
         }
 

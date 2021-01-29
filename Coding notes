@@ -71,6 +71,29 @@ E.g.
 						- Delete a project
 
 
+						project add <Project data>
+						project list
+						project open <Project ID>
+						project current - shows the active open project.
+						project edit <Project data>
+						project tree
+						project schedule
+						project delete <Project ID>
+						project component list
+						project component add <Component data> - adds a component to the project
+						project component open <Component ID>
+						project component current - shows the active open component.
+						project component edit <Component data> - adds a component to the project
+						project component delete <Component ID> - deletes a component from the current component.
+						q
+						help
+						project help
+
+
+
+
+
+
 
 
 

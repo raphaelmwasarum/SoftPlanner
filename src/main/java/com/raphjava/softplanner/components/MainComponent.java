@@ -6,6 +6,8 @@ import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.domain.*;
 import com.raphjava.softplanner.services.ConsoleOutputService;
+import net.raphjava.qumbuqa.commons.trees.TreeNodeImp;
+import net.raphjava.qumbuqa.commons.trees.interfaces.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Stream;
-import java.util.zip.CheckedOutputStream;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -21,17 +22,21 @@ public class MainComponent extends ComponentBase
 {
 
 
+    private final Help help;
+
     private MainComponent(Builder builder)
     {
         super(builder.baseBuilder);
         outputService = builder.outputService;
-        inputService = builder.inputService;
+//        inputService = builder.inputService;
         projectsFactory = builder.projectsFactory;
         projectRemovalFactory = builder.projectRemovalFactory;
         projectSelection = builder.projectSelection;
         projectAccessFactory = builder.projectAccessFactory;
         projectAdditionFactory = builder.projectAdditionFactory;
-        TAG = String.format("%s-%s", SoftPlannerConsole.class.getSimpleName(), "Main");
+        help = builder.help;
+        inputProcessor = builder.inputProcessor;
+        finishTagging("Main");
     }
 
     public static Builder newBuilder()
@@ -42,16 +47,22 @@ public class MainComponent extends ComponentBase
 
 
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public void start()
     {
         debug(String.format("Starting [%s] with console interface.", this));
-        Optional<String> input = Optional.empty();
-        while (Optional.of(
+        while (true)
+        {
+            show("Enter command: (Enter \"help\" to get help)");
+            inputProcessor.processInput("Command doesn't exist. Type 'help' to see options.");
 
-                /*If input has data it returns it otherwise returns empty string*/
+        }
+       /* while (Optional.of(
+
+                *//*If input has data it returns it otherwise returns empty string*//*
                 !input.orElse("")
 
-                        /*If input data is q loop stops, otherwise it continues.*/
+                        *//*If input data is q loop stops, otherwise it continues.*//*
                         .equalsIgnoreCase("q")).orElse(true))
         {
 //            System.out.println("Enter command. (Enter \"commands\" to see available commands.):");
@@ -65,10 +76,10 @@ public class MainComponent extends ComponentBase
             });
 
             if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) show("Command doesn't exist.");
-        }
-        sendMessage(Notification.CleanUp);
-        show("Exiting application");
+        }*/
     }
+
+
 
     public ComponentBase getCurrentContent()
     {
@@ -84,10 +95,28 @@ public class MainComponent extends ComponentBase
     {
         setCurrentContent(this);
         loadCommands();
+        loadCommandTree();
 
     }
 
-    private ConsoleInput inputService;
+    private InputProcessor inputProcessor;
+
+
+    private void loadCommandTree()
+    {
+        addProjectCommands();
+    }
+
+
+
+
+
+    private void addProjectCommands()
+    {
+
+    }
+
+//    private ConsoleInput inputService;
 
 
     private void printCommands()
@@ -218,6 +247,22 @@ public class MainComponent extends ComponentBase
         private Factory<ProjectAccess> projectAccessFactory;
         private Factory<ProjectAddition> projectAdditionFactory;
         private ConsoleOutputService outputService;
+        private Help help;
+        private InputProcessor inputProcessor;
+
+        @Autowired
+        public Builder setInputProcessor(InputProcessor inputProcessor)
+        {
+            this.inputProcessor = inputProcessor;
+            return this;
+        }
+
+        @Autowired
+        public Builder setHelp(Help help)
+        {
+            this.help = help;
+            return this;
+        }
 
         private Builder()
         {

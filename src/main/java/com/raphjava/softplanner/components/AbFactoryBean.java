@@ -1,12 +1,15 @@
 package com.raphjava.softplanner.components;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
+
+import java.util.Objects;
 
 /** An abstract FactoryBean implementation. AbFactoryBean::build() method is the instantiation logic. Builds prototypes by default.
  * If you want singletons override the isSingleton method and make it return 'true'.
  * @param <T> the bean this builder builds.
  */
-public abstract class AbFactoryBean<T> extends AbstractFactory<T> implements FactoryBean<T>
+public abstract class AbFactoryBean<T> extends AbstractFactory<T> implements FactoryBean<T>, InitializingBean
 {
     private final Class<T> clazz;
     private boolean earlyRiser;
@@ -17,6 +20,12 @@ public abstract class AbFactoryBean<T> extends AbstractFactory<T> implements Fac
     {
         clazz = c;
         setEarlyRiser(earlyRiser);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception
+    {
+        System.out.println(String.format("Builder for object %s dependency injection complete.", Objects.requireNonNull(getObjectType()).getSimpleName()));
     }
 
     private void setEarlyRiser(boolean[] earlyRiser)

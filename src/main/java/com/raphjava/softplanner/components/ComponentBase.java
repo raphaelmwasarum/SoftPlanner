@@ -11,6 +11,7 @@ import com.raphjava.softplanner.data.interfaces.DataService;
 import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.interfaces.Communication;
 import com.raphjava.softplanner.main.RaphJavaObject;
+import com.raphjava.softplanner.main.SoftPlannerConsole;
 import com.raphjava.softplanner.services.ConsoleOutputService;
 import net.raphjava.raphtility.asynchrony.Task;
 import net.raphjava.raphtility.asynchrony.TaskResult;
@@ -79,7 +80,13 @@ public class ComponentBase extends RaphJavaObject
 
     protected void show(String message)
     {
-        outputService.show(String.format("[%s]", TAG), message);
+        show(message, TAG);
+    }
+
+    protected synchronized void show(String message, String tag)
+    {
+        if(outputService == null) outputService = consoleOutputServiceFactory.createProduct();
+        outputService.show(String.format("[%s]", tag), message);
 
     }
 
@@ -106,7 +113,6 @@ public class ComponentBase extends RaphJavaObject
     //endregion
 
 
-
     private String myLoggerName;
 
     public String getMyLoggerName()
@@ -124,6 +130,7 @@ public class ComponentBase extends RaphJavaObject
     /**
      * Throws and catches the passed exception. Appropriate when you want an exception
      * to be logged and stack trace to be printed without it crashing the program.
+     *
      * @param e
      */
     void silentException(RuntimeException e)
@@ -148,8 +155,11 @@ public class ComponentBase extends RaphJavaObject
      */
     protected Builder baseBuilder;
 
+    private Factory<ConsoleOutputService> consoleOutputServiceFactory;
+
     protected ComponentBase(Builder builder)
     {
+        consoleOutputServiceFactory = builder.consoleOutputServiceFactory;
         dataService = builder.dataService;
         actionFactory = builder.actionFactory;
         communication = builder.communication;
@@ -161,6 +171,7 @@ public class ComponentBase extends RaphJavaObject
         logger = loggerFactory.createLogger(myLoggerName);
         setComponentID(keyGenerator.getKey());
         subscribeToMessages();
+        TAG = SoftPlannerConsole.class.getSimpleName();
     }
 
 
@@ -365,10 +376,10 @@ public class ComponentBase extends RaphJavaObject
     {
         StringBuilder format = new StringBuilder();
         int currentIndex = 0;
-        for(String path : paths)
+        for (String path : paths)
         {
             format.append(path);
-            if(currentIndex != (paths.length - 1)) format.append(".");
+            if (currentIndex != (paths.length - 1)) format.append(".");
             currentIndex++;
         }
         return format.toString();
@@ -521,6 +532,14 @@ public class ComponentBase extends RaphJavaObject
         sendMessage(Notification.EventLog, s);
     }
 
+    protected void finishTagging(String tag)
+    {
+        TAG = String.format("%s-%s", TAG, tag);
+
+    }
+
+    private Factory<ConsoleOutputService> outputServiceFactory;
+
 
     @Lazy
     @Component
@@ -542,11 +561,12 @@ public class ComponentBase extends RaphJavaObject
         }
 
         @Autowired
-        public Builder outputService(@Named(ConsoleOutputService.FACTORY) Factory<ConsoleOutputService> consoleOutputServiceFactory)
+        public Builder outputServiceFactory(@Named(ConsoleOutputService.FACTORY) Factory<ConsoleOutputService> outputService)
         {
-            this.consoleOutputServiceFactory = consoleOutputServiceFactory;
+            this.consoleOutputServiceFactory = outputService;
             return this;
         }
+
         @Autowired
         public Builder actionFactory(@Named(Action.FACTORY) Factory<Action> actionFactory)
         {
