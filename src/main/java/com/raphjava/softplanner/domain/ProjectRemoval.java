@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Queue;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -40,27 +42,44 @@ public class ProjectRemoval extends ComponentBase
 
     private ProjectSelection projectSelection;
 
+    private Optional<Double> parseID(Queue<String> args)
+    {
+        if (args.size() != 1)
+        {
+            if (args.isEmpty()) throw new IllegalArgumentException("project id data absent.");
+            else throw new IllegalArgumentException("Excess arguments.");
+        }
 
-    public boolean startAsConsole()
+        try
+        {
+            return Optional.of(Double.valueOf(args.poll()));
+        }
+        catch (Exception e)
+        {
+            show(String.format("Error parsing project id data. Extra information: %s", e.getMessage()));
+            return Optional.empty();
+        }
+    }
+
+    public boolean startAsConsole(Queue<String> data)
     {
         boolean[] success = new boolean[1];
-        if(project == null)
-        {
-            projectSelection.setSelectionPurpose("delete");
-            projectSelection.startAsConsole().ifPresent(this::setProject);
-            success [0] = deleteProject(project);
-        }
-        else success[0] = deleteProject(project);
+        ifPresent(parseID(data), id -> dataService.read(r -> r.get(Project.class, id.intValue())
+                .onSuccess(p -> dataService.write(w -> w.remove(p).commit()
+                        .onSuccess(() ->
+                        {
+                            success[0] = true;
+                            show(String.format("Project of id: %s successfully deleted from the repository.", id.intValue()));
+                        })
+                        .onFailure(() -> show(String.format("Error deleting project of id: %s from the repository.", id.intValue())))))
+                .onFailure(() -> show("Error trying to see if project of id: " + id + " is in the repository before deleting it."))))
+                .wasAbsent(() -> show("Error parsing id data."));
 
         return success[0];
     }
 
     private void initialize()
     {
-        Action anp = actionFactory.createProduct();
-        anp.setCommandDescription("Delete project");
-        anp.setAction(this::startAsConsole);
-        getCommands().add(anp);
 
     }
 
@@ -75,7 +94,7 @@ public class ProjectRemoval extends ComponentBase
                     .onSuccess(p -> p.getRoot().getSubComponents().forEach(subComponent ->
                     {
                         Collection<SubComponent> unSuccessfulDeletions = new ArrayList<>();
-                        if(!deleteSubComponent(subComponent)) unSuccessfulDeletions.add(subComponent);
+                        if (!deleteSubComponent(subComponent)) unSuccessfulDeletions.add(subComponent);
                         StringBuilder sb = new StringBuilder("Sub components of the following ids deletions failed: ");
                         unSuccessfulDeletions.forEach(ud -> sb.append(ud.getId()));
                         sb.append(". Manual deletions may have to be done by accessing the database directly.");
@@ -142,6 +161,7 @@ public class ProjectRemoval extends ComponentBase
             this.projectSelection = projectSelection;
             return this;
         }
+
         public synchronized ProjectRemoval build()
         {
             ProjectRemoval pr = new ProjectRemoval(this);

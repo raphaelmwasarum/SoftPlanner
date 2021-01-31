@@ -144,9 +144,10 @@ public class ProjectAccess extends ComponentBase
 
     private void deleteProject()
     {
-        ProjectRemoval pr = projectRemovalFactory.createProduct();
+       /* ProjectRemoval pr = projectRemovalFactory.createProduct();
         pr.setProject(project);
-        pr.startAsConsole();
+        pr.startAsConsole(data);*/
+       throwNotImplementedEx();
     }
 
     private ProjectModification projectModification;

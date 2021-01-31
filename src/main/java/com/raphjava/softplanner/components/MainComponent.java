@@ -130,6 +130,10 @@ public class MainComponent extends ComponentBase
         editProjectNode.getValue().setDescription("Edit").setAction(this::editProject);
         projectNode.getChildren().add(editProjectNode);
 
+        TreeNode<InputProcessor.Command> deleteProjectNode = inputProcessor.newTreeItem();
+        deleteProjectNode.getValue().setDescription("Delete").setAction(this::deleteProject);
+        projectNode.getChildren().add(deleteProjectNode);
+
     }
 
     private void editProject(Queue<String> data)
@@ -202,10 +206,10 @@ public class MainComponent extends ComponentBase
         openProject.setAction(this::openProject);
         getCommands().add(openProject);*/
 
-        Action deleteProject = actionFactory.createProduct();
+       /* Action deleteProject = actionFactory.createProduct();
         deleteProject.setCommandDescription("Delete Project");
         deleteProject.setAction(this::deleteProject);
-        getCommands().add(deleteProject);
+        getCommands().add(deleteProject);*/
 
 //        Action showProjects = actionFactory.createProduct();
 //        showProjects.setCommandDescription("Show projects");
@@ -237,10 +241,15 @@ public class MainComponent extends ComponentBase
 
     private Factory<ProjectRemoval> projectRemovalFactory;
 
-    private void deleteProject()
+    private void deleteProject(Queue<String> data)
     {
+        Queue<String> deleteData = new LinkedList<>(data);
         ProjectRemoval pr = projectRemovalFactory.createProduct();
-        pr.startAsConsole();
+        if (pr.startAsConsole(data)) parseID(deleteData).ifPresent(id -> Optional.ofNullable(selectedProjectAccess)
+                .ifPresent(op ->
+                {
+                    if (op.getProject().getId() == id.intValue()) setSelectedProjectAccess(null);
+                }));
     }
 
     private ProjectSelection projectSelection;
