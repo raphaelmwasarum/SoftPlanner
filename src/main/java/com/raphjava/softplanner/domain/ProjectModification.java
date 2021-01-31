@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Queue;
+
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
 public class ProjectModification extends ComponentBase
@@ -71,6 +73,22 @@ public class ProjectModification extends ComponentBase
         }
 
         return success[0];
+    }
+
+    public boolean editProject(Queue<String> data)
+    {
+        if(data.isEmpty()) throw new IllegalArgumentException("You didn't enter any new project data.");
+        else if(data.size() > 1)
+        {
+            throw new IllegalArgumentException("You've entered excess documents.");
+        }
+        else
+        {
+            boolean[] success = new boolean[1];
+            projectDataParser.processData(data.poll()).ifPresent(pr -> success[0] = editProject(pr));
+            return success[0];
+        }
+
     }
 
     private boolean editProject(Project newData)

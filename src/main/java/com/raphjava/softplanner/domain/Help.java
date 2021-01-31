@@ -73,7 +73,7 @@ public class Help extends ComponentBase
                     , "project list - list all saved projects."
                     , "project open <Project ID> - opens project of the passed id."
                     , "project current - shows the active open project."
-                    , "project edit <Project data> - edits the project of the passed id."
+                    , "project edit \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\" - edits the currently open project. i.e. the project that will be described when you type command: \"project current\"."
                     , "project tree - Shows the project tree."
                     , "project schedule - shows the scheduling of the project."
                     , "project delete <Project ID> - deletes the project of the passed id from the repository."

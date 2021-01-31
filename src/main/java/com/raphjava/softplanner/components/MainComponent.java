@@ -5,7 +5,6 @@ import com.raphjava.softplanner.components.interfaces.Factory;
 import com.raphjava.softplanner.data.models.*;
 import com.raphjava.softplanner.domain.*;
 import com.raphjava.softplanner.services.ConsoleOutputService;
-import net.raphjava.qumbuqa.commons.trees.TreeNodeImp;
 import net.raphjava.qumbuqa.commons.trees.interfaces.TreeNode;
 import net.raphjava.raphtility.collectionmanipulation.LinkedHashSet;
 import net.raphjava.raphtility.collectionmanipulation.interfaces.Explorable;
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
@@ -122,6 +122,37 @@ public class MainComponent extends ComponentBase
         openNode.getValue().setDescription("Open").setAction(this::openProject);
         projectNode.getChildren().add(openNode);
 
+        TreeNode<InputProcessor.Command> currentProjectNode = inputProcessor.newTreeItem();
+        currentProjectNode.getValue().setDescription("Current").setAction(this::currentOpenProject);
+        projectNode.getChildren().add(currentProjectNode);
+
+        TreeNode<InputProcessor.Command> editProjectNode = inputProcessor.newTreeItem();
+        editProjectNode.getValue().setDescription("Edit").setAction(this::editProject);
+        projectNode.getChildren().add(editProjectNode);
+
+    }
+
+    private void editProject(Queue<String> data)
+    {
+        ifPresent(Optional.ofNullable(selectedProjectAccess), pa -> pa.editProject(data)).wasAbsent(() ->
+                show("You haven't opened a project. Open one first."));
+    }
+
+
+    private ProjectAccess selectedProjectAccess;
+
+    public void setSelectedProjectAccess(ProjectAccess selectedProjectAccess)
+    {
+        this.selectedProjectAccess = selectedProjectAccess;
+    }
+
+
+    private void currentOpenProject(Queue<String> data)
+    {
+        if (!data.isEmpty()) show("This command doesn't need any arguments.");
+        ifPresent(Optional.ofNullable(selectedProjectAccess), ProjectAccess::startAsConsole)
+                .wasAbsent(() -> show("There's currently no open project."));
+
     }
 
     private void projectActions(Queue<String> args)
@@ -213,36 +244,27 @@ public class MainComponent extends ComponentBase
     }
 
     private ProjectSelection projectSelection;
+
+
     private Factory<ProjectAccess> projectAccessFactory;
+
 
     private Explorable<ProjectAccess> openProjects = new LinkedHashSet<>();
 
+
     private void openProject(Queue<String> args)
     {
-        parseID(args).ifPresent(id ->
-        {
-            boolean[] presentInCache = new boolean[1];
-            Optional.ofNullable(openProjects.firstOrDefault(op -> id.intValue() == op.getProject().getId()))
-                    .ifPresent(projectAccess ->
-                    {
-                        presentInCache[0] = true;
-                        projectAccess.startAsConsole();
-                    });
+        parseID(args)./*proceeds if id was parsed successfully.*/ifPresent(id -> ifPresent(Optional.ofNullable(openProjects.firstOrDefault(op -> id
+                .intValue() == op.getProject().getId())), this::openProject)/*Opens project if it was opened earlier.*/
+                /*Opens project for the first time.*/.wasAbsent(() -> loadProjectAccess(id.intValue())
+                        /*Opens project if it exists in the repository.*/.ifPresent(this::openProject)));
 
-            if (!presentInCache[0]) loadProjectAccess(id.intValue()).ifPresent(ProjectAccess::startAsConsole);
+    }
 
-        });
-
-       /* projectSelection.setSelectionPurpose("open");
-        projectSelection.startAsConsole().ifPresent(p ->
-        {
-            ProjectAccess pa = projectAccessFactory.createProduct();
-            pa.setProject(p);
-            setCurrentContent(pa);
-            pa.startAsConsole();
-        });*/
-
-
+    private void openProject(ProjectAccess projectAccess)
+    {
+        setSelectedProjectAccess(projectAccess);
+        projectAccess.startAsConsole();
     }
 
     private Optional<ProjectAccess> loadProjectAccess(int id)
@@ -267,7 +289,7 @@ public class MainComponent extends ComponentBase
         }
         else
         {
-            if(!failed[0]) show("Project with that id doesn't exist.");
+            if (!failed[0]) show("Project with that id doesn't exist.");
             return Optional.empty();
         }
     }

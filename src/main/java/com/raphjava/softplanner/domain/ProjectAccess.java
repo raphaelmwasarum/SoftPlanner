@@ -41,6 +41,7 @@ public class ProjectAccess extends ComponentBase
         componentAdditionFactory = builder.componentAdditionFactory;
         projectRemovalFactory = builder.projectRemovalFactory;
         projectModification = builder.projectModification;
+        finishTagging(getClass().getSimpleName());
     }
 
     public static Builder newBuilder()
@@ -52,17 +53,15 @@ public class ProjectAccess extends ComponentBase
     private void initialize()
     {
         loadCommands();
-
-
         myEntities.addAll(Arrays.asList(Project.class, Component.class, SubComponent.class, SubComponentDetail.class));
     }
 
     private void loadCommands()
     {
-        Action anp = actionFactory.createProduct();
+        /*Action anp = actionFactory.createProduct();
         anp.setCommandDescription("Edit project");
         anp.setAction(this::editProject);
-        getCommands().add(anp);
+        getCommands().add(anp);*/
 
         Action deleteProject = actionFactory.createProduct();
         deleteProject.setCommandDescription("Delete Project");
@@ -152,11 +151,10 @@ public class ProjectAccess extends ComponentBase
 
     private ProjectModification projectModification;
 
-
-    private void editProject()
+    public void editProject(Queue<String> data)
     {
         projectModification.setProject(project);
-        if (projectModification.startAsConsole())
+        if (projectModification.editProject(data))
         {
             dataService.read(r -> r.get(Project.class, project.getId())
                     .eagerLoad(e -> e.include(path(Project.ROOT, Component.SUB_COMPONENT_DETAIL)))
@@ -172,8 +170,8 @@ public class ProjectAccess extends ComponentBase
     public void startAsConsole()
     {
         ensureProjectLoaded();
-        System.out.println(String.format("Project with the following details is now open: Project name: %s. " +
-                "Project description: %s", project.getName(), project.getRoot().getDescription()));
+        show(String.format("Project with the following details is now open: Project ID: %s. Project name: %s. " +
+                "Project description: %s.", project.getId(), project.getName(), project.getRoot().getDescription()));
 
     }
 

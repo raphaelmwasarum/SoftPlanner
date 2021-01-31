@@ -74,8 +74,8 @@ E.g.
 						project add "Project data". Done.
 						project list. Done.
 						project open Project ID. Done.
-						project current - shows the active open project.
-						project edit <Project data>
+						project current - shows the active open project. Done.
+						project edit <Project data>. Done.
 						project tree
 						project schedule
 						project delete <Project ID>

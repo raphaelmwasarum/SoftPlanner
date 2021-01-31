@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -540,6 +541,14 @@ public class ComponentBase extends RaphJavaObject
 
     private Factory<ConsoleOutputService> outputServiceFactory;
 
+    protected <T> OptionalAction<T> ifPresent(Optional<T> optional, Consumer<T> ifPresentAction)
+    {
+        OptionalAction<T> oa = new OptionalAction<>(optional);
+        oa.ifPresent(ifPresentAction);
+        return oa;
+
+    }
+
 
     @Lazy
     @Component
@@ -618,4 +627,33 @@ public class ComponentBase extends RaphJavaObject
 
     }
 
+    /** Wrapper for an Optional providing extra helper methods.
+     * @param <T>
+     */
+    protected class OptionalAction<T>
+    {
+        private Optional<T> optional;
+        private boolean present;
+
+        public OptionalAction(Optional<T> optional)
+        {
+            this.optional = optional;
+        }
+
+        public MainComponent.OptionalAction<T> ifPresent(Consumer<T> ifPresentAction)
+        {
+            optional.ifPresent(t ->
+            {
+                present = true;
+                ifPresentAction.accept(t);
+            });
+
+            return this;
+        }
+
+        public void wasAbsent(Runnable wasAbsentAction)
+        {
+            if(!present) wasAbsentAction.run();
+        }
+    }
 }
