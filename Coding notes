@@ -71,9 +71,9 @@ E.g.
 						- Delete a project
 
 
-						project add <Project data>
-						project list
-						project open <Project ID>
+						project add "Project data". Done.
+						project list. Done.
+						project open Project ID. Done.
 						project current - shows the active open project.
 						project edit <Project data>
 						project tree

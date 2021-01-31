@@ -2,16 +2,16 @@ package com.raphjava.softplanner.components;
 
 import com.raphjava.softplanner.annotations.Named;
 import com.raphjava.softplanner.components.interfaces.Factory;
-import com.raphjava.softplanner.data.models.Notification;
-import com.raphjava.softplanner.data.models.Project;
+import com.raphjava.softplanner.data.models.*;
 import com.raphjava.softplanner.domain.*;
 import com.raphjava.softplanner.services.ConsoleOutputService;
 import net.raphjava.qumbuqa.commons.trees.TreeNodeImp;
 import net.raphjava.qumbuqa.commons.trees.interfaces.TreeNode;
+import net.raphjava.raphtility.collectionmanipulation.LinkedHashSet;
+import net.raphjava.raphtility.collectionmanipulation.interfaces.Explorable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -45,8 +45,6 @@ public class MainComponent extends ComponentBase
     }
 
 
-
-
     @SuppressWarnings("InfiniteLoopStatement")
     public void start()
     {
@@ -57,9 +55,9 @@ public class MainComponent extends ComponentBase
             inputProcessor.processInput("Command doesn't exist. Type 'help' to see options.");
 
         }
-       /* while (Optional.of(
+        /* while (Optional.of(
 
-                *//*If input has data it returns it otherwise returns empty string*//*
+         *//*If input has data it returns it otherwise returns empty string*//*
                 !input.orElse("")
 
                         *//*If input data is q loop stops, otherwise it continues.*//*
@@ -78,7 +76,6 @@ public class MainComponent extends ComponentBase
             if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) show("Command doesn't exist.");
         }*/
     }
-
 
 
     public ComponentBase getCurrentContent()
@@ -107,14 +104,34 @@ public class MainComponent extends ComponentBase
         addProjectCommands();
     }
 
-
-
-
-
     private void addProjectCommands()
     {
+        TreeNode<InputProcessor.Command> projectNode = inputProcessor.newTreeItem();
+        projectNode.getValue().setDescription("Project").setAction(this::projectActions);
+        inputProcessor.getCommandTree().getRoot().getChildren().add(projectNode);
+
+        TreeNode<InputProcessor.Command> listNode = inputProcessor.newTreeItem();
+        listNode.getValue().setDescription("List").setAction(this::showProjects);
+        projectNode.getChildren().add(listNode);
+
+        TreeNode<InputProcessor.Command> addNode = inputProcessor.newTreeItem();
+        addNode.getValue().setDescription("Add").setAction(this::addNewProject);
+        projectNode.getChildren().add(addNode);
+
+        TreeNode<InputProcessor.Command> openNode = inputProcessor.newTreeItem();
+        openNode.getValue().setDescription("Open").setAction(this::openProject);
+        projectNode.getChildren().add(openNode);
 
     }
+
+    private void projectActions(Queue<String> args)
+    {
+        inputProcessor.getChild(inputProcessor.getCommandTree().getRoot(), "project")
+                .ifPresent(projectNode -> inputProcessor.getChild(projectNode, args.poll())
+                        .ifPresent(projectCommand -> inputProcessor.executeCommand(args, projectCommand)));
+
+    }
+
 
 //    private ConsoleInput inputService;
 
@@ -144,42 +161,46 @@ public class MainComponent extends ComponentBase
         printCommands.setAction(this::printCommands);
         getCommands().add(printCommands);
 
-        Action addNewProject = actionFactory.createProduct();
-        addNewProject.setCommandDescription("Add New Project");
-        addNewProject.setAction(this::addNewProject);
-        getCommands().add(addNewProject);
-
+//        Action addNewProject = actionFactory.createProduct();
+//        addNewProject.setCommandDescription("Add New Project");
+//        addNewProject.setAction(this::addNewProject);
+//        getCommands().add(addNewProject);
+/*
         Action openProject = actionFactory.createProduct();
         openProject.setCommandDescription("Open Project");
         openProject.setAction(this::openProject);
-        getCommands().add(openProject);
+        getCommands().add(openProject);*/
 
         Action deleteProject = actionFactory.createProduct();
         deleteProject.setCommandDescription("Delete Project");
         deleteProject.setAction(this::deleteProject);
         getCommands().add(deleteProject);
 
-        Action showProjects = actionFactory.createProduct();
-        showProjects.setCommandDescription("Show projects");
-        showProjects.setAction(this::showProjects);
-        getCommands().add(showProjects);
+//        Action showProjects = actionFactory.createProduct();
+//        showProjects.setCommandDescription("Show projects");
+//        showProjects.setAction(this::showProjects);
+//        getCommands().add(showProjects);
 
     }
 
     private Factory<Projects> projectsFactory;
 
-    private void showProjects()
+    private void showProjects(Queue<String> args)
     {
-        projectsFactory.createProduct().get(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)).ifPresent(ps ->
+        if (args.isEmpty())
         {
-            if(ps.isEmpty()) System.out.println("There are no existing projects.");
-            else
+            projectsFactory.createProduct().get(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)).ifPresent(ps ->
             {
-                StringBuilder projectDescriptions = new StringBuilder();
-                ps.forEach(p -> projectDescriptions.append(String.format("%s. Project ID: %s", p.getName(), p.getId())).append("\n"));
-                System.out.println(String.format("The following are the currently saved projects:\n\n%s", projectDescriptions));
-            }
-        });
+                if (ps.isEmpty()) System.out.println("There are no existing projects.");
+                else
+                {
+                    StringBuilder projectDescriptions = new StringBuilder();
+                    ps.forEach(p -> projectDescriptions.append(String.format("%s. Project ID: %s", p.getName(), p.getId())).append("\n"));
+                    System.out.println(String.format("The following are the currently saved projects:\n\n%s", projectDescriptions));
+                }
+            });
+        }
+        else show("Error. Command doesn't require any arguments.");
 
     }
 
@@ -194,28 +215,90 @@ public class MainComponent extends ComponentBase
     private ProjectSelection projectSelection;
     private Factory<ProjectAccess> projectAccessFactory;
 
-    private void openProject()
+    private Explorable<ProjectAccess> openProjects = new LinkedHashSet<>();
+
+    private void openProject(Queue<String> args)
     {
-        projectSelection.setSelectionPurpose("open");
+        parseID(args).ifPresent(id ->
+        {
+            boolean[] presentInCache = new boolean[1];
+            Optional.ofNullable(openProjects.firstOrDefault(op -> id.intValue() == op.getProject().getId()))
+                    .ifPresent(projectAccess ->
+                    {
+                        presentInCache[0] = true;
+                        projectAccess.startAsConsole();
+                    });
+
+            if (!presentInCache[0]) loadProjectAccess(id.intValue()).ifPresent(ProjectAccess::startAsConsole);
+
+        });
+
+       /* projectSelection.setSelectionPurpose("open");
         projectSelection.startAsConsole().ifPresent(p ->
         {
             ProjectAccess pa = projectAccessFactory.createProduct();
             pa.setProject(p);
             setCurrentContent(pa);
             pa.startAsConsole();
-        });
+        });*/
 
 
+    }
+
+    private Optional<ProjectAccess> loadProjectAccess(int id)
+    {
+        final Project[] project = new Project[1];
+        boolean[] failed = new boolean[1];
+        dataService.read(r -> r.get(Project.class, id).eagerLoad(e -> e
+                .include(path(Project.ROOT, Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL,
+                        SubComponentDetail.COMPONENT)))
+                .onSuccess(p -> project[0] = p)
+                .onFailure(() ->
+                {
+                    failed[0] = true;
+                    show("An error occurred while fetching project from the repository");
+                }));
+
+        if (project[0] != null)
+        {
+            ProjectAccess pa = projectAccessFactory.createProduct().setProject(project[0]);
+            openProjects.add(pa);
+            return Optional.of(pa);
+        }
+        else
+        {
+            if(!failed[0]) show("Project with that id doesn't exist.");
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Double> parseID(Queue<String> args)
+    {
+        if (args.size() != 1)
+        {
+            if (args.isEmpty()) throw new IllegalArgumentException("project id data absent.");
+            else throw new IllegalArgumentException("Excess arguments.");
+        }
+
+        try
+        {
+            return Optional.of(Double.valueOf(args.poll()));
+        }
+        catch (Exception e)
+        {
+            show(String.format("Error parsing project id data. Extra information: %s", e.getMessage()));
+            return Optional.empty();
+        }
     }
 
 
     private Factory<ProjectAddition> projectAdditionFactory;
 
 
-    private void addNewProject()
+    private void addNewProject(Queue<String> args)
     {
         ProjectAddition pa = projectAdditionFactory.createProduct();
-        pa.startAsConsole();
+        pa.addProject(args);
 
     }
 
@@ -234,7 +317,7 @@ public class MainComponent extends ComponentBase
     }
 
     @Lazy
-    @Component
+    @org.springframework.stereotype.Component
     @Scope(Singleton)
     public static final class Builder extends AbFactoryBean<MainComponent>
     {

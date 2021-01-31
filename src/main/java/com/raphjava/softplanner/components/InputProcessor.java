@@ -1,20 +1,20 @@
 package com.raphjava.softplanner.components;
 
+import com.raphjava.softplanner.annotations.Named;
 import com.raphjava.softplanner.components.interfaces.Factory;
 import com.raphjava.softplanner.domain.Help;
 import com.raphjava.softplanner.services.ConsoleOutputService;
 import net.raphjava.qumbuqa.commons.trees.Tree;
 import net.raphjava.qumbuqa.commons.trees.TreeNodeImp;
 import net.raphjava.qumbuqa.commons.trees.interfaces.TreeNode;
+import net.raphjava.raphtility.collectionmanipulation.interfaces.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import javax.annotation.PostConstruct;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
@@ -61,8 +61,24 @@ public class InputProcessor extends ComponentBase
      */
     private Optional<Boolean> processCommand(String commandString)
     {
-        Collection<String> commandData = split(commandString, " ");
-        Queue<String> cd = new LinkedList<>(commandData);
+        List<String> commandData = split(commandString, "\"");
+        /*
+            project add
+            "[Project name-Soft Planner], [Description-Helps in the planning the development of an app]"
+         */
+        List<String> commandData0 = new net.raphjava.raphtility.collectionmanipulation.ArrayList<>(commandData);
+        Queue<String> cd;
+        if(commandData.size() > 1) //command string has quoted arguments.
+        {
+            commandData = split(commandData.get(0), " ");
+            commandData.add(commandData0.get(commandData0.size() - 1));
+            cd = new LinkedList<>(commandData);
+        }
+        else
+        {
+            cd = new LinkedList<>(split(commandString, " "));
+        }
+
         return processCommand(commandTree.getRoot(), cd);
     }
 
@@ -163,9 +179,10 @@ public class InputProcessor extends ComponentBase
         }
     }
 
+    public static final String FACTORY = "inputProcessorFactory";
 
     @Lazy
-    @Component
+    @Component(FACTORY)
     @Scope(Singleton)
     public static final class Builder extends AbFactoryBean<InputProcessor>
     {
@@ -198,7 +215,6 @@ public class InputProcessor extends ComponentBase
         @Autowired
         public Builder inputService(ConsoleInput inputService)
         {
-            System.out.println("Parameter value is " + inputService == null);
             this.inputService = inputService;
             return this;
         }
@@ -211,10 +227,17 @@ public class InputProcessor extends ComponentBase
         }
 
         @Autowired
-        public Builder helpFactory(Factory<Help> helpFactory)
+        public Builder helpFactory(@Named(Help.FACTORY) Factory<Help> helpFactory)
         {
             this.helpFactory = helpFactory;
             return this;
+        }
+
+        @PostConstruct
+        private void post()
+        {
+            System.out.printf("%s construction complete. From the post method.%n", Objects.requireNonNull(getObjectType())
+                    .getSimpleName());
         }
 
 

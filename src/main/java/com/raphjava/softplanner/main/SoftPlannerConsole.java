@@ -76,7 +76,7 @@ public class SoftPlannerConsole
 
 
         @Autowired
-        public Builder inputProcessor(MainComponent mainComponent)
+        public Builder mainComponent(MainComponent mainComponent)
         {
             this.mainComponent = mainComponent;
             return this;

@@ -25,8 +25,10 @@ public abstract class AbFactoryBean<T> extends AbstractFactory<T> implements Fac
     @Override
     public void afterPropertiesSet() throws Exception
     {
-        System.out.println(String.format("Builder for object %s dependency injection complete.", Objects.requireNonNull(getObjectType()).getSimpleName()));
+        System.out.println(String.format("Thread: %s. Builder for object %s dependency injection complete.", Thread.currentThread(), Objects.requireNonNull(getObjectType()).getSimpleName()));
     }
+
+
 
     private void setEarlyRiser(boolean[] earlyRiser)
     {

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
+import java.util.Queue;
+
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
 public class ProjectAddition extends ComponentBase
@@ -37,6 +39,13 @@ public class ProjectAddition extends ComponentBase
     private ConsoleInput inputService;
 
     private ProjectDataParser projectDataParser;
+
+    public void addProject(Queue<String> args)
+    {
+        projectDataParser.processData(asExp(args).selectToObject(new StringBuilder(), StringBuilder::append).toString())
+                .ifPresent(this::addNewProject);
+
+    }
 
     public void startAsConsole()
     {

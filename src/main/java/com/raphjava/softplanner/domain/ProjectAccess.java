@@ -22,9 +22,10 @@ public class ProjectAccess extends ComponentBase
 
     private Project project;
 
-    public void setProject(Project project)
+    public ProjectAccess setProject(Project project)
     {
         this.project = project;
+        return this;
     }
 
     public Project getProject()
