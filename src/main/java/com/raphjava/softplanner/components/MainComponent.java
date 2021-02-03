@@ -91,7 +91,6 @@ public class MainComponent extends ComponentBase
     private void initialize()
     {
         setCurrentContent(this);
-        loadCommands();
         loadCommandTree();
 
     }
@@ -134,11 +133,89 @@ public class MainComponent extends ComponentBase
         deleteProjectNode.getValue().setDescription("Delete").setAction(this::deleteProject);
         projectNode.getChildren().add(deleteProjectNode);
 
+        TreeNode<InputProcessor.Command> componentNode = inputProcessor.newTreeItem();
+        componentNode.getValue().setDescription("Component").setAction(this::componentActions);
+        projectNode.getChildren().add(componentNode);
+
+        addComponentCommands(componentNode);
+
+    }
+
+    private void componentActions(Queue<String> data)
+    {
+        inputProcessor.getChild(inputProcessor.getCommandTree().getRoot(), "project")
+                .ifPresent(projectNode -> visitCommandTree(projectNode, data, "component"));
+
+    }
+
+    private void addComponentCommands(TreeNode<InputProcessor.Command> componentNode)
+    {
+        TreeNode<InputProcessor.Command> listNode = inputProcessor.newTreeItem();
+        listNode.getValue().setDescription("List").setAction(this::showComponents);
+        componentNode.getChildren().add(listNode);
+
+        TreeNode<InputProcessor.Command> addNode = inputProcessor.newTreeItem();
+        addNode.getValue().setDescription("Add").setAction(this::addNewComponent);
+        componentNode.getChildren().add(addNode);
+
+        TreeNode<InputProcessor.Command> openNode = inputProcessor.newTreeItem();
+        openNode.getValue().setDescription("Open").setAction(this::openComponent);
+        componentNode.getChildren().add(openNode);
+
+        TreeNode<InputProcessor.Command> currentComponentNode = inputProcessor.newTreeItem();
+        currentComponentNode.getValue().setDescription("Current").setAction(this::currentOpenComponent);
+        componentNode.getChildren().add(currentComponentNode);
+
+        TreeNode<InputProcessor.Command> editComponentNode = inputProcessor.newTreeItem();
+        editComponentNode.getValue().setDescription("Edit").setAction(this::editComponent);
+        componentNode.getChildren().add(editComponentNode);
+
+        TreeNode<InputProcessor.Command> deleteComponentNode = inputProcessor.newTreeItem();
+        deleteComponentNode.getValue().setDescription("Delete").setAction(this::deleteComponent);
+        componentNode.getChildren().add(deleteComponentNode);
+    }
+
+    private void deleteComponent(Queue<String> data)
+    {
+        show("Deleting component...");
+    }
+
+    private void editComponent(Queue<String> data)
+    {
+        show("Editing current component...");
+    }
+
+    private void currentOpenComponent(Queue<String> data)
+    {
+        show("Describing the current open component...");
+    }
+
+    private void openComponent(Queue<String> data)
+    {
+        show("Opening component...");
+    }
+
+    private void addNewComponent(Queue<String> data)
+    {
+        show("Adding new Component...");
+    }
+
+    private void showComponents(Queue<String> data)
+    {
+        actOnSelectedProject(ProjectAccess::showComponents);
     }
 
     private void editProject(Queue<String> data)
     {
-        ifPresent(Optional.ofNullable(selectedProjectAccess), pa -> pa.editProject(data)).wasAbsent(() ->
+        actOnSelectedProject(pa -> pa.editProject(data));
+        /*ifPresent(Optional.ofNullable(selectedProjectAccess), pa -> pa.editProject(data)).wasAbsent(() ->
+                show("You haven't opened a project. Open one first."));*/
+    }
+
+
+    private void actOnSelectedProject(Consumer<ProjectAccess> projectAccessAction)
+    {
+        ifPresent(Optional.ofNullable(selectedProjectAccess), projectAccessAction).wasAbsent(() ->
                 show("You haven't opened a project. Open one first."));
     }
 
@@ -154,17 +231,22 @@ public class MainComponent extends ComponentBase
     private void currentOpenProject(Queue<String> data)
     {
         if (!data.isEmpty()) show("This command doesn't need any arguments.");
-        ifPresent(Optional.ofNullable(selectedProjectAccess), ProjectAccess::startAsConsole)
-                .wasAbsent(() -> show("There's currently no open project."));
+        actOnSelectedProject(ProjectAccess::startAsConsole);
+        /*ifPresent(Optional.ofNullable(selectedProjectAccess), ProjectAccess::startAsConsole)
+                .wasAbsent(() -> show("There's currently no open project."));*/
 
     }
 
     private void projectActions(Queue<String> args)
     {
-        inputProcessor.getChild(inputProcessor.getCommandTree().getRoot(), "project")
-                .ifPresent(projectNode -> inputProcessor.getChild(projectNode, args.poll())
-                        .ifPresent(projectCommand -> inputProcessor.executeCommand(args, projectCommand)));
+        visitCommandTree(inputProcessor.getCommandTree().getRoot(), args, "project");
+    }
 
+    private void visitCommandTree(TreeNode<InputProcessor.Command> parent, Queue<String> args, String childDescription)
+    {
+        inputProcessor.getChild(parent, childDescription).ifPresent(projectNode -> inputProcessor
+                .getChild(projectNode, args.poll()).ifPresent(projectCommand -> inputProcessor
+                        .executeCommand(args, projectCommand)));
     }
 
 
@@ -188,35 +270,6 @@ public class MainComponent extends ComponentBase
         System.out.println(sb.toString());
     }
 
-
-    private void loadCommands()
-    {
-        Action printCommands = actionFactory.createProduct();
-        printCommands.setCommandDescription("Commands");
-        printCommands.setAction(this::printCommands);
-        getCommands().add(printCommands);
-
-//        Action addNewProject = actionFactory.createProduct();
-//        addNewProject.setCommandDescription("Add New Project");
-//        addNewProject.setAction(this::addNewProject);
-//        getCommands().add(addNewProject);
-/*
-        Action openProject = actionFactory.createProduct();
-        openProject.setCommandDescription("Open Project");
-        openProject.setAction(this::openProject);
-        getCommands().add(openProject);*/
-
-       /* Action deleteProject = actionFactory.createProduct();
-        deleteProject.setCommandDescription("Delete Project");
-        deleteProject.setAction(this::deleteProject);
-        getCommands().add(deleteProject);*/
-
-//        Action showProjects = actionFactory.createProduct();
-//        showProjects.setCommandDescription("Show projects");
-//        showProjects.setAction(this::showProjects);
-//        getCommands().add(showProjects);
-
-    }
 
     private Factory<Projects> projectsFactory;
 

@@ -75,8 +75,8 @@ E.g.
 						project list. Done.
 						project open Project ID. Done.
 						project current - shows the active open project. Done.
-						project edit <Project data>. Done.
-						project delete <Project ID>
+						project edit "Project data". Done.
+						project delete Project ID. Done.
 						project component list
 						project component add <Component data> - adds a component to the project
 						project component open <Component ID>

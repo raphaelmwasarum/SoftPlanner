@@ -114,8 +114,13 @@ public class ProjectAccess extends ComponentBase
 
     }
 
-    private void showComponents()
+    public void showComponents()
     {
+        if(project.getRoot().getSubComponents().isEmpty())
+        {
+            show("Current project has no components.");
+            return;
+        }
         StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
         project.getRoot().getSubComponents().forEach(sc ->
         {
