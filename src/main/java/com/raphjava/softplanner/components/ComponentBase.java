@@ -342,7 +342,7 @@ public class ComponentBase extends RaphJavaObject
             }
         }
 //        dispatcherHelper.checkBeginInvokeOnUI(() -> sendMessage(Notification.ShowDialog, message));
-        System.out.println(message);
+        show(message);
         debug(message);
     }
 
@@ -541,9 +541,9 @@ public class ComponentBase extends RaphJavaObject
 
     private Factory<ConsoleOutputService> outputServiceFactory;
 
-    protected <T> OptionalAction<T> ifPresent(Optional<T> optional, Consumer<T> ifPresentAction)
+    protected <T> OptionalAction<T> ifPresent(T operand, Consumer<T> ifPresentAction)
     {
-        OptionalAction<T> oa = new OptionalAction<>(optional);
+        OptionalAction<T> oa = new OptionalAction<>(Optional.ofNullable(operand));
         oa.ifPresent(ifPresentAction);
         return oa;
 

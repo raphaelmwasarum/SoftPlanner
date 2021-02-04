@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Queue;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -47,7 +48,7 @@ public class ComponentAddition extends ComponentBase
 
     public void startAsConsole()
     {
-        System.out.println(String.format("Enter new component details in the following format: %s", componentDataTemplate));
+        show(String.format("Enter new component details in the following format: %s", componentDataTemplate));
         inputService.getInput().flatMap(componentDataParser::processData).ifPresent(this::addNewComponent);
 
     }
@@ -96,6 +97,17 @@ public class ComponentAddition extends ComponentBase
     }
 
     public static final String FACTORY = "componentAdditionFactory";
+
+    public void addComponent(Queue<String> data)
+    {
+        if(data.size() != 1)
+        {
+            throw new IllegalArgumentException("Wrong component addition arguments.");
+        }
+
+        componentDataParser.processData(data.poll()).ifPresent(this::addNewComponent);
+
+    }
 
 
     @Lazy

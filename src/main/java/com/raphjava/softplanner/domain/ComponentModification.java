@@ -48,7 +48,7 @@ public class ComponentModification extends ComponentBase
 
     public boolean startAsConsole()
     {
-        System.out.println(String.format("Enter new component details in the following format: %s", componentDataTemplate));
+        show(String.format("Enter new component details in the following format: %s", componentDataTemplate));
         boolean[] success = new boolean[1];
         inputService.getInput().flatMap(componentDataParser::processData).ifPresent(c -> success[0] = editComponent(c));
         return success[0];

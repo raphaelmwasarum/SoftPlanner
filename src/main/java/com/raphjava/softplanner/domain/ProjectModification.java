@@ -62,13 +62,13 @@ public class ProjectModification extends ComponentBase
             projectSelection.startAsConsole().ifPresent(p ->
             {
                 setProject(p);
-                System.out.println(String.format("Enter new project details in the following format: %s", projectDataTemplate));
+                show(String.format("Enter new project details in the following format: %s", projectDataTemplate));
                 inputProcessor.getInput().flatMap(projectDataParser::processData).ifPresent(pr -> success[0] = editProject(pr));
             });
         }
         else
         {
-            System.out.println(String.format("Enter new project details in the following format: %s", projectDataTemplate));
+            show(String.format("Enter new project details in the following format: %s", projectDataTemplate));
             inputProcessor.getInput().flatMap(projectDataParser::processData).ifPresent(pr -> success[0] = editProject(pr));
         }
 
@@ -97,7 +97,7 @@ public class ProjectModification extends ComponentBase
         project.setName(newData.getName());
         project.getRoot().setDescription(newData.getRoot().getDescription());
         project.getRoot().setPseudoCode(newData.getRoot().getPseudoCode());
-        System.out.println(String.format("Editing project with the following details: Project name: %s. " +
+        show(String.format("Editing project with the following details: Project name: %s. " +
                 "Project description: %s. Please wait...", newData.getName(), newData.getRoot().getDescription()));
 
         dataService.write(w -> w
@@ -116,7 +116,7 @@ public class ProjectModification extends ComponentBase
                                 String failureMessage = "Updating of project failed.";
                                 if(ps.isEmpty())
                                 {
-                                    System.out.println(failureMessage);
+                                    show(failureMessage);
                                     success[0] = false;
                                 }
                                 else
@@ -124,28 +124,28 @@ public class ProjectModification extends ComponentBase
                                     Project p = ps.iterator().next();
                                     if(p == null)
                                     {
-                                        System.out.println(failureMessage);
+                                        show(failureMessage);
                                         success[0] = false;
                                     }
                                     else if(p.getId() != project.getId())
                                     {
-                                        System.out.println(failureMessage + " the repository copy is not equal to the domain copy.");
+                                        show(failureMessage + " the repository copy is not equal to the domain copy.");
                                         success[0] = false;
                                     }
                                     //You may want to make this code more robust in future.
                                 }
 
                             }));
-                    if(success[0]) System.out.println("Updating of project successful.");
+                    if(success[0]) show("Updating of project successful.");
 
                 })
                 .onFailure(() ->
                 {
-                    System.out.println("Updating of project failed.");
+                    show("Updating of project failed.");
                     success[0] = false;
                 }));
 
-//        System.out.println("Adding new project complete.");
+//        show("Adding new project complete.");
         return success[0];
     }
 

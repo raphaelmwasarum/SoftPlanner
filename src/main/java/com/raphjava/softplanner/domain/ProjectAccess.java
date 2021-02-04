@@ -9,21 +9,33 @@ import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
+import net.raphjava.raphtility.interfaceImplementations.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
 public class ProjectAccess extends ComponentBase
 {
 
+
     private Project project;
+
+    private Property<Project> projectProperty;
+
+    public Property<Project> projectProperty()
+    {
+        if (projectProperty == null) projectProperty = setupProperty((nv, o, n) -> project = n, project);
+        return projectProperty;
+    }
 
     public ProjectAccess setProject(Project project)
     {
+        if (set(projectProperty, project)) return this;
         this.project = project;
         return this;
     }
@@ -54,6 +66,25 @@ public class ProjectAccess extends ComponentBase
     {
         loadCommands();
         myEntities.addAll(Arrays.asList(Project.class, Component.class, SubComponent.class, SubComponentDetail.class));
+        bind(projectProperty()).onChange(this::handleProjectPropertyChanges);
+    }
+
+    private void handleProjectPropertyChanges(Project n)
+    {
+        if (n == null)
+            throwNotImplementedEx("New project is null. Haven't handled this possibility yet. Time to do it now.");
+        else
+        {
+            ifPresent(n.getRoot(), root ->
+            {
+                ComponentAccess ca = componentAccessFactory.createProduct();
+                ca.setComponent(root);
+                setSelectedComponent(ca);
+
+            }).wasAbsent(() -> show("Illegal state. New project does not have a root."));
+
+        }
+
     }
 
     private void loadCommands()
@@ -68,20 +99,20 @@ public class ProjectAccess extends ComponentBase
         deleteProject.setAction(this::deleteProject);
         getCommands().add(deleteProject);
 
-        Action addComponent = actionFactory.createProduct();
+      /*  Action addComponent = actionFactory.createProduct();
         addComponent.setCommandDescription("Add Component To Project");
         addComponent.setAction(this::addComponentToProject);
-        getCommands().add(addComponent);
+        getCommands().add(addComponent);*/
 
         Action showComponents = actionFactory.createProduct();
         showComponents.setCommandDescription("Show Project Components");
         showComponents.setAction(this::showComponents);
         getCommands().add(showComponents);
 
-        Action openComponent = actionFactory.createProduct();
+        /*Action openComponent = actionFactory.createProduct();
         openComponent.setCommandDescription("Open Component");
         openComponent.setAction(this::openComponent);
-        getCommands().add(openComponent);
+        getCommands().add(openComponent);*/
     }
 
     private Factory<ComponentSelection> componentSelectionFactory;
@@ -90,57 +121,112 @@ public class ProjectAccess extends ComponentBase
 
     private Map<Component, ComponentAccess> openComponents = new HashMap<>();
 
-    private void openComponent()
+    public void openComponent(Queue<String> data)
     {
-        componentSelectionFactory.createProduct().setComponent(project.getRoot()).setSelectionPurpose("open")
-                .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
-                .createProduct().setComponent(key)).startAsConsole());
+        actOnSelectedComponent(sc ->
+        {
+            ifPresent(parseID(data), d -> ifPresent(asExp(sc.getComponent().getSubComponents()).firstOrDefault(suc ->
+                    suc.getSubComponentDetail().getComponent().getId() == d.intValue()), childComponent ->
+            {
+                ComponentAccess ca = openComponents.computeIfAbsent(childComponent.getSubComponentDetail().getComponent()
+                        , key -> componentAccessFactory.createProduct().setComponent(key));
+                setSelectedComponent(ca);
+                actOnSelectedComponent(newSc -> show(String.format("Newly selected component: %s.", newSc.describe())));
+
+            }).wasAbsent(() -> show("The selected component does not have any child component of that id")))
+                    .wasAbsent(() -> show("Error parsing component id data"));
+
+           /* componentSelectionFactory.createProduct().setComponent(project.getRoot()).setSelectionPurpose("open")
+                    .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
+                    .createProduct().setComponent(key)).startAsConsole());*/
+        });
     }
+
+    private Double parseID(Queue<String> args)
+    {
+        if (args.size() != 1)
+        {
+            if (args.isEmpty()) throw new IllegalArgumentException("Component id data absent.");
+            else throw new IllegalArgumentException("Excess arguments.");
+        }
+
+        try
+        {
+            return Double.valueOf(args.poll());
+        }
+        catch (Exception e)
+        {
+            show(String.format("Error parsing component id data. Extra information: %s", e.getMessage()));
+            return null;
+        }
+    }
+
 
     @Override
     protected void handleRepositoryChanges(Collection<Class> changedEntities)
     {
         super.handleRepositoryChanges(changedEntities);
-        System.out.println("Refreshing current project data in line with recent repository changes. Please wait...");
+        show("Refreshing current project data in line with recent repository changes. Please wait...");
         dataService.read(r -> r.get(Project.class, project.getId()).eagerLoad(e -> e.include(path(Project.ROOT,
                 Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT)))
                 .onSuccess(project1 ->
                 {
                     setProject(project1);
-                    System.out.println("Project refresh action successful.");
+                    show("Project refresh action successful.");
                 })
-                .onFailure(() -> System.out.println("Failed to refresh project. Current project details may not be" +
+                .onFailure(() -> show("Failed to refresh project. Current project details may not be" +
                         " in sync with repository state. You may need to restart app.")));
 
     }
 
     public void showComponents()
     {
-        if(project.getRoot().getSubComponents().isEmpty())
+        actOnSelectedComponent(sc ->
         {
-            show("Current project has no components.");
-            return;
-        }
-        StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
-        project.getRoot().getSubComponents().forEach(sc ->
-        {
-            Component x = sc.getSubComponentDetail().getComponent();
-            sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
+
+            if (sc.getComponent().getSubComponents().isEmpty())
+            {
+                show("Selected component has no child components.");
+                return;
+            }
+            StringBuilder sb = new StringBuilder("\nSelected component's child components:\n\n");
+            sc.getComponent().getSubComponents().forEach(suc ->
+            {
+                Component x = suc.getSubComponentDetail().getComponent();
+                sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
+            });
+            sb.append("Selected component's child components end of list.");
+            show(sb.toString());
         });
-        sb.append("Project's components end of list.");
-        System.out.println(sb.toString());
 
     }
 
     private Factory<ComponentAddition> componentAdditionFactory;
 
+    private ComponentAccess selectedComponent;
 
-    private void addComponentToProject()
+    public void setSelectedComponent(ComponentAccess selectedComponent)
     {
-        System.out.println("Adding component to project...");
-        ComponentAddition ca = componentAdditionFactory.createProduct();
-        ca.setParent(project.getRoot());
-        ca.startAsConsole();
+        this.selectedComponent = selectedComponent;
+    }
+
+    private void actOnSelectedComponent(Consumer<ComponentAccess> selectedComponentAction)
+    {
+        ifPresent(selectedComponent, selectedComponentAction).wasAbsent(() -> show("There's no " +
+                "selected component. Select one first."));
+    }
+
+    public void addComponentToProject(Queue<String> data)
+    {
+        actOnSelectedComponent(sc ->
+        {
+            show("Adding component to project...");
+            ComponentAddition ca = componentAdditionFactory.createProduct();
+            ca.setParent(sc.getComponent());
+//            ca.startAsConsole();
+            ca.addComponent(data);
+
+        });
     }
 
 
@@ -152,7 +238,7 @@ public class ProjectAccess extends ComponentBase
        /* ProjectRemoval pr = projectRemovalFactory.createProduct();
         pr.setProject(project);
         pr.startAsConsole(data);*/
-       throwNotImplementedEx();
+        throwNotImplementedEx();
     }
 
     private ProjectModification projectModification;
@@ -169,7 +255,7 @@ public class ProjectAccess extends ComponentBase
                         setProject(p);
                         startAsConsole();
                     })
-                    .onFailure(() -> System.out.println(String.format("Failure refreshing project data in %s", this))));
+                    .onFailure(() -> show(String.format("Failure refreshing project data in %s", this))));
         }
     }
 
@@ -187,6 +273,12 @@ public class ProjectAccess extends ComponentBase
     }
 
     public static final String FACTORY = "projectAccessFactory";
+
+    public void showSelectedComponent(Queue<String> data)
+    {
+        actOnSelectedComponent(sc -> show(String.format("Current component: Component name: %s. " +
+                "Component description: %s.", sc.getComponent().getName(), sc.getComponent().getDescription())));
+    }
 
     @Lazy
     @org.springframework.stereotype.Component(FACTORY)

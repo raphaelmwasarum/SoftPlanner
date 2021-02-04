@@ -52,14 +52,14 @@ public class ComponentSelection extends ComponentBase
         StringBuilder componentDescriptions = new StringBuilder();
         Collection<Component> ps = asExp(component.getSubComponents()).select(sc -> sc.getSubComponentDetail().getComponent()).list();
         ps.forEach(c -> componentDescriptions.append(String.format("%s. Component ID: %s", c.getName(), c.getId())).append("\n"));
-        System.out.println(String.format("The following are the sub-components of component [%s]: %s. " +
+        show(String.format("The following are the sub-components of component [%s]: %s. " +
                         "\n\nEnter the id of the sub-component you want to %s: ",
                 String.format("%s. Component ID: %s", component.getName(), component.getId()), componentDescriptions
                 , selectionPurpose));
         inputService.getInput().ifPresent(i ->
         {
             Component sc = asExp(ps).firstOrDefault(p -> String.valueOf(p.getId()).equals(i.trim()));
-            if (sc == null) System.out.println("Error in selection");
+            if (sc == null) show("Error in selection");
             else setSelectedComponent(sc);
         });
 

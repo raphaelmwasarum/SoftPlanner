@@ -45,20 +45,20 @@ public class ProjectSelection extends ComponentBase
 
     public Optional<Project> startAsConsole()
     {
-        System.out.println("Fetching saved projects. Please wait...");
+        show("Fetching saved projects. Please wait...");
         projectsFactory.createProduct().get(path(Project.ROOT, Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT))
                 .ifPresent(ps ->
                 {
-                    if (ps.isEmpty()) System.out.println("There are no existing projects.");
+                    if (ps.isEmpty()) show("There are no existing projects.");
                     else
                     {
                         StringBuilder projectDescriptions = new StringBuilder();
                         ps.forEach(p -> projectDescriptions.append(String.format("%s. Project ID: %s", p.getName(), p.getId())).append("\n"));
-                        System.out.println(String.format("The following are the existing projects: %s. \n\nEnter the id of the project you want to %s: ", projectDescriptions, selectionPurpose));
+                        show(String.format("The following are the existing projects: %s. \n\nEnter the id of the project you want to %s: ", projectDescriptions, selectionPurpose));
                         inputProcessor.getInput().ifPresent(i ->
                         {
                             Project sp = asExp(ps).firstOrDefault(p -> String.valueOf(p.getId()).equals(i.trim()));
-                            if (sp == null) System.out.println("Error in selection");
+                            if (sp == null) show("Error in selection");
                             else setSelectedProject(sp);
                         });
                     }

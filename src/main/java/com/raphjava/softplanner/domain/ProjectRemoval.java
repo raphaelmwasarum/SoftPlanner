@@ -6,6 +6,7 @@ import com.raphjava.softplanner.components.ComponentBase;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
+import javafx.beans.property.DoubleProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -42,7 +43,7 @@ public class ProjectRemoval extends ComponentBase
 
     private ProjectSelection projectSelection;
 
-    private Optional<Double> parseID(Queue<String> args)
+    private Double parseID(Queue<String> args)
     {
         if (args.size() != 1)
         {
@@ -52,12 +53,12 @@ public class ProjectRemoval extends ComponentBase
 
         try
         {
-            return Optional.of(Double.valueOf(args.poll()));
+            return Double.valueOf(args.poll());
         }
         catch (Exception e)
         {
             show(String.format("Error parsing project id data. Extra information: %s", e.getMessage()));
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -102,10 +103,10 @@ public class ProjectRemoval extends ComponentBase
                     })));
             r.remove(project).commit().onSuccess(() ->
             {
-                System.out.println("Project deleted successfully.");
+                show("Project deleted successfully.");
                 success[0] = true;
             })
-                    .onFailure(() -> System.out.println("Project deletion failed.")); //TODO Test this method.
+                    .onFailure(() -> show("Project deletion failed.")); //TODO Test this method.
         });
         return success[0];
     }
@@ -119,7 +120,7 @@ public class ProjectRemoval extends ComponentBase
                 {
                     String m = String.format("Subcomponent of id: %s and its associated data couldn't be deleted", subComponent.getId());
                     debug(m);
-                    System.out.println(m);
+                    show(m);
                     success[0] = false;
                 }));
         return success[0];

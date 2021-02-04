@@ -23,10 +23,10 @@ public class SystemExit extends ComponentBase
 
     public void shutDown(String shuttingDownMessagePrefix)
     {
-        System.out.println(String.format("%s. Beginning pre-closing operations...please wait...", shuttingDownMessagePrefix));
+        show(String.format("%s. Beginning pre-closing operations...please wait...", shuttingDownMessagePrefix));
         sendMessage(Notification.CleanUp);
-        System.out.println("Pre-closing operations complete.");
-        System.out.println("Stopping program.");
+        show("Pre-closing operations complete.");
+        show("Stopping program.");
         System.exit(0);
     }
 

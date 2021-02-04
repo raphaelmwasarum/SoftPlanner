@@ -22,6 +22,7 @@ public class ComponentDataParser extends ComponentBase
     private ComponentDataParser(Builder builder)
     {
         super(builder.baseBuilder);
+        finishTagging(getClass().getSimpleName());
     }
 
     public static Builder newBuilder()
@@ -36,15 +37,14 @@ public class ComponentDataParser extends ComponentBase
     }
 
 
-
-    private final static String PROJECT_PSEUDO_CODE_DATA_KEY = "[PseudoCode";
+    private final static String COMPONENT_PSEUDO_CODE_DATA_KEY = "PseudoCode";
 
     private Boolean setPseudoCode(List<String> propertyData, com.raphjava.softplanner.data.models.Component root)
     {
-        String data = propertyData.firstOrDefault(d -> d.contains(PROJECT_PSEUDO_CODE_DATA_KEY));
+        String data = propertyData.firstOrDefault(d -> d.contains(COMPONENT_PSEUDO_CODE_DATA_KEY));
         if(data == null) return false;
         List<String> sData = split(data, "-");
-        String rawFirstName = sData.firstOrDefault(d -> !d.contains(PROJECT_PSEUDO_CODE_DATA_KEY));
+        String rawFirstName = sData.firstOrDefault(d -> !d.contains(COMPONENT_PSEUDO_CODE_DATA_KEY));
         if(rawFirstName == null) return false;
         String fn = rawFirstName.replace("]", "");
         if (fn.isEmpty()) return false;
@@ -54,14 +54,14 @@ public class ComponentDataParser extends ComponentBase
 
     }
 
-    private final static String PROJECT_DESCRIPTION_DATA_KEY = "[Description";
+    private final static String COMPONENT_DESCRIPTION_DATA_KEY = "Description";
 
     private Boolean setDescription(List<String> propertyData, com.raphjava.softplanner.data.models.Component component)
     {
-        String data = propertyData.firstOrDefault(d -> d.contains(PROJECT_DESCRIPTION_DATA_KEY));
+        String data = propertyData.firstOrDefault(d -> d.contains(COMPONENT_DESCRIPTION_DATA_KEY));
         if(data == null) return false;
         List<String> sData = split(data, "-");
-        String rawFirstName = sData.firstOrDefault(d -> !d.contains(PROJECT_DESCRIPTION_DATA_KEY));
+        String rawFirstName = sData.firstOrDefault(d -> !d.contains(COMPONENT_DESCRIPTION_DATA_KEY));
         if(rawFirstName == null) return false;
         String fn = rawFirstName.replace("]", "");
         if (fn.isEmpty()) return false;
@@ -71,7 +71,7 @@ public class ComponentDataParser extends ComponentBase
 
     }
 
-    private String COMPONENT_NAME_DATA_KEY = "[Component name";
+    private String COMPONENT_NAME_DATA_KEY = "Component name";
 
     private boolean setName(List<String> propertyData, com.raphjava.softplanner.data.models.Component component)
     {
@@ -114,18 +114,18 @@ public class ComponentDataParser extends ComponentBase
         Boolean descriptionIsValid = setDescription(propertyData, component);
         validData.add(descriptionIsValid);
 
-        if (!descriptionIsValid) errorMessages.add("Check " + PROJECT_DESCRIPTION_DATA_KEY);
+        if (!descriptionIsValid) errorMessages.add("Check " + COMPONENT_DESCRIPTION_DATA_KEY);
 
 
         boolean pseudoCodeIsValid = setPseudoCode(propertyData, component);
         validData.add(pseudoCodeIsValid);
 
-        if (!pseudoCodeIsValid) errorMessages.add("Check " + PROJECT_PSEUDO_CODE_DATA_KEY);
+        if (!pseudoCodeIsValid) errorMessages.add("Check " + COMPONENT_PSEUDO_CODE_DATA_KEY);
 
         if (validData.all(b -> b)) return Optional.of(component);
         else
         {
-            System.out.println("Parsing and processing of component data failed.");
+            show("Parsing and processing of component data failed.");
             errorMessages.forEach(System.out::println);
             return Optional.empty();
         }

@@ -26,7 +26,7 @@ public class Projects extends ComponentBase
         dataService.read(r -> r.getAll(Project.class).onSuccess(ps -> rez[0] = Optional.of(ps))
                 .onFailure(() ->
                 {
-                    System.out.println("Failed to fetch projects from the repository");
+                    show("Failed to fetch projects from the repository");
                     rez[0] = Optional.empty();
                 }));
         return rez[0];
@@ -43,7 +43,7 @@ public class Projects extends ComponentBase
                 .onSuccess(ps -> rez[0] = Optional.of(ps))
                 .onFailure(() ->
                 {
-                    System.out.println("Failed to fetch projects from the repository");
+                    show("Failed to fetch projects from the repository");
                     rez[0] = Optional.empty();
                 }));
         return rez[0];

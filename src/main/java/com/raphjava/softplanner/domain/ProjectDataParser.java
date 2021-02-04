@@ -19,7 +19,6 @@ public class ProjectDataParser extends ComponentBase
     private ProjectDataParser(Builder builder)
     {
         super(builder.baseBuilder);
-//        inputService = builder.inputService;
     }
 
     public static Builder newBuilder()
@@ -32,12 +31,6 @@ public class ProjectDataParser extends ComponentBase
         return split(rawData, ",");
 
     }
-
-    private String projectDataTemplate = "[Project name-Soft Planner], [Description-Helps in the planning the development of an app]";
-
-//    private ConsoleInput inputService;
-
-
 
     private final static String PROJECT_DESCRIPTION_DATA_KEY = "Description";
 
@@ -110,7 +103,7 @@ public class ProjectDataParser extends ComponentBase
         if (validData.all(b -> b)) return Optional.of(project);
         else
         {
-            System.out.println("Parsing and processing of project data failed.");
+            show("Parsing and processing of project data failed.");
             errorMessages.forEach(System.out::println);
             return Optional.empty();
         }

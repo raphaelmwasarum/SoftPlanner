@@ -82,10 +82,10 @@ public class ComponentRemoval extends ComponentBase
                     })));
             r.remove(project).commit().onSuccess(() ->
             {
-                System.out.println("Project deleted successfully.");
+                show("Project deleted successfully.");
                 success[0] = true;
             })
-                    .onFailure(() -> System.out.println("Project deletion failed.")); //TODO Test this method.
+                    .onFailure(() -> show("Project deletion failed.")); //TODO Test this method.
         });
         return success[0];
     }
@@ -99,7 +99,7 @@ public class ComponentRemoval extends ComponentBase
                 {
                     String m = String.format("Subcomponent of id: %s and its associated data couldn't be deleted", subComponent.getId());
                     debug(m);
-                    System.out.println(m);
+                    show(m);
                     success[0] = false;
                 }));
         return success[0];

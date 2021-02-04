@@ -58,13 +58,13 @@ public class ConsoleInput extends ComponentBase
 //        }
 //        catch (IOException e)
 //        {
-//            System.out.println("Input error.");
+//            show("Input error.");
 //            return Optional.empty();
 //        }
         /*if(scanner.hasNext()) return Optional.of(scanner.nextLine());
         else
         {
-            System.out.println("Input error.");
+            show("Input error.");
             return Optional.empty();
         }
 */
@@ -75,7 +75,7 @@ public class ConsoleInput extends ComponentBase
         }
         catch (Exception x)
         {
-            System.out.println("Input error. Enter correct input or q to leave input port.");
+            show("Input error. Enter correct input or q to leave input port.");
 
             return Optional.empty();
         }*/

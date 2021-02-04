@@ -49,6 +49,7 @@ public class ComponentAccess extends ComponentBase
 
     private void initialize()
     {
+        finishTagging(getClass().getSimpleName());
         loadCommands();
         myEntities.addAll(Arrays.asList(Project.class, Component.class, SubComponent.class, SubComponentDetail.class));
     }
@@ -89,15 +90,15 @@ public class ComponentAccess extends ComponentBase
     protected void handleRepositoryChanges(Collection<Class> changedEntities)
     {
         super.handleRepositoryChanges(changedEntities);
-        System.out.println("Refreshing current project data in line with recent repository changes. Please wait...");
+        show("Refreshing current project data in line with recent repository changes. Please wait...");
        /* dataService.read(r -> r.get(Project.class, component.getId()).eagerLoad(e -> e.include(path(Project.ROOT,
                 Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT)))
                 .onSuccess(project1 ->
                 {
                     setComponent(project1);
-                    System.out.println("Project refresh action successful.");
+                    show("Project refresh action successful.");
                 })
-                .onFailure(() -> System.out.println("Failed to refresh project. Current project details may not be" +
+                .onFailure(() -> show("Failed to refresh project. Current project details may not be" +
                         " in sync with repository state. You may need to restart app.")));*/
 
     }
@@ -111,7 +112,7 @@ public class ComponentAccess extends ComponentBase
             sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
         });
         sb.append("Project's components end of list.");
-        System.out.println(sb.toString());
+        show(sb.toString());
 
     }
 
@@ -120,7 +121,7 @@ public class ComponentAccess extends ComponentBase
 
     private void addSubComponentToComponent()
     {
-        System.out.println("Adding sub-component to component...");
+        show("Adding sub-component to component...");
         ComponentAddition ca = componentAdditionFactory.createProduct();
         ca.setParent(component);
         ca.startAsConsole();
@@ -152,15 +153,21 @@ public class ComponentAccess extends ComponentBase
                         setComponent(p);
                         startAsConsole();
                     })
-                    .onFailure(() -> System.out.println(String.format("Failure refreshing component data in %s", this))));
+                    .onFailure(() -> show(String.format("Failure refreshing component data in %s", this))));
         }
     }
+
+    public String describe()
+    {
+        return String.format("Component Access for this component: Component name: %s. " +
+                "Component description: %s", component.getName(), component.getDescription());
+    }
+
 
     public void startAsConsole()
     {
         ensureProjectLoaded();
-        System.out.println(String.format("Component with the following details is now open: Component name: %s. " +
-                "Component description: %s", component.getName(), component.getDescription()));
+        show(describe());
 
     }
 

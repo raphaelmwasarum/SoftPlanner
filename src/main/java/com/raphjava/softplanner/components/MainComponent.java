@@ -187,17 +187,17 @@ public class MainComponent extends ComponentBase
 
     private void currentOpenComponent(Queue<String> data)
     {
-        show("Describing the current open component...");
+        actOnSelectedProject(pa -> pa.showSelectedComponent(data));
     }
 
     private void openComponent(Queue<String> data)
     {
-        show("Opening component...");
+        actOnSelectedProject(pa -> pa.openComponent(data));
     }
 
     private void addNewComponent(Queue<String> data)
     {
-        show("Adding new Component...");
+        actOnSelectedProject(pa -> pa.addComponentToProject(data));
     }
 
     private void showComponents(Queue<String> data)
@@ -208,15 +208,12 @@ public class MainComponent extends ComponentBase
     private void editProject(Queue<String> data)
     {
         actOnSelectedProject(pa -> pa.editProject(data));
-        /*ifPresent(Optional.ofNullable(selectedProjectAccess), pa -> pa.editProject(data)).wasAbsent(() ->
-                show("You haven't opened a project. Open one first."));*/
     }
 
 
     private void actOnSelectedProject(Consumer<ProjectAccess> projectAccessAction)
     {
-        ifPresent(Optional.ofNullable(selectedProjectAccess), projectAccessAction).wasAbsent(() ->
-                show("You haven't opened a project. Open one first."));
+        ifPresent(selectedProjectAccess, projectAccessAction).wasAbsent(() -> show("You haven't opened a project. Open one first."));
     }
 
 
@@ -267,7 +264,7 @@ public class MainComponent extends ComponentBase
         List<String> sorted = Arrays.asList(Stream.of(commands.toArray()).sorted().toArray(String[]::new));
         sorted.forEach(n -> sb.append(n).append("\n"));
         sb.append("\n\n***** Available commands.*****\n\n\n");
-        System.out.println(sb.toString());
+        show(sb.toString());
     }
 
 
@@ -279,12 +276,12 @@ public class MainComponent extends ComponentBase
         {
             projectsFactory.createProduct().get(path(Project.ROOT, com.raphjava.softplanner.data.models.Component.SUB_COMPONENT_DETAIL)).ifPresent(ps ->
             {
-                if (ps.isEmpty()) System.out.println("There are no existing projects.");
+                if (ps.isEmpty()) show("There are no existing projects.");
                 else
                 {
                     StringBuilder projectDescriptions = new StringBuilder();
                     ps.forEach(p -> projectDescriptions.append(String.format("%s. Project ID: %s", p.getName(), p.getId())).append("\n"));
-                    System.out.println(String.format("The following are the currently saved projects:\n\n%s", projectDescriptions));
+                    show(String.format("The following are the currently saved projects:\n\n%s", projectDescriptions));
                 }
             });
         }
@@ -316,8 +313,8 @@ public class MainComponent extends ComponentBase
 
     private void openProject(Queue<String> args)
     {
-        parseID(args)./*proceeds if id was parsed successfully.*/ifPresent(id -> ifPresent(Optional.ofNullable(openProjects.firstOrDefault(op -> id
-                .intValue() == op.getProject().getId())), this::openProject)/*Opens project if it was opened earlier.*/
+        parseID(args)./*proceeds if id was parsed successfully.*/ifPresent(id -> ifPresent(openProjects.firstOrDefault(op ->
+                id.intValue() == op.getProject().getId()), this::openProject)/*Opens project if it was opened earlier.*/
                 /*Opens project for the first time.*/.wasAbsent(() -> loadProjectAccess(id.intValue())
                         /*Opens project if it exists in the repository.*/.ifPresent(this::openProject)));
 
