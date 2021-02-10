@@ -4,6 +4,7 @@ import com.raphjava.softplanner.annotations.Named;
 import com.raphjava.softplanner.components.AbFactoryBean;
 import com.raphjava.softplanner.components.Action;
 import com.raphjava.softplanner.components.ComponentBase;
+import com.raphjava.softplanner.components.TreeObjectVisitor;
 import com.raphjava.softplanner.components.interfaces.Factory;
 import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Project;
@@ -78,13 +79,37 @@ public class ProjectAccess extends ComponentBase
             ifPresent(n.getRoot(), root ->
             {
                 ComponentAccess ca = componentAccessFactory.createProduct();
+                ca.setProjectRoot(true);
                 ca.setComponent(root);
-                setSelectedComponent(ca);
+                setSelectedComponent(refreshSelectedComponent(root));
 
             }).wasAbsent(() -> show("Illegal state. New project does not have a root."));
 
         }
 
+    }
+
+    private ComponentAccess refreshSelectedComponent(Component root)
+    {
+        if (selectedComponent == null)
+        {
+            return componentAccessFactory.createProduct().setComponent(root).setProjectRoot(true);
+        }
+
+        final ComponentAccess[] sc = new ComponentAccess[1];
+        final TreeObjectVisitor[] visitor = new TreeObjectVisitor[1];
+        visitor[0] = TreeObjectVisitor.<Component, Collection<Component>>newBuilder().root(root).itemAction(n ->
+        {
+            if (n.equals(selectedComponent.getComponent()))
+            {
+                sc[0] = componentAccessFactory.createProduct().setComponent(n);
+                visitor[0].setStopVisitation(true);
+            }
+        }).childrenGetter(nd -> asExp(nd.getSubComponents()).select(scm -> scm.getSubComponentDetail().getComponent()).list())
+                .build();
+        visitor[0].visit();
+        show(String.format("\n\tOld selected component: [%s].\n\tNew selected: [%s].", selectedComponent.describe(), sc[0].describe()));
+        return sc[0];
     }
 
     private void loadCommands()
@@ -278,6 +303,11 @@ public class ProjectAccess extends ComponentBase
     {
         actOnSelectedComponent(sc -> show(String.format("Current component: Component name: %s. " +
                 "Component description: %s.", sc.getComponent().getName(), sc.getComponent().getDescription())));
+    }
+
+    public void editSelectedComponent(Queue<String> data)
+    {
+        actOnSelectedComponent(sc -> sc.editComponent(data));
     }
 
     @Lazy

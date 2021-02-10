@@ -38,18 +38,25 @@ public class InputProcessor extends ComponentBase
         return new Builder();
     }
 
-    public void processInput(String commandDoesntExistMessage)
+    public void process(String commandDoesntExistMessage)
     {
-        Optional<String> input = inputService.getInput();
-//        System.out.println(input.orElse("Empty data."));
+        processInput(inputService.getInput().orElse(""), commandDoesntExistMessage);
+    }
 
+    public void processInput(String input, String... commandDoesntExistMessage)
+    {
+        Optional<String> _input = Optional.of(input);
         boolean[] commandExists = new boolean[1];
-        input.flatMap(this::processCommand).ifPresent(successful ->
+        _input.flatMap(this::processCommand).ifPresent(successful ->
         {
             commandExists[0] = true;
             if(!successful) show("Error processing command.");
         });
-        if(!commandExists[0] && !input.orElse("").equalsIgnoreCase("q")) show(commandDoesntExistMessage);
+
+        if(!commandExists[0] && !_input.orElse("").equalsIgnoreCase("q"))
+        {
+            if(commandDoesntExistMessage.length != 0) show(commandDoesntExistMessage[0]);
+        }
     }
 
 
@@ -62,10 +69,6 @@ public class InputProcessor extends ComponentBase
     private Optional<Boolean> processCommand(String commandString)
     {
         List<String> commandData = split(commandString, "\"");
-        /*
-            project add
-            "[Project name-Soft Planner], [Description-Helps in the planning the development of an app]"
-         */
         List<String> commandData0 = new net.raphjava.raphtility.collectionmanipulation.ArrayList<>(commandData);
         Queue<String> cd;
         if(commandData.size() > 1) //command string has quoted arguments.
@@ -85,8 +88,6 @@ public class InputProcessor extends ComponentBase
     public Optional<Boolean> processCommand(TreeNode<Command> commandNode, Queue<String> cd)
     {
         String comData = cd.poll();
-//        TreeNode<Command> commandTreeNode = getChild(comData);
-//        if(commandTreeNode == null) return Optional.empty();
         return getChild(commandNode, comData).flatMap(args -> executeCommand(cd, args));
     }
 
@@ -139,17 +140,24 @@ public class InputProcessor extends ComponentBase
         commandTree.getRoot().getChildren().add(quit);
 
         TreeNode<Command> help = newTreeItem();
-        help.getValue().setDescription("help").setAction(this::showHelp);
+        help.getValue().setDescription("Help").setAction(this::showHelp);
         commandTree.getRoot().getChildren().add(help);
     }
 
     private Help help;
     private Factory<Help> helpFactory;
 
-    private void showHelp(Queue<String> commandData)
+    public synchronized Help getHelp()
     {
         if(help == null) help = helpFactory.createProduct();
-        help.startAsConsole();
+        return help;
+
+    }
+
+
+    private void showHelp(Queue<String> commandData)
+    {
+        getHelp().startAsConsole();
     }
 
 

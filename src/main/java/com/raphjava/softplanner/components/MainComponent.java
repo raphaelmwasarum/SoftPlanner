@@ -52,7 +52,7 @@ public class MainComponent extends ComponentBase
         while (true)
         {
             show("Enter command: (Enter \"help\" to get help)");
-            inputProcessor.processInput("Command doesn't exist. Type 'help' to see options.");
+            inputProcessor.process("Command doesn't exist. Type 'help' to see options.");
 
         }
         /* while (Optional.of(
@@ -137,8 +137,18 @@ public class MainComponent extends ComponentBase
         componentNode.getValue().setDescription("Component").setAction(this::componentActions);
         projectNode.getChildren().add(componentNode);
 
+        TreeNode<InputProcessor.Command> helpNode = inputProcessor.newTreeItem();
+        helpNode.getValue().setDescription("Help").setAction(this::projectHelpActions);
+        projectNode.getChildren().add(helpNode);
+
         addComponentCommands(componentNode);
 
+    }
+
+    private void projectHelpActions(Queue<String> data)
+    {
+        if(data.isEmpty()) inputProcessor.getHelp().projectHelp(data);
+        else show("Couldn't be able to understand arguments. Did you enter arguments that may not be needed for this command?");
     }
 
     private void componentActions(Queue<String> data)
@@ -182,7 +192,7 @@ public class MainComponent extends ComponentBase
 
     private void editComponent(Queue<String> data)
     {
-        show("Editing current component...");
+        actOnSelectedProject(pa -> pa.editSelectedComponent(data));
     }
 
     private void currentOpenComponent(Queue<String> data)

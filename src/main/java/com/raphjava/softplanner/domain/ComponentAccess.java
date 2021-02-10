@@ -9,6 +9,7 @@ import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
+import com.raphjava.softplanner.data.proxies.ComponentProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -20,15 +21,15 @@ import static com.raphjava.softplanner.annotations.Scope.Singleton;
 public class ComponentAccess extends ComponentBase
 {
 
-    private Component component;
+    private ComponentProxy component;
 
-    public ComponentAccess setComponent(Component component)
+    public ComponentAccess setComponent(ComponentProxy component)
     {
         this.component = component;
         return this;
     }
 
-    public Component getComponent()
+    public ComponentProxy getComponent()
     {
         return component;
     }
@@ -81,16 +82,17 @@ public class ComponentAccess extends ComponentBase
 
     private void openComponent()
     {
-        componentSelectionFactory.createProduct().setComponent(component).setSelectionPurpose("open")
+        componentSelectionFactory.createProduct().setComponent(component.getComponent()).setSelectionPurpose("open")
                 .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
-                .createProduct().setComponent(key)).startAsConsole());
+                .createProduct().setComponent(ComponentProxy.newBuilder().dataService(dataService).component(key)
+                .build())).startAsConsole());
     }
 
     @Override
     protected void handleRepositoryChanges(Collection<Class> changedEntities)
     {
         super.handleRepositoryChanges(changedEntities);
-        show("Refreshing current project data in line with recent repository changes. Please wait...");
+        show("Refreshing component data in line with recent repository changes. Please wait...");
        /* dataService.read(r -> r.get(Project.class, component.getId()).eagerLoad(e -> e.include(path(Project.ROOT,
                 Component.SUB_COMPONENTS, SubComponent.SUB_COMPONENT_DETAIL, SubComponentDetail.COMPONENT)))
                 .onSuccess(project1 ->
@@ -108,8 +110,8 @@ public class ComponentAccess extends ComponentBase
         StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
         component.getSubComponents().forEach(sc ->
         {
-            Component x = sc.getSubComponentDetail().getComponent();
-            sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
+            ComponentProxy x = sc.getSubComponentDetail().getComponent();
+            sb.append(String.format("%s. ID: %s", x.getComponent().getName(), x.getComponent().getId())).append("\n\n");
         });
         sb.append("Project's components end of list.");
         show(sb.toString());
@@ -123,7 +125,7 @@ public class ComponentAccess extends ComponentBase
     {
         show("Adding sub-component to component...");
         ComponentAddition ca = componentAdditionFactory.createProduct();
-        ca.setParent(component);
+        ca.setParent(component.getComponent());
         ca.startAsConsole();
     }
 
@@ -134,33 +136,50 @@ public class ComponentAccess extends ComponentBase
     private void deleteComponent()
     {
         ComponentRemoval pr = componentRemovalFactory.createProduct();
-        pr.setComponent(component);
+        pr.setComponent(component.getComponent());
         pr.startAsConsole();
     }
 
     private ComponentModification componentModification;
 
+    private boolean projectRoot;
 
-    private void editComponent()
+    public ComponentAccess setProjectRoot(boolean projectRoot)
     {
-        componentModification.setComponent(component);
-        if (componentModification.startAsConsole())
+        this.projectRoot = projectRoot;
+        return this;
+    }
+
+
+    void editComponent(Queue<String> data)
+    {
+        if(projectRoot)
         {
-            dataService.read(r -> r.get(Component.class, component.getId())
-//                    .eagerLoad(e -> e.include(path(Project.ROOT, Component.SUB_COMPONENT_DETAIL)))
+            show("Current component is the project root and it is not editable through this command.");/*
+            The root of the project's component tree should not be editable like the other component nodes because I
+            considered it an extension of the project object itself rather than a component.*/
+            return;
+        }
+
+        componentModification.setComponent(component.getComponent());
+        if(projectRoot) componentModification.setRoot(true);
+        else componentModification.setParent(component.getSubComponentDetail().getSubComponent().getParentComponent());
+        if (componentModification.startAsConsole(data))
+        {
+            dataService.read(r -> r.get(Component.class, component.getComponent().getId())
                     .onSuccess(p ->
                     {
-                        setComponent(p);
+                        setComponent(ComponentProxy.newBuilder().dataService(dataService).component(p).build());
                         startAsConsole();
                     })
                     .onFailure(() -> show(String.format("Failure refreshing component data in %s", this))));
         }
     }
 
-    public String describe()
+    String describe()
     {
         return String.format("Component Access for this component: Component name: %s. " +
-                "Component description: %s", component.getName(), component.getDescription());
+                "Component description: %s", component.getComponent().getName(), component.getComponent().getDescription());
     }
 
 

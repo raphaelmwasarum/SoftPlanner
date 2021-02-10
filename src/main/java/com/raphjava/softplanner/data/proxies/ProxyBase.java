@@ -38,6 +38,11 @@ public abstract class ProxyBase
     }
 
 
+    protected void throwNotImplementedEx(String... extraMessage)
+    {
+        String n = "Not implemented";
+        throw new RuntimeException(extraMessage.length == 0 ? n : n + extraMessage[0]);
+    }
 
     @SuppressWarnings("unchecked")
     protected  <T> T get(Class<T> cl, int id, boolean withRelatives, Consumer<EagerLoader<T>> eagerLoaderAction)

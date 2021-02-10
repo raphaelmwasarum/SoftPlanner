@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Queue;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
@@ -64,25 +63,25 @@ public class Help extends ComponentBase
 
     }
 
-    private void projectHelp(Queue<String> args)
+    public void projectHelp(Queue<String> args)
     {
         if (args.isEmpty())
         {
-            show(asExp(Arrays.asList("The following are the project commands that can be executed:"
-                    , "project add \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\""
-                    , "project list - list all saved projects."
-                    , "project open <Project ID> - opens project of the passed id."
-                    , "project current - shows the selected open project."
-                    , "project edit \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\" - edits the selected open project. i.e. the project that will be described when you type command: \"project current\"."
-                    , "project tree - Shows the project tree."
-                    , "project schedule - shows the scheduling of the project."
-                    , "project delete <Project ID> - deletes the project of the passed id from the repository."
-                    , "project component list - shows the selected component's component list (A component can be made up of other components)."
-                    , "project component add \"[Component name-Soft Planner], [Description-Helps in the planning the development of an app], [PseudoCode-Pseudo code for Soft Planner]\" - adds a component to the selected component."
-                    , "project component open <Component ID> - opens the component with the passed id."
-                    , "project component current - shows the selected component."
-                    , "project component edit \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\" - edits the selected component"
-                    , "project component delete <Component ID> - deletes the component of the passed id"
+            show(asExp(Arrays.asList("The following are the project commands that can be executed:\n"
+                    , "\tproject add \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\""
+                    , "\tproject list - list all saved projects."
+                    , "\tproject open <Project ID> - opens project of the passed id."
+                    , "\tproject current - shows the selected open project."
+                    , "\tproject edit \"[Project name-Soft Planner], [Description-Helps in the planning the development of an app]\" - edits the selected open project. i.e. the project that will be described when you type command: \"project current\"."
+                    , "\tproject tree - Shows the project tree."
+                    , "\tproject schedule - shows the scheduling of the project."
+                    , "\tproject delete <Project ID> - deletes the project of the passed id from the repository."
+                    , "\tproject component list - shows the selected component's component list (A component can be made up of other components)."
+                    , "\tproject component add \"[Component name-Soft Planner], [Description-Helps in the planning the development of an app], [PseudoCode-Pseudo code for Soft Planner]\" - adds a component to the selected component."
+                    , "\tproject component open <Component ID> - opens the component with the passed id."
+                    , "\tproject component current - shows the selected component."
+                    , "\tproject component edit \"[Component name-Soft Planner], [Description-Helps in the planning the development of an app], [PseudoCode-Pseudo code for Soft Planner]\" - edits the selected component"
+                    , "\tproject component delete <Component ID> - deletes the component of the passed id"
             )).selectToObject(new StringBuilder(), (sb, c) -> sb.append(c).append("\n")).toString());
 
         }
@@ -101,7 +100,7 @@ public class Help extends ComponentBase
     public void startAsConsole()
     {
         show("Enter 'project help' to know more about project commands.");
-        inputProcessor.processInput("Invalid help command");
+        inputProcessor.process("Invalid help command");
 
     }
 

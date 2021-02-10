@@ -7,23 +7,37 @@ import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
+import com.raphjava.softplanner.data.proxies.ComponentProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Queue;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
 public class ComponentModification extends ComponentBase
 {
 
+    private boolean root;
+
+    public void setRoot(boolean root)
+    {
+        this.root = root;
+    }
+
+    public boolean isRoot()
+    {
+        return root;
+    }
+
     private Component parent;
     private Component component;
 
 
-    public void setParent(Component parent)
+    public void setParent(ComponentProxy parent)
     {
         this.parent = parent;
     }
@@ -37,46 +51,54 @@ public class ComponentModification extends ComponentBase
     {
         super(builder.baseBuilder);
         componentDataParser = builder.componentDataParser;
-        inputService = builder.inputService;
+        finishTagging(getClass().getSimpleName());
     }
 
     private ComponentDataParser componentDataParser;
 
-    private ConsoleInput inputService;
-
-    private String componentDataTemplate = "[Component name-Input processor], [Description-Processes input entered by the user], [PseudoCode-Enter your pseudo code here.]";
-
-    public boolean startAsConsole()
+    public boolean startAsConsole(Queue<String> data)
     {
-        show(String.format("Enter new component details in the following format: %s", componentDataTemplate));
         boolean[] success = new boolean[1];
-        inputService.getInput().flatMap(componentDataParser::processData).ifPresent(c -> success[0] = editComponent(c));
+        if(data.size() != 1) throw new IllegalArgumentException("Error in arguments. See help information to see how to format your arguments.");
+        componentDataParser.processData(data.poll()).ifPresent(c -> success[0] = editComponent(c));
         return success[0];
-
     }
 
-    private boolean editComponent(Component component)
+    private boolean editComponent(Component newData)
     {
-        ensureParentExists();
+        //TODO Continue from here. Decide whether project root should be editable as component or it should be edited when the project is edited.
+        component.setName(newData.getName());
+        component.setDescription(newData.getDescription());
+        component.setPseudoCode(newData.getPseudoCode());
+        if(!root) ensureParentExists();
         boolean[] success = new boolean[1];
         dataService.write(w ->
         {
             w.update(component);
 
             //Persist parent relationship
-            SubComponentDetail scd = new SubComponentDetail();
-            scd.setId(getKey());
-            scd.setComponent(component);
-            component.setSubComponentDetail(scd);
-            w.update(scd, e -> e.include(SubComponentDetail.COMPONENT));
+            if(!root)
+            {
+                //Nullify existing relationship.
+                w.remove(component.getSubComponentDetail().getSubComponent())
+                        .remove(component.getSubComponentDetail());
 
-            SubComponent sc = new SubComponent();
-            sc.setId(getKey());
-            parent.addSubComponent(sc);
-            sc.setSubComponentDetail(scd);
-            w.update(sc, e -> e.include(SubComponent.PARENT_COMPONENT).include(SubComponent.SUB_COMPONENT_DETAIL))
-                    .commit()
-                    .onSuccess(() -> success[0] = true);
+                SubComponentDetail scd = new SubComponentDetail();
+                scd.setId(getKey());
+                scd.setComponent(component);
+                component.setSubComponentDetail(scd);
+                w.add(scd, e -> e.include(SubComponentDetail.COMPONENT));
+                SubComponent sc = new SubComponent();
+                sc.setId(getKey());
+                parent.addSubComponent(sc);
+                sc.setSubComponentDetail(scd);
+                w.add(sc, e -> e.include(SubComponent.PARENT_COMPONENT).include(SubComponent.SUB_COMPONENT_DETAIL))
+                        .commit()
+                        .onSuccess(() -> success[0] = true);
+            }
+            else w.commit().onSuccess(() -> success[0] = true);
+
+
 
         });
 
