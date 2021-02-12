@@ -3,10 +3,13 @@ package com.raphjava.softplanner.data.proxies;
 import com.raphjava.softplanner.data.interfaces.DataService;
 import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.SubComponent;
+import com.raphjava.softplanner.data.models.SubComponentDetail;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 
 public class ComponentProxy extends ProxyBase
 {
@@ -22,10 +25,34 @@ public class ComponentProxy extends ProxyBase
 
     private SubComponentDetailProxy subComponentDetail;
 
-    public SubComponentDetailProxy getSubComponentDetail()
+    public SubComponentDetailProxy getSubComponentDetail(boolean... force)
     {
-        throwNotImplementedEx();
-        return null;
+        ensureLoaded(Component.SUB_COMPONENT_DETAIL, force, this::loadSubComponentDetailFromModel, this::loadSubComponentDetailFromRepo);
+        return subComponentDetail;
+    }
+
+    private void loadSubComponentDetailFromRepo()
+    {
+        subComponentDetail = newSubComponentDetailProxy(get(Component.class, component.getId(), false
+                , e -> e.include(Component.SUB_COMPONENT_DETAIL)).getSubComponentDetail());
+
+    }
+
+    private Boolean loadSubComponentDetailFromModel()
+    {
+        if(component.getSubComponentDetail() != null)
+        {
+            subComponentDetail = newSubComponentDetailProxy(component.getSubComponentDetail());
+        }
+        return subComponentDetail != null;
+
+    }
+
+    private SubComponentDetailProxy newSubComponentDetailProxy(SubComponentDetail subComponentDetail)
+    {
+        SubComponentDetail x = Objects.requireNonNull(subComponentDetail);
+        return SubComponentDetailProxy.newBuilder().dataService(dataService)
+                .subComponentDetail(x).build();
     }
 
     private Collection<SubComponentProxy> subComponents = new LinkedHashSet<>();
