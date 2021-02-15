@@ -7,7 +7,7 @@ import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Notification;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
-import com.raphjava.softplanner.data.proxies.ComponentProxy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -37,7 +37,7 @@ public class ComponentModification extends ComponentBase
     private Component component;
 
 
-    public void setParent(ComponentProxy parent)
+    public void setParent(Component parent)
     {
         this.parent = parent;
     }

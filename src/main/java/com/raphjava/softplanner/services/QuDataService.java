@@ -6,6 +6,8 @@ import com.raphjava.softplanner.data.QumbuqaComponent;
 import com.raphjava.softplanner.data.interfaces.CRUD;
 import com.raphjava.softplanner.data.interfaces.DataService;
 import com.raphjava.softplanner.data.interfaces.EagerLoader;
+import com.raphjava.softplanner.data.models.EntityBase;
+import com.raphjava.softplanner.data.proxies.ProxyFactory;
 import net.raphjava.qumbuqa.core.BatchDataContext;
 import net.raphjava.qumbuqa.core.DataContext;
 import net.raphjava.qumbuqa.core.Qumbuqa;
@@ -26,10 +28,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
-
-//import net.raphjava.studeeconsole.components.interfaces.CRUD;
-//import net.raphjava.studeeconsole.components.interfaces.EagerLoader;
-//import net.raphjava.studeeconsole.interfaces.DataService;
 
 @Basic
 @Lazy
@@ -54,16 +52,6 @@ public class QuDataService implements DataService
         return new Builder();
     }
 
-    /*@Override
-    public <T > void add(T entity)
-    {
-        run(throwable(ctx ->
-        {
-            ctx.add(entity);
-            ctx.commit();
-        }));
-    }*/
-
     private void run(Consumer<DataContext> persistenceAction)
     {
         try (DataContext ctx = qumbuqa.getDataContext())
@@ -76,108 +64,7 @@ public class QuDataService implements DataService
         }
     }
 
-    /*@Override
-    public <T > void add(T entity, Consumer<EagerLoader<T>> cascadeActions)
-    {
-        run(throwable());
 
-    }*/
-
-    /*private <T> Consumer<Writer.Cascader> getCascader(Consumer<EagerLoader<T>> extrasLoaderAction)
-    {
-        //This method creates a Consumer<EagerLoader> to Consumer<Cascader> adapter.
-
-        return new Consumer<>() *//*When cascader is passed into this:
-        1. The cascader is saved to a field.
-        2. The eagerLoader is passed into the eagerloader action.
-        3. Every time the include method is called, the cascader.include method is also called. *//*
-        {
-            private Writer.Cascader cascader;
-            private Consumer<EagerLoader<T>> eagerLoaderConsumer = extrasLoaderAction;
-
-            private EagerLoader<T> eagerLoader = new EagerLoader<>()
-            {
-                @Override
-                public void include(String property)
-                {
-                    cascader.cascade(property);
-                }
-            };
-
-            @Override
-            public void accept(Writer.Cascader cascader)
-            {
-                this.cascader = cascader;
-                this.eagerLoaderConsumer.accept(eagerLoader);
-            }
-        };
-    }
-
-    @Override
-    public <T> void addRange(List<T> entities)
-    {
-        run(throwable(ctx ->
-        {
-            for(var en : entities) ctx.add(en);
-            ctx.commit();
-
-        }));
-
-    }
-*/
-    /*@SuppressWarnings("unchecked")
-    @Override
-    public <T > T addAndReturn(T entity)
-    {
-        var rex = new LambdaSettable<T>(null);
-        run(throwable(ctx ->
-        {
-            ctx.add(entity);
-            ctx.commit();
-            rex.setItem((T) ctx.get(entity.getClass(), entity.getId()));
-
-        }));
-        return rex.getItem();
-    }
-*/
-  /*  @SuppressWarnings("unchecked")
-    @Override
-    public <T > List<T> addAndReturnRange(List<T> entities)
-    {
-        var rex = new ArrayList<T>();
-        run(throwable(ctx ->
-        {
-            for (var entity : entities) ctx.add(entity);
-            ctx.commit();
-            for (var entity : entities) rex.add((T) ctx.get(entity.getClass(), entity.getId()));
-        }));
-
-        return rex;
-    }
-*/
-    /*@Override
-    public <T> T get(Class<T> entityClass, int ID, boolean withAllNavigationalProperties, Consumer<EagerLoader<T>> extrasLoaderAction)
-    {
-        var rex = new ArrayList<T>();
-        run(throwable(ctx ->
-        {
-            var pb = ctx.get(entityClass, c -> c.equation().path("id").constant(ID));
-            if (withAllNavigationalProperties) pb = pb.withRelatives();
-            rex.addAll(pb.eagerLoader(extrasLoaderAction == null ? null : getEagerLoader(extrasLoaderAction)).list());
-        }));
-
-        return rex.isEmpty() ? null : rex.get(0);
-    }
-
-    @Override
-    public <T> T get(Class<T> entityClass, int ID)
-    {
-        var rex = new LambdaSettable<T>(null);
-        run(throwable(ctx -> rex.setItem(ctx.get(entityClass, ID))));
-
-        return rex.getItem();
-    }
-*/
     private <T> Consumer<net.raphjava.qumbuqa.read.interfaces.EagerLoader<T>> getEagerLoader(Consumer<EagerLoader<T>> extrasLoaderAction)
     {
         //This method creates a Consumer<studee EagerLoader> to Consumer<qumbuqa EagerLoader> adapter.
@@ -209,155 +96,7 @@ public class QuDataService implements DataService
         };
     }
 
-//    @Override
-//    public <T > List<T> get(Class<T> entityClass, Predicate<T> predicate, boolean withAllNavigationalProperties, Consumer<EagerLoader<T>> extrasLoaderAction)
-//    {
-//        var rex = new ArrayList<T>();
-//        run(throwable(ctx ->
-//        {
-//            var pb = ctx.get(entityClass, c -> c.equation().path("id").constant());
-//            if(withAllNavigationalProperties) pb = pb.withRelatives();
-//            rex.addAll(pb.eagerLoader(getEagerLoader(extrasLoaderAction)).list());
-//        }));
-//
-//        return rex.isEmpty() ? null : rex.get(0);
-//    }
 
-//    @Override
-//    public <T > List<T> get(Class<T> entityClass, Consumer<CriteriaBuilder<T>> criteriaBuilderConsumer, boolean withAllNavigationalProperties, Consumer<EagerLoader<T>> extrasLoaderAction)
-//    {
-//        var cb = new TCCriteriaBuilder<T>()
-//    }
-
-//    @Override
-//    public <T > List<Tuple> getAndSelect(Class<T> entityClass, List<String> propertyNames, Consumer<CriteriaBuilder> criteriaBuilderConsumer)
-//    {
-//        var rex = new ArrayList<T>();
-//        run(throwable(ctx ->
-//        {
-//            var pb = ctx.get(entityClass, c -> c.equation().path("id").constant(ID));
-//            rex.addAll(pb.eagerLoader(getEagerLoader(extrasLoaderAction)).list());
-//        }));
-//
-//        return rex.isEmpty() ? null : rex.get(0);
-//    }
-
-//    @Override
-//    public <T> List<T> getAll(Class<T> entityClass, boolean withAllNavigationalProperties, Consumer<EagerLoader<T>> extrasLoaderAction)
-//    {
-//        var rex = new ArrayList<T>();
-//        run(throwable());
-//
-//        return rex;
-//    }
-
-    /*@Override
-    public <T > void edit(T entity, Consumer<EagerLoader<T>> cascaderAction)
-    {
-        run(throwable());
-
-    }*/
-
-    /* @Override
-     public <T > void edit(T entity)
-     {
-         run(throwable());
-     }
- */
-   /* @Override
-    public <T > void editRange(List<T> entities)
-    {
-        run(throwable(ctx ->
-        {
-            for (var entity : entities)
-            {
-                ctx.update(entity);
-            }
-            ctx.commit();
-
-        }));
-    }
-
-    @Override
-    public <T > void remove(T entity)
-    {
-        run(throwable(ctx ->
-        {
-            ctx.remove(entity);
-            ctx.commit();
-
-        }));
-    }
-
-    @Override
-    public <T > void removeRange(List<T> entities)
-    {
-        run(throwable(ctx ->
-        {
-            for (var entity : entities)
-            {
-                ctx.remove(entity);
-            }
-            ctx.commit();
-
-        }));
-    }
-
-    private void run(Consumer<DataContext> pAction, DataContext context)
-    {
-        pAction.accept(context);
-    }
-
-*/
-    /*@Override
-    public <T> void crud(Consumer<CRUD> creationUpdatingDeletionAction)
-    {
-        run(throwable(ctx -> creationUpdatingDeletionAction.accept(new CRUD()
-                {
-                    @Override
-                    public <T > void add(T entity)
-                    {
-                        run(throwable(c -> c.add(entity)), ctx);
-                    }
-
-                    @Override
-                    public <T > void add(T entity, Consumer<EagerLoader<T>> extrasLoaderAction)
-                    {
-                        run(throwable(c -> c.add(entity, getCascader(extrasLoaderAction))), ctx);
-
-                    }
-
-                    @Override
-                    public <T > void edit(T entity)
-                    {
-                        run(throwable(c -> c.update(entity)), ctx);
-
-                    }
-
-                    @Override
-                    public <T > void edit(T entity, Consumer<EagerLoader<T>> cascadeAction)
-                    {
-                        run(throwable(c -> c.update(entity, getCascader(cascadeAction))), ctx);
-
-                    }
-
-                    @Override
-                    public <T > void remove(T entity)
-                    {
-                        run(throwable(c -> c.remove(entity)), ctx);
-                    }
-
-                    @Override
-                    public void commit()
-                    {
-                        run(throwable(DataContext::commit), ctx);
-                    }
-
-                })));
-
-
-
-    }*/
     private <T> Consumer<BatchWriter.EntityVisitor> getEntityVisitor(Consumer<EagerLoader<T>> extrasLoaderAction)
     {
 
@@ -585,6 +324,15 @@ public class QuDataService implements DataService
             reader.failed();
             return null;
         }
+    }
+
+    private ProxyFactory proxyFactory;
+
+
+    @Override
+    public <T extends EntityBase> T newProxy(T entity)
+    {
+        return proxyFactory.proxy(entity);
     }
 
     @Override

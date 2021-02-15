@@ -9,7 +9,7 @@ import com.raphjava.softplanner.data.models.Component;
 import com.raphjava.softplanner.data.models.Project;
 import com.raphjava.softplanner.data.models.SubComponent;
 import com.raphjava.softplanner.data.models.SubComponentDetail;
-import com.raphjava.softplanner.data.proxies.ComponentProxy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -21,15 +21,15 @@ import static com.raphjava.softplanner.annotations.Scope.Singleton;
 public class ComponentAccess extends ComponentBase
 {
 
-    private ComponentProxy component;
+    private Component component;
 
-    public ComponentAccess setComponent(ComponentProxy component)
+    public ComponentAccess setComponent(Component component)
     {
         this.component = component;
         return this;
     }
 
-    public ComponentProxy getComponent()
+    public Component getComponent()
     {
         return component;
     }
@@ -82,10 +82,9 @@ public class ComponentAccess extends ComponentBase
 
     private void openComponent()
     {
-        componentSelectionFactory.createProduct().setComponent(component.getComponent()).setSelectionPurpose("open")
+        componentSelectionFactory.createProduct().setComponent(component).setSelectionPurpose("open")
                 .startAsConsole().ifPresent(c -> openComponents.computeIfAbsent(c, key -> componentAccessFactory
-                .createProduct().setComponent(ComponentProxy.newBuilder().dataService(dataService).component(key)
-                .build())).startAsConsole());
+                .createProduct().setComponent(key)).startAsConsole());
     }
 
     @Override
@@ -110,8 +109,8 @@ public class ComponentAccess extends ComponentBase
         StringBuilder sb = new StringBuilder("\nProject's components:\n\n");
         component.getSubComponents().forEach(sc ->
         {
-            ComponentProxy x = sc.getSubComponentDetail().getComponent();
-            sb.append(String.format("%s. ID: %s", x.getComponent().getName(), x.getComponent().getId())).append("\n\n");
+            Component x = sc.getSubComponentDetail().getComponent();
+            sb.append(String.format("%s. ID: %s", x.getName(), x.getId())).append("\n\n");
         });
         sb.append("Project's components end of list.");
         show(sb.toString());
@@ -125,7 +124,7 @@ public class ComponentAccess extends ComponentBase
     {
         show("Adding sub-component to component...");
         ComponentAddition ca = componentAdditionFactory.createProduct();
-        ca.setParent(component.getComponent());
+        ca.setParent(component);
         ca.startAsConsole();
     }
 
@@ -136,7 +135,7 @@ public class ComponentAccess extends ComponentBase
     private void deleteComponent()
     {
         ComponentRemoval pr = componentRemovalFactory.createProduct();
-        pr.setComponent(component.getComponent());
+        pr.setComponent(component);
         pr.startAsConsole();
     }
 
@@ -161,15 +160,15 @@ public class ComponentAccess extends ComponentBase
             return;
         }
 
-        componentModification.setComponent(component.getComponent());
+        componentModification.setComponent(component);
         if(projectRoot) componentModification.setRoot(true);
         else componentModification.setParent(component.getSubComponentDetail().getSubComponent().getParentComponent());
         if (componentModification.startAsConsole(data))
         {
-            dataService.read(r -> r.get(Component.class, component.getComponent().getId())
+            dataService.read(r -> r.get(Component.class, component.getId())
                     .onSuccess(p ->
                     {
-                        setComponent(ComponentProxy.newBuilder().dataService(dataService).component(p).build());
+                        setComponent(p);
                         startAsConsole();
                     })
                     .onFailure(() -> show(String.format("Failure refreshing component data in %s", this))));
@@ -179,7 +178,7 @@ public class ComponentAccess extends ComponentBase
     String describe()
     {
         return String.format("Component Access for this component: Component name: %s. " +
-                "Component description: %s", component.getComponent().getName(), component.getComponent().getDescription());
+                "Component description: %s", component.getName(), component.getDescription());
     }
 
 

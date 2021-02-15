@@ -7,6 +7,7 @@ import com.raphjava.softplanner.components.LoggableBase;
 import com.raphjava.softplanner.components.interfaces.KeyGenerator;
 import com.raphjava.softplanner.data.interfaces.CRUD;
 import com.raphjava.softplanner.data.interfaces.DataService;
+import com.raphjava.softplanner.data.models.EntityBase;
 import com.raphjava.softplanner.interfaces.Communication;
 import net.raphjava.raphtility.logging.interfaces.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,6 +196,12 @@ public class LoggingQuDataService extends LoggableBase implements DataService
         dataService.crud(creationUpdatingDeletionAction);
         debug(opID + msg + space + successful + period);
     }*/
+
+    @Override
+    public <T extends EntityBase> T newProxy(T entity)
+    {
+        return dataService.newProxy(entity);
+    }
 
     @Override
     public void write(Consumer<CRUD> creationUpdatingDeletionAction)

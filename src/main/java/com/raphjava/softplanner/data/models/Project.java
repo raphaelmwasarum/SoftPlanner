@@ -1,5 +1,8 @@
 package com.raphjava.softplanner.data.models;
 
+import com.raphjava.softplanner.data.proxies.annotations.Proxied;
+
+@Proxied
 public class Project extends EntityBase
 {
 
@@ -7,6 +10,7 @@ public class Project extends EntityBase
 
     private Component root;
 
+    @Proxied
     public Component getRoot()
     {
         return root;

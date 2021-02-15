@@ -1,9 +1,11 @@
 package com.raphjava.softplanner.data.models;
 
+import com.raphjava.softplanner.data.proxies.annotations.Proxied;
 import net.raphjava.raphtility.collectionmanipulation.LinkedHashSet;
 
 import java.util.Collection;
 
+@Proxied
 public class Component extends EntityBase
 {
 
@@ -13,6 +15,7 @@ public class Component extends EntityBase
 
     private Project project;
 
+    @Proxied
     public Project getProject()
     {
         return project;
@@ -27,6 +30,7 @@ public class Component extends EntityBase
 
     private SubComponentDetail subComponentDetail;
 
+    @Proxied
     public Collection<SubComponent> getSubComponents()
     {
         return subComponents;

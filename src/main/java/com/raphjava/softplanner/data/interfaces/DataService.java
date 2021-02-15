@@ -2,6 +2,7 @@ package com.raphjava.softplanner.data.interfaces;
 
 
 
+import com.raphjava.softplanner.data.models.EntityBase;
 import net.raphjava.qumbuqa.read.interfaces.FluentCriteriaBuilder;
 
 import java.util.Collection;
@@ -32,6 +33,8 @@ public interface DataService
         EntityReadAction<T> eagerLoad(Consumer<EagerLoader<T>> extrasLoaderAction);
 
     }
+
+    <T extends EntityBase> T newProxy(T entity);
 
     void write(Consumer<CRUD> creationUpdatingDeletionAction);
 

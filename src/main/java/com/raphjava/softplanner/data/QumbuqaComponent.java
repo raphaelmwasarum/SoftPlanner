@@ -1,5 +1,6 @@
 package com.raphjava.softplanner.data;
 
+import com.raphjava.softplanner.components.UserDirectoryResolver;
 import net.raphjava.qumbuqa.core.Qumbuqa;
 import net.raphjava.raphtility.interfaceImplementations.KeyGenerator;
 import net.raphjava.raphtility.reflection.ReflectionHelperImpl;
@@ -7,7 +8,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -43,13 +46,12 @@ public class QumbuqaComponent
             databasePWs.put(databaseName, PW);
             qumbuqa = Qumbuqa.newBuilder()
                     .database(Qumbuqa.DATABASE.SQLite)
-//                    .accessorDirectory("C:\\\\Users\\\\Raphael\\\\RaphGooDrive\\\\CodeWorld\\\\JWorld\\\\Studee\\\\src\\\\main\\\\java\\\\net\\\\raphjava\\\\studeeconsole\\\\data\\\\models\\\\accessors\\\\")
-                    .accessorDirectory(String.format("%s%s", getAppLocation(), getAccessorsDirectory()))
+                    .accessorDirectory(String.format("%s%s", userDirResolver.getAppRunningRootLocation(), getAccessorsDirectory()))
                     .entityAccessorsPackage("com.raphjava.softplanner.data.models.accessors")
                     .mapperAction(mapperAction)
                     .databaseLifeCycleOptions(Qumbuqa.AUTO_OPTIONS.Ignore)
 //                .databaseURL("jdbc:mysql://localhost/")
-                    .databaseURL("jdbc:sqlite:" + getAppLocation())
+                    .databaseURL("jdbc:sqlite:" + userDirResolver.getAppRunningRootLocation())
                     .databaseName(databaseName)
                     .userName(ROOTUSERNAME)
                     .reflectionHelper(reflectionHelper)
@@ -64,40 +66,19 @@ public class QumbuqaComponent
 
     private static String getAccessorsDirectory()
     {
-        StringBuilder sb = new StringBuilder();
-        String s = getCurrentOSFileSeparator();
-        sb.append("src").append(s).append("main").append(s).append("java").append(s).append("com").append(s)
+//        StringBuilder sb = new StringBuilder();
+//        String s = userDirResolver.getCurrentOSFileSeparator();
+        return userDirResolver.buildPath(new LinkedHashSet<>(Arrays.asList("src", "main", "java", "com", "raphjava"
+                , "softplanner", "data", "models", "accessors")));
+        /*sb.append("src").append(s).append("main").append(s).append("java").append(s).append("com").append(s)
                 .append("raphjava").append(s).append("softplanner").append(s).append("data")
                 .append(s).append("models").append(s).append("accessors").append(s);
-        return sb.toString();
+        return sb.toString();*/
 //        return "\\\\src\\\\main\\\\java\\\\com\\\\raphjava\\\\studentinformationsystem\\\\data\\\\models\\\\accessors\\\\";
     }
 
-    private static String getAppLocation()
-    {
-        String separator = getCurrentOSFileSeparator();
-        return System.getProperty("user.dir") + separator;
+    private static UserDirectoryResolver userDirResolver = new UserDirectoryResolver();
 
-    }
-
-
-    private static String fileSeparator;
-
-
-    private static String getCurrentOSFileSeparator()
-    {
-        return fileSeparator != null ? fileSeparator : loadAppropriateFileSeparator();
-    }
-
-    private static String loadAppropriateFileSeparator()
-    {
-        if(System.getProperty("os.name").toLowerCase().contains("windows"))
-        {
-            fileSeparator = "\\";
-        }
-        else fileSeparator = "/";
-        return fileSeparator;
-    }
 
     public static void main(String[] args)
     {
