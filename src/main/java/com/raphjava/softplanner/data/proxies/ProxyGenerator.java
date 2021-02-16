@@ -1,7 +1,24 @@
 package com.raphjava.softplanner.data.proxies;
 
-public class ProxyGenerator
+import com.raphjava.softplanner.data.interfaces.IOService;
+import net.raphjava.expression.ClassExpression;
+import net.raphjava.qumbuqa.databasedesign.interfaces.MappingManager;
+import net.raphjava.raphtility.reflection.interfaces.ReflectionHelper;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class
+ProxyGenerator
 {
+
+    private ReflectionHelper reflectionHelper;
+
+    private IOService ioService;
+    private Map<String, ClassExpression> proxyClassExpressions = new HashMap<>();
+    private MappingManager mappingManager;
+
+
 
     private ProxyAnnotationProcessor proxyAnnotationProcessor;
 
@@ -52,12 +69,46 @@ public class ProxyGenerator
 
     public void generateProxies()
     {
+
         /*clearProxies();
         generateNewProxies();
         generateProxyFactory();*/
+        generateNewProxies();
         System.out.println("Generation of proxies to be done here.");
 
     }
+
+    private void generateNewProxies()
+    {
+        generateProxyAssistantClassExpression();
+        for(ProxyAnnotationProcessor.ProxyMetaData mData : proxyAnnotationProcessor.getProxyEntities())
+        {
+            generateNewProxy(mData);
+        }
+    }
+
+    private final String PROXY_ASSISTANT_CLASS_NAME = "ProxyAssistant";
+
+
+    private void generateProxyAssistantClassExpression()
+    {
+        ClassExpression proxyAssistant = proxyClassExpressions.computeIfAbsent(PROXY_ASSISTANT_CLASS_NAME, key ->
+        {
+            ClassExpression c = new ClassExpression();
+            c.name(n -> n.name(key));
+            return c;
+        });
+
+        //TODO Continue from here.
+    }
+
+
+
+    private void generateNewProxy(ProxyAnnotationProcessor.ProxyMetaData proxyMetaData)
+    {
+
+    }
+
 
     public static final class Builder
     {
