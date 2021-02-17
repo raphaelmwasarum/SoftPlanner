@@ -29,10 +29,15 @@ public class UserDirectoryResolver
 
     }
 
-    public String buildPath(LinkedHashSet<String> pathLets)
+    public String buildPath(LinkedHashSet<String> pathLets, boolean...excludeLastSeparator)
     {
         StringBuilder sb = new StringBuilder();
         for(String pathLet : pathLets) sb.append(pathLet).append(getCurrentOSFileSeparator());
+        if(excludeLastSeparator.length != 0 && excludeLastSeparator[0])
+        {
+            int start = sb.lastIndexOf(getCurrentOSFileSeparator());
+            sb.replace(start, start + 1, "");
+        }
         return sb.toString();
     }
 }

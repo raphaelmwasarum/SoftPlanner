@@ -1,23 +1,30 @@
 package com.raphjava.softplanner.data.proxies;
 
+import com.raphjava.softplanner.components.AbFactoryBean;
 import com.raphjava.softplanner.data.interfaces.IOService;
-import net.raphjava.expression.ClassExpression;
+import net.raphjava.expression.*;
 import net.raphjava.qumbuqa.databasedesign.interfaces.MappingManager;
 import net.raphjava.raphtility.reflection.interfaces.ReflectionHelper;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+
+import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
 public class
 ProxyGenerator
 {
 
     private ReflectionHelper reflectionHelper;
-
     private IOService ioService;
     private Map<String, ClassExpression> proxyClassExpressions = new HashMap<>();
     private MappingManager mappingManager;
-
 
 
     private ProxyAnnotationProcessor proxyAnnotationProcessor;
@@ -26,8 +33,10 @@ ProxyGenerator
 
     private ProxyGenerator(Builder builder)
     {
+        ioService = builder.ioService;
         proxyAnnotationProcessor = builder.proxyAnnotationProcessor;
         proxiesDirectory = builder.proxiesDirectory;
+        proxiesPackageName = builder.proxiesPackageName;
     }
 
     private void initialize()
@@ -74,34 +83,111 @@ ProxyGenerator
         generateNewProxies();
         generateProxyFactory();*/
         generateNewProxies();
-        System.out.println("Generation of proxies to be done here.");
+        persist();
 
+    }
+
+    private void persist()
+    {
+        for(Map.Entry<String, ClassExpression> proxyClassData : proxyClassExpressions.entrySet())
+        {
+            ioService.writeToFile(resolveAbsoluteFilePath(proxyClassData.getKey()), proxyClassData.getValue().build());
+        }
+
+    }
+
+    private String resolveAbsoluteFilePath(String proxyClassName)
+    {
+        return String.format("%s%s%s.java", proxiesDirectory, File.separator, proxyClassName, File.separator);
     }
 
     private void generateNewProxies()
     {
         generateProxyAssistantClassExpression();
-        for(ProxyAnnotationProcessor.ProxyMetaData mData : proxyAnnotationProcessor.getProxyEntities())
+        for (ProxyAnnotationProcessor.ProxyMetaData mData : proxyAnnotationProcessor.getProxyEntities())
         {
             generateNewProxy(mData);
         }
+
     }
 
     private final String PROXY_ASSISTANT_CLASS_NAME = "ProxyAssistant";
 
+    private String proxiesPackageName;
+
+    private Expression.AccessModifier _public = Expression.AccessModifier.Public;
 
     private void generateProxyAssistantClassExpression()
     {
         ClassExpression proxyAssistant = proxyClassExpressions.computeIfAbsent(PROXY_ASSISTANT_CLASS_NAME, key ->
         {
             ClassExpression c = new ClassExpression();
-            c.name(n -> n.name(key));
+            c.access(_public).name(n -> n.name(key)).package_(px -> px.paths(pl -> pl.value(ea -> ea.constant(proxiesPackageName))));
             return c;
         });
 
-        //TODO Continue from here.
+        addProxyAssistantFieldExpressions(proxyAssistant);
+
+
     }
 
+    private Expression.AccessModifier _private = Expression.AccessModifier.Private;
+
+    private void addFullyBuiltPackageExpression(ClassExpression classExpression, String fullyBuiltPackage)
+    {
+        classExpression.import_(ix -> ix.paths(dsvx -> dsvx.value(vx -> vx.constant(fullyBuiltPackage))));
+    }
+
+    private void addProxyAssistantFieldExpressions(ClassExpression proxyAssistant)
+    {
+        /*
+            private DataService dataService;
+            protected String exceptionMessagePrefix = getClass().getSimpleName();
+
+            protected Map<String, PropertyLoader> propertyLoaders = new HashMap<>();
+            modelName
+            proxyName
+
+            */
+
+        Consumer<MethodCallExpression> getClass = gcx -> gcx.objectReference(ea -> ea
+                .constant("this")).name(nx -> nx.constant("getClass"));
+
+        BiFunction<ExpressionAssistant, String, Expression> eaConstant = ExpressionAssistant::constant;
+
+        addFullyBuiltPackageExpression(proxyAssistant, "com.raphjava.softplanner.data.interfaces.DataService");
+        addFullyBuiltPackageExpression(proxyAssistant, "java.util.HashMap");
+        addFullyBuiltPackageExpression(proxyAssistant, "java.util.Map");
+
+        proxyAssistant
+
+                //private DataService dataService;
+                .field(fx -> fx.access(_private).type(t -> buildType(t, "DataService"))
+                        .name(n -> n.constant("dataService")))
+
+                //protected String exceptionMessagePrefix = getClass().getSimpleName();
+                .field(fx -> fx.access(_private).type(t -> buildType(t, "String"))
+                        .name(n -> n.constant("exceptionMessagePrefix"))
+                        .assignment(ax -> ax.methodCall(mcx -> mcx.objectReference(ea -> ea.methodCall(getClass))
+                                .name(nx -> nx.constant("getSimpleName")))))
+
+                //protected Map<String, PropertyLoader> propertyLoaders = new HashMap<>();
+                .field(fx -> fx.access(_private).type(tx -> tx.name("Map").genericNotation(gnx -> gnx.parameters(csvx ->
+                        csvx.value(ea -> eaConstant.apply(ea, "String")).value(ea -> eaConstant.apply(ea, "PropertyLoader")))))
+                    .name(ea -> eaConstant.apply(ea, "propertyLoaders"))
+                    .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> eaConstant.apply(ea, "HashMap"))
+                            .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> eaConstant.apply(x, ""/*to end up with <>*/)))))))
+
+
+        ;
+        //TODO Continue from here. Go to the expressions library and add nested classes expressions classes and subsequently update class expression class in line with those changes.
+
+    }
+
+    private void buildType(TypeExpression typeExpression, String typeName)
+    {
+        typeExpression.name(typeName);
+    }
 
 
     private void generateNewProxy(ProxyAnnotationProcessor.ProxyMetaData proxyMetaData)
@@ -110,15 +196,19 @@ ProxyGenerator
     }
 
 
-    public static final class Builder
+    public static final class Builder extends AbFactoryBean<ProxyGenerator>
     {
 
         private ProxyAnnotationProcessor proxyAnnotationProcessor;
         private String proxiesDirectory;
+        private String proxiesPackageName;
+        private IOService ioService;
 
         private Builder()
         {
+            super(ProxyGenerator.class);
         }
+
 
         public Builder proxyAnnotationProcessor(ProxyAnnotationProcessor proxyAnnotationProcessor)
         {
@@ -132,6 +222,12 @@ ProxyGenerator
             return this;
         }
 
+        public Builder proxiesPackageName(String proxiesPackageName)
+        {
+            this.proxiesPackageName = proxiesPackageName;
+            return this;
+        }
+
         public ProxyGenerator build()
         {
             ProxyGenerator pg = new ProxyGenerator(this);
@@ -139,5 +235,10 @@ ProxyGenerator
             return pg;
         }
 
+        public Builder ioService(IOService ioService)
+        {
+            this.ioService = ioService;
+            return this;
+        }
     }
 }
