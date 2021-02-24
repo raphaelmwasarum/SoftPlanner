@@ -3,6 +3,7 @@ package com.raphjava.softplanner.data.proxies;
 import com.raphjava.softplanner.components.AbFactoryBean;
 import com.raphjava.softplanner.data.interfaces.IOService;
 import net.raphjava.expression.*;
+import net.raphjava.expression.interfaces.Writer;
 import net.raphjava.qumbuqa.databasedesign.interfaces.MappingManager;
 import net.raphjava.raphtility.reflection.interfaces.ReflectionHelper;
 import org.springframework.context.annotation.Lazy;
@@ -91,14 +92,16 @@ ProxyGenerator
     {
         for(Map.Entry<String, ClassExpression> proxyClassData : proxyClassExpressions.entrySet())
         {
-            ioService.writeToFile(resolveAbsoluteFilePath(proxyClassData.getKey()), proxyClassData.getValue().build());
+            Writer w = new WriterImp();
+            proxyClassData.getValue().build(w);
+            ioService.writeToFile(resolveAbsoluteFilePath(proxyClassData.getKey()), w.getExpression());
         }
 
     }
 
     private String resolveAbsoluteFilePath(String proxyClassName)
     {
-        return String.format("%s%s%s.java", proxiesDirectory, File.separator, proxyClassName, File.separator);
+        return String.format("%s%s%s.java", proxiesDirectory, File.separator, proxyClassName);
     }
 
     private void generateNewProxies()

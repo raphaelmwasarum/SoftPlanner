@@ -23,7 +23,7 @@ public class ProxyGeneration
 
     private static String buildProxyPackageName()
     {
-        return userDirResolver.buildPath(orderedPackageData, true).replace("\\", ".");
+        return userDirResolver.buildPath(orderedPackageData, true).replace(userDirResolver.getCurrentOSFileSeparator(), ".");
     }
 
     private static LinkedHashSet<String> orderedPackageData = new LinkedHashSet<>(Arrays.asList("com", "raphjava",
