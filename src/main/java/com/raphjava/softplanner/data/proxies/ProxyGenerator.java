@@ -90,7 +90,7 @@ ProxyGenerator
 
     private void persist()
     {
-        for(Map.Entry<String, ClassExpression> proxyClassData : proxyClassExpressions.entrySet())
+        for (Map.Entry<String, ClassExpression> proxyClassData : proxyClassExpressions.entrySet())
         {
             Writer w = new WriterImp();
             proxyClassData.getValue().build(w);
@@ -161,7 +161,11 @@ ProxyGenerator
         addFullyBuiltPackageExpression(proxyAssistant, "com.raphjava.softplanner.data.interfaces.DataService");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.HashMap");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.Map");
+        addFullyBuiltPackageExpression(proxyAssistant, "java.util.function.Supplier");
 
+        String propertyLoaded = "propertyLoaded";
+        String loadFromRepo = "loadFromRepository";
+        String bool = "boolean";
         proxyAssistant
 
                 //private DataService dataService;
@@ -177,15 +181,74 @@ ProxyGenerator
                 //protected Map<String, PropertyLoader> propertyLoaders = new HashMap<>();
                 .field(fx -> fx.access(_private).type(tx -> tx.name("Map").genericNotation(gnx -> gnx.parameters(csvx ->
                         csvx.value(ea -> eaConstant.apply(ea, "String")).value(ea -> eaConstant.apply(ea, "PropertyLoader")))))
-                    .name(ea -> eaConstant.apply(ea, "propertyLoaders"))
-                    .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> eaConstant.apply(ea, "HashMap"))
-                            .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> eaConstant.apply(x, ""/*to end up with <>*/)))))))
+                        .name(ea -> eaConstant.apply(ea, "propertyLoaders"))
+                        .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> eaConstant.apply(ea, "HashMap"))
+                                .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> eaConstant.apply(x, ""/*to end up with <>*/)))))))
 
+                /*protected static class PropertyLoader
+                {
+                /**
+                 * Returns true if the load from model is successful.
+                 *//*
+        public Supplier<Boolean> loadFromModel;
+
+        private boolean propertyLoaded;
+
+        public boolean isPropertyLoaded()
+        {
+            return propertyLoaded;
+        }
+
+        private Runnable loadFromRepository;
+
+        protected void ensureLoaded(boolean force)
+        {
+            if (force) loadFromRepository.run();
+            else if (!propertyLoaded)
+            {
+                if (!loadFromModel.get())
+                {
+                    loadFromRepository.run();
+                }
+            }
+            propertyLoaded = true;
+        }
+    }*/
+                .nestedClass(ncx -> ncx.access(_public).static_().name(tx -> tx.name("PropertyLoader"))
+
+                        .field(fx -> fx.comment(cx -> cx.location(Expression.CommentLocation.Up).comment(ea -> eaConstant
+                                .apply(ea, "Returns true if the load from model is successful.")))
+                                .access(_private).type(tx -> tx.name("Supplier").genericNotation(gnx -> gnx
+                                        .parameters(px -> px.value(vx -> eaConstant.apply(vx, "Boolean")))))
+                                .name(nx -> eaConstant.apply(nx, "loadFromModel")))
+
+
+                        .field(fx -> fx.access(_private).type(tx -> tx.name(bool)).name(nx -> eaConstant
+                                .apply(nx, propertyLoaded)))
+
+
+                        .method(mx -> mx.access(_public).returnType(tx -> tx.name(bool)).name(nx -> eaConstant
+                                .apply(nx, "isPropertyLoaded")).inlineCode(icx -> icx.return_(rx -> rx
+                                .statement(stx -> eaConstant.apply(stx, propertyLoaded))).withSemiColon()))
+
+
+                        .field(fx -> fx.access(_private).type(tx -> tx.name("Runnable")).name(nx -> eaConstant
+                                .apply(nx, loadFromRepo)))
+
+
+                        .method(mx -> mx.access(_protected).returnType(tx -> tx.name("void")).name(nx -> eaConstant
+                                .apply(nx, "ensureLoaded")).parameterDeclarations(px -> px.value(ea -> ea.variable(vx -> vx
+                        .type(tx -> tx.name(bool)).name(e -> eaConstant.apply(e, "force"))))).inlineCode(icx -> icx
+                            .if_(ifex -> ifex.if_(ifx -> ifx.condition(cx -> eaConstant.apply(cx, "force"))
+                                    .inlineCode(ix -> ix.methodCall(mcx -> mcx.objectReference(ea -> eaConstant
+                                            .apply(ea, loadFromRepo)).name(ea -> eaConstant.apply(ea, "run")).withSemiColon())))))))
 
         ;
-        //TODO Continue from here. Go to the expressions library and add nested classes expressions classes and subsequently update class expression class in line with those changes.
+
 
     }
+
+    private Expression.AccessModifier _protected = Expression.AccessModifier.Protected;
 
     private void buildType(TypeExpression typeExpression, String typeName)
     {
