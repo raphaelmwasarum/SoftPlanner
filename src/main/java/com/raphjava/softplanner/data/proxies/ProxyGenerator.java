@@ -238,10 +238,11 @@ ProxyGenerator
 
                         .method(mx -> mx.access(_protected).returnType(tx -> tx.name("void")).name(nx -> eaConstant
                                 .apply(nx, "ensureLoaded")).parameterDeclarations(px -> px.value(ea -> ea.variable(vx -> vx
-                        .type(tx -> tx.name(bool)).name(e -> eaConstant.apply(e, "force"))))).inlineCode(icx -> icx
-                            .if_(ifex -> ifex.if_(ifx -> ifx.condition(cx -> eaConstant.apply(cx, "force"))
-                                    .inlineCode(ix -> ix.methodCall(mcx -> mcx.objectReference(ea -> eaConstant
-                                            .apply(ea, loadFromRepo)).name(ea -> eaConstant.apply(ea, "run")).withSemiColon())))))))
+                                .type(tx -> tx.name(bool)).name(e -> eaConstant.apply(e, "force"))))).inlineCode(icx -> icx
+                                .if_(ifex -> ifex.if_(ifx -> ifx.condition(cx -> eaConstant.apply(cx, "force"))
+                                        .inlineCode(ix -> ix.methodCall(mcx -> mcx.objectReference(ea -> eaConstant
+                                                .apply(ea, loadFromRepo)).name(ea -> eaConstant.apply(ea, "run")).withSemiColon())))
+                                .elseIf_(eifx -> eifx.condition(cx -> eaConstant.apply(cx, "!")))))))
 
         ;
 
