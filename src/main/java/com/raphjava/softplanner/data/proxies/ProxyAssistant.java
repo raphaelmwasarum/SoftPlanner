@@ -22,6 +22,25 @@ public class ProxyAssistant
 	
 	
 	
+	private String proxyName = this.getClass().getSimpleName();
+	
+	
+	
+	
+	private String modelName;
+	
+	
+	
+	
+	public ProxyAssistant(String modelName)
+	{
+		this.modelName = modelName;
+	}
+	
+	
+	
+	
+	
 	public static class PropertyLoader 
 	{
 		/*Returns true if the load from model is successful.
@@ -47,7 +66,16 @@ public class ProxyAssistant
 			{
 				loadFromRepository.run();
 			}
+			else if(!propertyLoaded)
+			{
+				if(!loadFromModel.get())
+				{
+					loadFromRepository.run();
+				}
+				
+			}
 			
+			propertyLoaded = true;
 		}
 		
 		

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import static com.raphjava.softplanner.annotations.Scope.Singleton;
 
@@ -166,6 +167,21 @@ ProxyGenerator
         String propertyLoaded = "propertyLoaded";
         String loadFromRepo = "loadFromRepository";
         String bool = "boolean";
+        String loadFromModel = "loadFromModel";
+
+        Supplier<String> loadFromModelExpression = () ->
+        {
+            MethodCallExpression mcx = new MethodCallExpression();
+            mcx.objectReference(ox -> eaConstant.apply(ox, loadFromModel)).name(nx -> eaConstant.apply(nx, "get"));
+            Writer w = new WriterImp();
+            mcx.build(w);
+            return w.getExpression();
+        };
+
+
+        Consumer<TypeExpression> stringType = tx -> tx.name("String");
+        String proxyName = "proxyName";
+        String modelName = "modelName";
         proxyAssistant
 
                 //private DataService dataService;
@@ -185,35 +201,7 @@ ProxyGenerator
                         .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> eaConstant.apply(ea, "HashMap"))
                                 .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> eaConstant.apply(x, ""/*to end up with <>*/)))))))
 
-                /*protected static class PropertyLoader
-                {
-                /**
-                 * Returns true if the load from model is successful.
-                 *//*
-        public Supplier<Boolean> loadFromModel;
 
-        private boolean propertyLoaded;
-
-        public boolean isPropertyLoaded()
-        {
-            return propertyLoaded;
-        }
-
-        private Runnable loadFromRepository;
-
-        protected void ensureLoaded(boolean force)
-        {
-            if (force) loadFromRepository.run();
-            else if (!propertyLoaded)
-            {
-                if (!loadFromModel.get())
-                {
-                    loadFromRepository.run();
-                }
-            }
-            propertyLoaded = true;
-        }
-    }*/
                 .nestedClass(ncx -> ncx.access(_public).static_().name(tx -> tx.name("PropertyLoader"))
 
                         .field(fx -> fx.comment(cx -> cx.location(Expression.CommentLocation.Up).comment(ea -> eaConstant
@@ -242,9 +230,32 @@ ProxyGenerator
                                 .if_(ifex -> ifex.if_(ifx -> ifx.condition(cx -> eaConstant.apply(cx, "force"))
                                         .inlineCode(ix -> ix.methodCall(mcx -> mcx.objectReference(ea -> eaConstant
                                                 .apply(ea, loadFromRepo)).name(ea -> eaConstant.apply(ea, "run")).withSemiColon())))
-                                .elseIf_(eifx -> eifx.condition(cx -> eaConstant.apply(cx, "!")))))))
+                                .elseIf_(eifx -> eifx.condition(cx -> eaConstant.apply(cx, "!" + propertyLoaded))
+                                    .inlineCode(ix -> ix.if_(ifex1 -> ifex1.if_(ifx -> ifx.condition(cx -> eaConstant
+                                            .apply(cx, "!" + loadFromModelExpression.get())).inlineCode(in -> in
+                                    .methodCall(mcx -> mcx.objectReference(ox -> eaConstant.apply(ox, loadFromRepo))
+                                    .name(nx -> eaConstant.apply(nx, "run")).withSemiColon())))))))).inlineCode(icx ->
+                                icx.equation(ex -> ex.left(lx -> eaConstant.apply(lx, propertyLoaded)).right(rx ->
+                                        eaConstant.apply(rx, "true")).withSemiColon()))))
+
+                //private String proxyName = getClass().getSimpleName();
+                .field(fx -> fx.access(_private).type(stringType).name(nx -> eaConstant.apply(nx, proxyName)).assignment(ax ->
+                        ax.methodCall(mcx -> mcx.objectReference(ox -> ox.methodCall(mcx1 -> mcx1.objectReference(ox1 ->
+                                eaConstant.apply(ox1, "this")).name(nx -> eaConstant.apply(nx, "getClass")))).name(nx ->
+                                eaConstant.apply(nx, "getSimpleName")))))
+
+                //private String modelName;
+                .field(fx -> fx.access(_private).type(stringType).name(nx -> eaConstant.apply(nx, modelName)))
+
+                //Constructor
+                .constructor(cx -> cx.access(_public).parameters(px -> px.value(v -> v.variable(vx -> vx.type(stringType)
+                .name(n -> eaConstant.apply(n, modelName))))).inlineCode(icx -> icx.equation(ex -> ex.left(e -> e
+                        .fieldAccess(fx -> fx.dis().field(ea -> eaConstant.apply(ea, modelName)))).right(r -> eaConstant
+                .apply(r, modelName))).withSemiColon()))
+
 
         ;
+
 
 
     }
