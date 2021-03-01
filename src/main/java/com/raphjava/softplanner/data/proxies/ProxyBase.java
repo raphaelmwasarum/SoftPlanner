@@ -32,8 +32,7 @@ public abstract class ProxyBase
 
     protected void ensureLoaded(String propertyName, boolean[] force, Supplier<Boolean> loadFromModel, Runnable loadFromRepo)
     {
-        propertyLoaders.computeIfAbsent(propertyName,
-                _propertyName -> newPropertyLoader(loadFromModel, loadFromRepo))
+        propertyLoaders.computeIfAbsent(propertyName, key -> newPropertyLoader(loadFromModel, loadFromRepo))
                 .ensureLoaded(force(force));
     }
 

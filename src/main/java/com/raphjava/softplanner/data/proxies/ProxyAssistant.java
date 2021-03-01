@@ -41,6 +41,50 @@ public class ProxyAssistant
 	
 	
 	
+	protected boolean force(boolean[] force)
+	{
+		if(force == null)
+		{
+			return false;
+		}
+		
+		return force.length != 0 && force[0];
+	}
+	
+	
+	
+	
+	
+	protected void ensureLoaded(String propertyName, boolean[] force, Supplier<Boolean> loadFromModel, Runnable loadFromRepository)
+	{
+		propertyLoaders.computeIfAbsent(propertyName, key -> this.newPropertyLoader(loadFromModel, loadFromRepository)).ensureLoaded(this.force(force));
+	}
+	
+	
+	
+	
+	
+	public PropertyLoader newPropertyLoader(Supplier<Boolean> loadFromModel, Runnable loadFromRepository)
+	{
+		PropertyLoader pl = new PropertyLoader();
+		pl.loadFromModel = loadFromModel;
+		pl.loadFromRepository = loadFromRepository;
+		return pl;
+	}
+	
+	
+	
+	
+	
+	protected <T> T get(Class<T> cl, int id, boolean withRelatives)
+	{
+		return null;
+	}
+	
+	
+	
+	
+	
 	public static class PropertyLoader 
 	{
 		/*Returns true if the load from model is successful.

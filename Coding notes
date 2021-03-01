@@ -11,7 +11,7 @@ So, SemVer is of the form Major.Minor.Patch.
 
 <ul></ul>
 
-### *** Starting with this project going forward \[SemVer\] will be my new versioning system ***
+### *** Starting with this project going forward \[SemVer\] this will be my new versioning system ***
 
 <ul></ul>
 
@@ -55,115 +55,92 @@ allowed in names for pre-release identifiers.
 * The first stable version is **1.0.0.**
 
 
-
-
-
-
-
-
-
-
-
-
-Root - The Main description of the app
-Children - the various components of the app.
+Root - The Main description of the app Children - the various components
+of the app.
 
 
 E.g.
 
 1. Project Tree:
 
-		AppTreeStructurePlanner ---> InputResolution. Maps input to the components that can process the input:
-										- Adding a new project
-										- Editing a project
-										- Deleting a project
-										- Showing all saved projects
-										- Adding a component node
-										- Editing a component node
-										- Deleting a component node
-										- Opening a project
-										- Showing current project tree  
-										- Showing current project schedule
+        AppTreeStructurePlanner ---> InputResolution. Maps input to the components that can process the input:
+        								- Adding a new project
+        								- Editing a project
+        								- Deleting a project
+        								- Showing all saved projects
+        								- Adding a component node
+        								- Editing a component node
+        								- Deleting a component node
+        								- Opening a project
+        								- Showing current project tree  
+        								- Showing current project schedule
 
-								---> ProjectAddition
-								---> ProjectModification
-								---> ProjectRemoval
-								---> ProjectAccess
-								---> ComponentAddition
-								---> ComponentModification
-								---> ComponentRemoval
-								---> TreeViewer. Shows the project tree
-								---> Scheduler:
-										- Adds a component to the schedule
-										- Edits a component's place in the schedule
-										- Removes a component from the schedule
-										- Shows the project coding schedule
+        						---> ProjectAddition
+        						---> ProjectModification
+        						---> ProjectRemoval
+        						---> ProjectAccess
+        						---> ComponentAddition
+        						---> ComponentModification
+        						---> ComponentRemoval
+        						---> TreeViewer. Shows the project tree
+        						---> Scheduler:
+        								- Adds a component to the schedule
+        								- Edits a component's place in the schedule
+        								- Removes a component from the schedule
+        								- Shows the project coding schedule
 
 2. Entities:
 
-	- Project
-		- Name
-		- ProjectRoot_ID
+   - Project
+     - Name
+     - ProjectRoot_ID
 
-	- Component
-		- Name
-		- Description
-		- PseudoCode
-		- Parent_ID
+   - Component
+     - Name
+     - Description
+     - PseudoCode
+     - Parent_ID
 
 
 3. Services
 
-    - ConsoleInput
-	- KeyGenerator
-	- DataService
-		- local (local repository) (default)
-		- io (input output services)
-		- web (web services)
-	- Factories (encapsulated creation of components inside components)
-	- Communication (facilitates decoupled communication among components as an alternative to Dependency Injection)
+   - ConsoleInput
+   - KeyGenerator
+   - DataService
+     - local (local repository) (default)
+     - io (input output services)
+     - web (web services)
+   - Factories (encapsulated creation of components inside components)
+   - Communication (facilitates decoupled communication among components
+     as an alternative to Dependency Injection)
 
-4. Process tree. Shows all the possible sequences of tasks that a user can go through in the app.
+4. Process tree. Shows all the possible sequences of tasks that a user
+   can go through in the app.
 
-	input processing -->  Add new project
-						- Show all projects
-						- Open a project
-							- Edit project
-							- Show project tree
-							- Show project schedule
-							- Add new component
-							- Open component
-							    - Edit a component
-							- Delete component(s)
-						- Delete a project
+   input processing --> Add new project - Show all projects - Open a
+   project - Edit project - Show project tree - Show project schedule -
+   Add new component - Open component - Edit a component - Delete
+   component(s) - Delete a project
 
 
-						project add "Project data". Done.
-						project list. Done.
-						project open Project ID. Done.
-						project current - shows the active open project. Done.
-						project edit "Project data". Done.
-						project delete Project ID. Done.
-						project component list. Done.
-						project component add <Component data> - adds a component to the project. Done.
-						project component open <Component ID>
-						project component current - shows the active open component.
-						project component edit <Component data> - adds a component to the project
-						project component delete <Component ID> - deletes a component from the current component.
-						project component goto <Component ID> - traverses the entire project tree to find and open/select the component of the passed ID.
-						project tree - prints the entire project tree.
-						project component tree <nth generation before> <nth generation after> - prints the project tree from the nth generation before the current component to the nth generation after the current component, if they exist.
-   						project schedule
-						q
-						help
-						project help
-
-
-
-
-
-
-
-
+        				project add "Project data". Done.
+        				project list. Done.
+        				project open Project ID. Done.
+        				project current - shows the active open project. Done.
+        				project edit "Project data". Done.
+        				project delete Project ID. Done.
+        				project component list. Done.
+        				project component add <Component data> - adds a component to the project. Done.
+        				project component open <Component ID>
+        				project component current - shows the active open component.
+        				project component edit <Component data> - adds a component to the project
+        				project component delete <Component ID> - deletes a component from the current component.
+        				project component goto <Component ID> - traverses the entire project tree to find and open/select the component of the passed ID.
+        				project tree - prints the entire project tree.
+        				project component tree <nth generation before> <nth generation after> - prints the project tree from the nth generation before the current component to the nth generation after the current component, if they exist.
+        				project schedule
+        				q
+        				help
+        				project help
 
 
