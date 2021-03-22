@@ -46,7 +46,7 @@ public abstract class ProxyBase
     @SuppressWarnings("unchecked")
     protected  <T> T get(Class<T> cl, int id, boolean withRelatives, Consumer<EagerLoader<T>> eagerLoaderAction)
     {
-        final Object[] rez = new Object[1];
+        Object[] rez = new Object[1];
         dataService.read(r ->
         {
             DataService.EntityReadAction<T> v = r.get(cl, id);

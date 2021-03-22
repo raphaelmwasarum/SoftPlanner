@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class
@@ -152,12 +153,15 @@ ProxyGenerator
         Consumer<MethodCallExpression> getClass = gcx -> gcx.objectReference(ea -> ea
                 .constant("this")).name(nx -> nx.constant("getClass"));
 
-        BiFunction<ExpressionAssistant, String, Expression> constX = ExpressionAssistant::constant;
+//        BiFunction<ExpressionAssistant, String, Expression> constX = ExpressionAssistant::constant;
 
         addFullyBuiltPackageExpression(proxyAssistant, "com.raphjava.softplanner.data.interfaces.DataService");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.HashMap");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.Map");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.function.Supplier");
+        addFullyBuiltPackageExpression(proxyAssistant, "java.util.function.Consumer");
+        addFullyBuiltPackageExpression(proxyAssistant, "com.raphjava.softplanner.data.interfaces.EagerLoader");
+        Function<String, Function<ExpressionAssistant, Expression>> consX = _const -> x -> x.constant(_const);
 
         String propertyLoaded = "propertyLoaded";
         String loadFromRepo = "loadFromRepository";
@@ -167,7 +171,8 @@ ProxyGenerator
         Supplier<String> loadFromModelExpression = () ->
         {
             MethodCallExpression mcx = new MethodCallExpression();
-            mcx.objectReference(ox -> constX.apply(ox, loadFromModel)).name(nx -> constX.apply(nx, "get"));
+//            mcx.objectReference(ox -> constX.apply(ox, loadFromModel)).name(nx -> constX.apply(nx, "get"));
+            mcx.objectReference(consX.apply(loadFromModel)).name(consX.apply("get"));
             Writer w = new WriterImp();
             mcx.build(w);
             return w.getExpression();
@@ -186,16 +191,19 @@ ProxyGenerator
         String propertyLoader = "PropertyLoader";
         String boolSupplier = "Supplier<Boolean>";
         Consumer<VariableDeclarationExpression> loadFromModelVar = v -> v.type(tx -> tx.name(boolSupplier))
-                .name(nx -> constX.apply(nx, loadFromModel));
+//                .name(nx -> constX.apply(nx, loadFromModel));
+                .name(consX.apply(loadFromModel));
 
         Consumer<VariableDeclarationExpression> loadFromRepoVar = v -> v.type(tx -> tx.name("Runnable"))
-                .name(nx -> constX.apply(nx, loadFromRepo));
+//                .name(nx -> constX.apply(nx, loadFromRepo));
+                .name(consX.apply(loadFromRepo));
 
+        String dataService = "dataService";
         proxyAssistant
 
                 //private DataService dataService;
                 .field(fx -> fx.access(_private).type(t -> buildType(t, "DataService"))
-                        .name(n -> n.constant("dataService")))
+                        .name(n -> n.constant(dataService)))
 
                 //protected String exceptionMessagePrefix = getClass().getSimpleName();
                 .field(fx -> fx.access(_private).type(t -> buildType(t, "String"))
@@ -205,44 +213,62 @@ ProxyGenerator
 
                 //protected Map<String, PropertyLoader> propertyLoaders = new HashMap<>();
                 .field(fx -> fx.access(_private).type(tx -> tx.name("Map").genericNotation(gnx -> gnx.parameters(csvx ->
-                        csvx.value(ea -> constX.apply(ea, "String")).value(ea -> constX.apply(ea, propertyLoader)))))
-                        .name(ea -> constX.apply(ea, propertyLoaders))
-                        .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> constX.apply(ea, "HashMap"))
-                                .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> constX.apply(x, ""/*to end up with <>*/)))))))
+//                        csvx.value(ea -> constX.apply(ea, "String")).value(ea -> constX.apply(ea, propertyLoader)))))
+                        csvx.value(consX.apply("String")).value(consX.apply(propertyLoader)))))
+//                        .name(ea -> constX.apply(ea, propertyLoaders))
+                        .name(consX.apply(propertyLoaders))
+//                        .assignment(ax -> ax.constructorCall(ccx -> ccx.name(ea -> constX.apply(ea, "HashMap"))
+                        .assignment(ax -> ax.constructorCall(ccx -> ccx.name(consX.apply("HashMap"))
+//                                .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(x -> constX.apply(x, ""/*to end up with <>*/)))))))
+                                .genericNotation(gnx -> gnx.parameters(csvx -> csvx.value(consX.apply(""/*to end up with <>*/)))))))
 
                 //PropertyLoader
                 .nestedClass(ncx -> ncx.access(_public).static_().name(tx -> tx.name(propertyLoader))
 
-                                .field(fx -> fx.comment(cx -> cx.location(Expression.CommentLocation.Up).comment(ea -> constX
-                                        .apply(ea, "Returns true if the load from model is successful.")))
+//                                .field(fx -> fx.comment(cx -> cx.location(Expression.CommentLocation.Up).comment(ea -> constX
+//                                        .apply(ea, "Returns true if the load from model is successful.")))
+                                .field(fx -> fx.comment(cx -> cx.location(Expression.CommentLocation.Up)
+                                        .comment(consX.apply("Returns true if the load from model is successful.")))
                                         .access(_private).type(tx -> tx.name("Supplier").genericNotation(gnx -> gnx
-                                                .parameters(px -> px.value(vx -> constX.apply(vx, "Boolean")))))
-                                        .name(nx -> constX.apply(nx, "loadFromModel")))
+                                                .parameters(px -> px.value(consX.apply("Boolean")))))
+                                        .name(consX.apply(loadFromModel)))
 
 
-                                .field(fx -> fx.access(_private).type(tx -> tx.name(bool)).name(nx -> constX.apply(nx, propertyLoaded)))
+//                                .field(fx -> fx.access(_private).type(tx -> tx.name(bool)).name(nx -> constX.apply(nx, propertyLoaded)))
+                                .field(fx -> fx.access(_private).type(tx -> tx.name(bool)).name(consX.apply(propertyLoaded)))
 
-                                .method(mx -> mx.access(_public).returnType(tx -> tx.name(bool)).name(nx -> constX
-                                        .apply(nx, "isPropertyLoaded")).inlineCode(icx -> icx.return_(rx -> rx
-                                        .statement(stx -> constX.apply(stx, propertyLoaded))).withSemiColon()))
+                                .method(mx -> mx.access(_public).returnType(tx -> tx.name(bool)).name(consX.apply("isPropertyLoaded"))
+                                        .inlineCode(icx -> icx.return_(rx -> rx.statement(consX.apply(propertyLoaded)))
+                                                .withSemiColon()))
 
+//                                .field(fx -> fx.access(_private).type(tx -> tx.name("Runnable")).name(nx -> constX.apply(nx, loadFromRepo)))
+                                .field(fx -> fx.access(_private).type(tx -> tx.name("Runnable")).name(consX.apply(loadFromRepo)))
 
-                                .field(fx -> fx.access(_private).type(tx -> tx.name("Runnable")).name(nx -> constX.apply(nx, loadFromRepo)))
-
-                                .method(mx -> mx.access(_protected).returnType(voidType).name(nx -> constX.apply(nx, "ensureLoaded"))
+//                                .method(mx -> mx.access(_protected).returnType(voidType).name(nx -> constX.apply(nx, "ensureLoaded"))
+                                .method(mx -> mx.access(_protected).returnType(voidType).name(consX.apply("ensureLoaded"))
                                         .parameterDeclarations(px -> px.value(ea -> ea.variable(vx -> vx.type(tx -> tx.name(bool))
-                                                .name(e -> constX.apply(e, force))))).inlineCode(icx -> icx.if_(ifex -> ifex
-                                                .if_(ifx -> ifx.condition(cx -> constX.apply(cx, force)).inlineCode(ix -> ix
-                                                        .methodCall(mcx -> mcx.objectReference(ea -> constX.apply(ea, loadFromRepo))
-                                                                .name(ea -> constX.apply(ea, "run")).withSemiColon())))
-                                                .elseIf_(eifx -> eifx.condition(cx -> constX.apply(cx, "!" + propertyLoaded))
-                                                        .inlineCode(ix -> ix.if_(ifex1 -> ifex1.if_(ifx -> ifx.condition(cx ->
-                                                                constX.apply(cx, "!" + loadFromModelExpression.get()))
-                                                                .inlineCode(in -> in.methodCall(mcx -> mcx.objectReference(ox ->
-                                                                        constX.apply(ox, loadFromRepo)).name(nx -> constX
-                                                                        .apply(nx, "run")).withSemiColon())))))))).inlineCode(icx ->
-                                                icx.equation(ex -> ex.left(lx -> constX.apply(lx, propertyLoaded)).right(rx ->
-                                                        constX.apply(rx, "true")).withSemiColon())))
+//                                                .name(e -> constX.apply(e, force))))).inlineCode(icx -> icx.if_(ifex -> ifex
+                                                .name(consX.apply(force))))).inlineCode(icx -> icx.if_(ifex -> ifex
+//                                                .if_(ifx -> ifx.condition(cx -> constX.apply(cx, force)).inlineCode(ix -> ix
+                                                .if_(ifx -> ifx.condition(consX.apply(force)).inlineCode(ix -> ix
+//                                                        .methodCall(mcx -> mcx.objectReference(ea -> constX.apply(ea, loadFromRepo))
+                                                        .methodCall(mcx -> mcx.objectReference(consX.apply(loadFromRepo))
+//                                                                .name(ea -> constX.apply(ea, "run")).withSemiColon())))
+                                                                .name(consX.apply("run")).withSemiColon())))
+//                                                .elseIf_(eifx -> eifx.condition(cx -> constX.apply(cx, "!" + propertyLoaded))
+                                                .elseIf_(eifx -> eifx.condition(consX.apply(String.format("!%s", propertyLoaded)))
+                                                        .inlineCode(ix -> ix.if_(ifex1 -> ifex1.if_(ifx -> ifx
+//                                                                .condition(cx -> constX.apply(cx, "!" + loadFromModelExpression.get()))
+                                                                .condition(consX.apply(String.format("!%s"
+                                                                        , loadFromModelExpression.get())))
+                                                                .inlineCode(in -> in.methodCall(mcx -> mcx
+                                                                        .objectReference(consX.apply(loadFromRepo))
+//                                                                        .name(nx -> constX.apply(nx, "run"))
+                                                                        .name(consX.apply("run"))
+                                                                        .withSemiColon())))))))).inlineCode(icx ->
+//                                                icx.equation(ex -> ex.left(lx -> constX.apply(lx, propertyLoaded)).right(rx ->
+                                                icx.equation(ex -> ex.left(consX.apply(propertyLoaded)).right(consX
+                                                        .apply("true")).withSemiColon())))
 
                        /* .field(fx -> fx.access(_protected).type(tx -> tx.name("Map").genericNotation(gx -> gx.parameters(px ->
                                 px.value(v -> constX.apply(v, "String")).value(v -> constX
@@ -253,68 +279,71 @@ ProxyGenerator
 
                 )
 
-                .method(mx -> mx.access(_protected).returnType(tx -> tx.name("boolean")).name(nx -> constX.apply(nx, force))
+//                .method(mx -> mx.access(_protected).returnType(tx -> tx.name("boolean")).name(nx -> constX.apply(nx, force))
+                .method(mx -> mx.access(_protected).returnType(tx -> tx.name("boolean")).name(consX.apply(force))
                         .parameterDeclarations(px -> px.value(v -> v.variable(vx -> vx.type(tx -> tx.name(boolArray))
-                                .name(nx -> constX.apply(nx, force))))).inlineCode(ix -> ix.if_(ifex -> ifex
-                                .if_(ifx -> ifx.condition(cx -> cx.equality(ex -> ex.left(lx -> constX.apply(lx, force))
-                                        .right(rx -> constX.apply(rx, "null")))).inlineCode(inx -> inx.return_(r -> r
-                                        .statement(sx -> constX.apply(sx, "false"))).withSemiColon())))).inlineCode(ix -> ix
+//                                .name(nx -> constX.apply(nx, force))))).inlineCode(ix -> ix.if_(ifex -> ifex
+                                .name(consX.apply(force))))).inlineCode(ix -> ix.if_(ifex -> ifex
+//                                .if_(ifx -> ifx.condition(cx -> cx.equality(ex -> ex.left(lx -> constX.apply(lx, force))
+                                .if_(ifx -> ifx.condition(cx -> cx.equality(ex -> ex.left(consX.apply(force))
+//                                        .right(rx -> constX.apply(rx, "null")))).inlineCode(inx -> inx.return_(r -> r
+                                        .right(consX.apply("null")))).inlineCode(inx -> inx.return_(r -> r
+//                                        .statement(sx -> constX.apply(sx, "false"))).withSemiColon())))).inlineCode(ix -> ix
+                                        .statement(consX.apply("false"))).withSemiColon())))).inlineCode(ix -> ix
                                 .return_(rx -> rx.statement(sx -> sx.comparison(cx -> cx.symbol("&&").left(l ->
                                         l.comparison(c -> c.symbol("!=").left(lx -> lx.fieldAccess(fx -> fx
-                                                .instance(i -> constX.apply(i, force)).field(f -> constX
-                                                        .apply(f, "length")))).right(r -> constX.apply(r, "0"))))
-                                        .right(rxx -> constX.apply(rxx, String.format("%s[0]", force)))))).withSemiColon()))
+//                                                .instance(i -> constX.apply(i, force)).field(f -> constX
+                                                .instance(consX.apply(force)).field(consX.apply("length"))))
+//                                                .right(r -> constX.apply(r, "0")))).right(rxx -> constX.apply(rxx, String.format("%s[0]", force)))))).withSemiColon()))
+                                                .right(consX.apply("0")))).right(consX.apply(String.format("%s[0]"
+                                        , force)))))).withSemiColon()))
 
                 //private String proxyName = getClass().getSimpleName();
-                .field(fx -> fx.access(_private).type(stringType).name(nx -> constX.apply(nx, proxyName)).assignment(ax ->
-                        ax.methodCall(mcx -> mcx.objectReference(ox -> ox.methodCall(mcx1 -> mcx1.objectReference(ox1 ->
-                                constX.apply(ox1, "this")).name(nx -> constX.apply(nx, "getClass")))).name(nx ->
-                                constX.apply(nx, "getSimpleName")))))
+                .field(fx -> fx.access(_private).type(stringType).name(consX.apply(proxyName)).assignment(ax ->
+                        ax.methodCall(mcx -> mcx.objectReference(ox -> ox.methodCall(mcx1 -> mcx1.objectReference(consX
+                                .apply("this")).name(consX.apply("getClass")))).name(consX.apply("getSimpleName")))))
 
                 //private String modelName;
-                .field(fx -> fx.access(_private).type(stringType).name(nx -> constX.apply(nx, modelName)))
+                .field(fx -> fx.access(_private).type(stringType).name(consX.apply(modelName)))
 
                 //Constructor
                 .constructor(cx -> cx.access(_public).parameters(px -> px.value(v -> v.variable(vx -> vx.type(stringType)
-                        .name(n -> constX.apply(n, modelName))))).inlineCode(icx -> icx.equation(ex -> ex.left(e -> e
-                        .fieldAccess(fx -> fx.dis().field(ea -> constX.apply(ea, modelName)))).right(r -> constX
-                        .apply(r, modelName))).withSemiColon()))
+                        .name(consX.apply(modelName))))).inlineCode(icx -> icx.equation(ex -> ex.left(e -> e
+                        .fieldAccess(fx -> fx.dis().field(consX.apply(modelName)))).right(consX.apply(modelName)))
+                        .withSemiColon()))
 
 
                 //EnsureLoaded
-                .method(mx -> mx.access(_protected).returnType(voidType).name(nx -> constX.apply(nx, "ensureLoaded"))
-                        .parameterDeclarations(px -> px.value(vx -> vx.variable(v -> v.type(stringType).name(nx ->
-                                constX.apply(nx, propertyName)))).value(vx -> vx.variable(v -> v.type(tx -> tx
-                                .name(boolArray)).name(nx -> constX.apply(nx, force)))).value(vx -> vx.variable(loadFromModelVar))
+                .method(mx -> mx.access(_protected).returnType(voidType).name(consX.apply("ensureLoaded"))
+                        .parameterDeclarations(px -> px.value(vx -> vx.variable(v -> v.type(stringType).name(consX
+                                .apply(propertyName)))).value(vx -> vx.variable(v -> v.type(tx -> tx.name(boolArray))
+                                .name(consX.apply(force)))).value(vx -> vx.variable(loadFromModelVar))
                                 .value(vx -> vx.variable(loadFromRepoVar))).inlineCode(ix -> ix.methodCall(mcx -> mcx
-                                .objectReference(ixx -> ixx.methodCall(mccx -> mccx.objectReference(ox -> constX
-                                        .apply(ox, propertyLoaders)).name(nx -> constX.apply(nx, "computeIfAbsent"))
-                                        .parameter(px -> px.value(v -> constX.apply(v, propertyName)).value(v -> v
-                                                .lambda(lx -> lx.simple().parameters(csx -> csx.value(p -> constX
-                                                        .apply(p, "key"))).body(b -> b.methodCall(mcx1 -> mcx1
-                                                        .dis().name(nx -> constX.apply(nx, newPropertyLoader))
-                                                        .parameter(px1 -> px1.value(x -> constX.apply(x, loadFromModel))
-                                                                .value(y -> constX.apply(y, loadFromRepo))))))))))
-                                .name(nx -> constX.apply(nx, "ensureLoaded")).parameter(csv -> csv.value(v -> v
-                                        .methodCall(m -> m.dis().name(nx -> constX.apply(nx, force)).parameter(p -> p
-                                                .value(x -> constX.apply(x, force))))))).withSemiColon()))
+                                .objectReference(ixx -> ixx.methodCall(mccx -> mccx.objectReference(consX.apply(propertyLoaders))
+                                        .name(consX.apply("computeIfAbsent")).parameter(px -> px.value(consX.apply(propertyName))
+                                                .value(v -> v.lambda(lx -> lx.simple().parameters(csx -> csx.value(consX
+                                                        .apply("key"))).body(b -> b.methodCall(mcx1 -> mcx1.dis()
+                                                        .name(consX.apply(newPropertyLoader)).parameter(px1 -> px1
+                                                                .value(consX.apply(loadFromModel))
+                                                                .value(consX.apply(loadFromRepo))))))))))
+                                .name(consX.apply("ensureLoaded")).parameter(csv -> csv.value(v -> v.methodCall(m -> m
+                                        .dis().name(consX.apply(force)).parameter(p -> p.value(consX.apply(force)))))))
+                                .withSemiColon()))
 
                 //newPropertyLoader method
                 .method(mcx ->
                 {
                     String pl = "pl";
-                    mcx.access(_public).returnType(rx -> rx.name(propertyLoader)).name(nx -> constX.apply(nx,
-                            newPropertyLoader)).parameterDeclarations(px -> px.value(v -> v.variable(loadFromModelVar))
-                            .value(v -> v.variable(loadFromRepoVar))).inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx
-                            .variable(v -> v.type(t -> t.name(propertyLoader)).name(nx -> constX.apply(nx, pl)))).right(rx -> rx
-                            .constructorCall(cx -> cx.name(nx -> constX.apply(nx, propertyLoader)))).withSemiColon()))
-                            .inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx.fieldAccess(fx -> fx.instance(i -> constX
-                                    .apply(i, pl)).field(f -> constX.apply(f, loadFromModel)))).right(rx -> constX
-                                    .apply(rx, loadFromModel))).withSemiColon())
-                            .inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx.fieldAccess(fx -> fx.instance(i -> constX
-                                    .apply(i, pl)).field(f -> constX.apply(f, loadFromRepo)))).right(rx -> constX.apply(rx
-                                    , loadFromRepo))).withSemiColon())
-                            .inlineCode(ix -> ix.return_(rx -> rx.statement(sx -> constX.apply(sx, pl))).withSemiColon());
+                    mcx.access(_public).returnType(rx -> rx.name(propertyLoader)).name(consX.apply(newPropertyLoader))
+                            .parameterDeclarations(px -> px.value(v -> v.variable(loadFromModelVar))
+                                    .value(v -> v.variable(loadFromRepoVar))).inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx
+                            .variable(v -> v.type(t -> t.name(propertyLoader)).name(consX.apply(pl)))).right(rx -> rx
+                            .constructorCall(cx -> cx.name(consX.apply(propertyLoader)))).withSemiColon()))
+                            .inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx.fieldAccess(fx -> fx.instance(consX.apply(pl))
+                                    .field(consX.apply(loadFromModel)))).right(consX.apply(loadFromModel))).withSemiColon())
+                            .inlineCode(ix -> ix.equation(ex -> ex.left(lx -> lx.fieldAccess(fx -> fx.instance(consX.apply(pl))
+                                    .field(consX.apply(loadFromRepo)))).right(consX.apply(loadFromRepo))).withSemiColon())
+                            .inlineCode(ix -> ix.return_(rx -> rx.statement(consX.apply(pl))).withSemiColon());
                 })
 
                 .method(mcx ->
@@ -324,12 +353,22 @@ ProxyGenerator
                     String clVar = "cl";
                     String id = "id";
                     String withRel = "withRelatives";
-                    mcx.access(_protected).genericNotation(g -> g.parameters(p -> p.value(v -> constX.apply(v, t))))
-                            .returnType(rx -> rx.name(t)).name(nx -> constX.apply(nx, "get")).parameterDeclarations(p -> p
-                            .value(v -> v.variable(vx -> vx.type(tx -> tx.name(String.format("Class<%s>", t))).name(nx -> constX
-                                    .apply(nx, clVar)))).value(v -> v.variable(vx -> vx.type(tx -> tx.name("int")).name(nx -> constX
-                                    .apply(nx, id)))).value(v -> v.variable(vx -> vx.type(tx -> tx.name(bool)).name(nx ->
-                                    constX.apply(nx, withRel)))));
+                    String eagLoaderAction = "eagerLoaderAction";
+                    mcx.access(_protected).genericNotation(g -> g.parameters(p -> p.value(consX.apply(t))))
+                            .returnType(rx -> rx.name(t)).name(consX.apply("get")).parameterDeclarations(p -> p
+                            .value(v -> v.variable(vx -> vx.type(tx -> tx.name(String.format("Class<%s>", t)))
+                                    .name(consX.apply(clVar)))).value(v -> v.variable(vx -> vx.type(tx -> tx.name("int"))
+                                    .name(consX.apply(id)))).value(v -> v.variable(vx -> vx.type(tx -> tx.name(bool))
+                                    .name(consX.apply(withRel)))).value(v -> v.variable(vx -> vx.type(tx -> tx.name("Consumer")
+                                    .genericNotation(gx -> gx.parameters(px -> px.value(vx1 -> vx1.type(a -> a.name(String.format("EagerLoader<%s>", t)))))))
+                                    .name(consX.apply(eagLoaderAction)))))
+                            .inlineCode(inx -> inx.equation(ex -> ex.left(lx -> lx
+                                    .variable(vx -> vx.type(tx -> tx.name("Object[]")).name(consX.apply("rez"))))
+                                    .right(rx -> rx.constant("new Object[1]")).withSemiColon()))
+                            .inlineCode(ix -> ix.methodCall(mx -> mx.objectReference(consX.apply(dataService)).name(consX.apply("read"))
+                                    .parameter(px -> px.value(vx -> vx.lambda(lx -> lx.parameters(lpx -> lpx
+                                            .value(consX.apply("r"))).inlineCode(consX.apply("//Code here.")).bracketsInSeparateLines()))))
+                                    .withSemiColon());
                 })
 
 
@@ -337,6 +376,7 @@ ProxyGenerator
 
 
     }
+
 
     private Expression.AccessModifier _protected = Expression.AccessModifier.Protected;
 
