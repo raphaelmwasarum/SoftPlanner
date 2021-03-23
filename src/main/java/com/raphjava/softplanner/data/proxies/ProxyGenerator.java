@@ -354,6 +354,10 @@ ProxyGenerator
                     String id = "id";
                     String withRel = "withRelatives";
                     String eagLoaderAction = "eagerLoaderAction";
+                    String readAction = "v";
+                    String lambdaParameter = "r";
+                    String rez = "rez";
+                    String en = "en";
                     mcx.access(_protected).genericNotation(g -> g.parameters(p -> p.value(consX.apply(t))))
                             .returnType(rx -> rx.name(t)).name(consX.apply("get")).parameterDeclarations(p -> p
                             .value(v -> v.variable(vx -> vx.type(tx -> tx.name(String.format("Class<%s>", t)))
@@ -363,16 +367,47 @@ ProxyGenerator
                                     .genericNotation(gx -> gx.parameters(px -> px.value(vx1 -> vx1.type(a -> a.name(String.format("EagerLoader<%s>", t)))))))
                                     .name(consX.apply(eagLoaderAction)))))
                             .inlineCode(inx -> inx.equation(ex -> ex.left(lx -> lx
-                                    .variable(vx -> vx.type(tx -> tx.name("Object[]")).name(consX.apply("rez"))))
+                                    .variable(vx -> vx.type(tx -> tx.name("Object[]")).name(consX.apply(rez))))
                                     .right(rx -> rx.constant("new Object[1]")).withSemiColon()))
-                            .inlineCode(ix -> ix.methodCall(mx -> mx.objectReference(consX.apply(dataService)).name(consX.apply("read"))
-                                    .parameter(px -> px.value(vx -> vx.lambda(lx -> lx.parameters(lpx -> lpx
-                                            .value(consX.apply("r"))).inlineCode(consX.apply("//Code here.")).bracketsInSeparateLines()))))
-                                    .withSemiColon());
-                })
-
-
-        ;
+                            .inlineCode(ix -> ix.methodCall(mx -> mx.objectReference(consX.apply(dataService))
+                                    .name(consX.apply("read")).parameter(px -> px.value(vx -> vx.lambda(lx -> lx
+                                            .parameters(lpx -> lpx.value(consX.apply(lambdaParameter)))
+                                            .inlineCode(a -> a.equation(ex -> ex.left(lax -> lax.variable(vx1 -> vx1
+                                                    .type(nx -> nx.name(String.format("DataService.EntityReadAction<%s>", t)))
+                                                    .name(consX.apply(readAction)))).right(rx -> rx
+                                                    .methodCall(mx1 -> mx1.objectReference(consX.apply(lambdaParameter))
+                                                            .name(consX.apply("get")).parameter(px1 -> px1
+                                                                    .value(consX.apply(clVar)).value(consX.apply(id))))))
+                                                    .withSemiColon())
+                                            .inlineCode(a -> a.if_(ifx -> ifx.if_(ifex -> ifex.condition(consX
+                                                    .apply(withRel)).inlineCode(ix1 -> ix1.equation(ex -> ex.left(consX
+                                                    .apply(readAction)).right(rx -> rx.methodCall(mx1 -> mx1
+                                                    .objectReference(consX.apply(readAction)).name(consX.apply("withRelationships")))))
+                                                    .withSemiColon()))))
+                                            .inlineCode(a -> a.if_(ifx -> ifx.if_(ifex -> ifex.condition(cx -> cx
+                                                    .comparison(cox -> cox.symbol("!=").left(consX.apply(eagLoaderAction))
+                                                            .right(consX.apply("null")))).inlineCode(ix1 -> ix1
+                                                    .methodCall(mx1 -> mx1.objectReference(bx -> bx.methodCall(mc -> mc
+                                                            .objectReference(ox -> ox.methodCall(mc2 -> mc2
+                                                                    .objectReference(consX.apply(readAction)).name(consX.apply("eagerLoad"))
+                                                                    .parameter(pw -> pw.value(consX.apply(eagLoaderAction))))).name(consX.apply("onSuccess"))
+                                                            .parameter(p -> p.value(vv -> vv.lambda(lax -> lax.simple()
+                                                                    .parameters(i -> i.value(consX.apply(en))).body(box -> box
+                                                                            .equation(elx -> elx.left(consX.apply(String.format("%s[0]", rez)))
+                                                                                    .right(consX.apply(en)))))))))
+                                                            .name(consX.apply("onFailure")).parameter(px1 -> px1.value(vx1 -> vx1
+                                                                    .lambda(lx1 -> lx1.body(bx -> bx.methodCall(mx2 -> mx2
+                                                                            .objectReference(ox -> ox.fieldAccess(fx -> fx
+                                                                                    .instance(consX.apply("System")).field(consX
+                                                                                            .apply("out")))).name(consX
+                                                                                    .apply("println")).parameter(par -> par
+                                                                                    .value(consX.apply("\"proxy data read failure.\"")))))
+                                                                            .simple())))).withSemiColon()))))
+                                            .bracketsInSeparateLines()))))
+                                    .withSemiColon())
+                    .inlineCode(ix -> ix.return_(rx -> rx.statement(sx -> sx.cast(cx -> cx.type_(tx -> tx.name(t))
+                            .value(consX.apply(String.format("%s[0]", rez)))))).withSemiColon());
+                });
 
 
     }

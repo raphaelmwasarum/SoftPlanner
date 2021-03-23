@@ -95,7 +95,7 @@
         <dependency>
             <groupId>net.raphjava.expression</groupId>
             <artifactId>expression</artifactId>
-            <version>2.1.0</version>
+            <version>2.1.1</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
