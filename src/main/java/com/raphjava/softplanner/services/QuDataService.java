@@ -7,7 +7,12 @@ import com.raphjava.softplanner.data.interfaces.CRUD;
 import com.raphjava.softplanner.data.interfaces.DataService;
 import com.raphjava.softplanner.data.interfaces.EagerLoader;
 import com.raphjava.softplanner.data.models.EntityBase;
-import com.raphjava.softplanner.data.proxies.ProxyFactory;
+import com.raphjava.softplanner.data.proxies.ProxyFactory_Template;
+import com.raphjava.softplanner.data.proxies.interfaces.ProxyFactory;
+//TODO To avoid errors such as the one above, Redesign Proxy Generator to run remotely from the subject project i.e. design it to:
+    //Inspect the source code files of the subject project remotely.
+    //Add/modify proxy source code files remotely.
+    //But first, research on the pros and cons of allowing code files to have multiple readers and writers during development i.e. the ide and some other application say a code generator.
 import net.raphjava.qumbuqa.core.BatchDataContext;
 import net.raphjava.qumbuqa.core.DataContext;
 import net.raphjava.qumbuqa.core.Qumbuqa;

@@ -71,6 +71,7 @@ public class ComponentAccess extends ComponentBase
         openComponent.setCommandDescription("Open Component");
         openComponent.setAction(this::openComponent);
         getCommands().add(openComponent);
+
     }
 
     private Factory<ComponentSelection> componentSelectionFactory;

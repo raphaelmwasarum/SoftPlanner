@@ -10,7 +10,6 @@ import net.raphjava.raphtility.reflection.interfaces.ReflectionHelper;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -73,20 +72,26 @@ ProxyGenerator
                 - proxyAssistant.ensureLoaded method call.
                 - return relationship property field.
                 */
-
     public void generateProxies()
     {
 
         /*clearProxies();
         generateNewProxies();
         generateProxyFactory();*/
+        generateTheProxyFactoryClassExpression();
+        generateProxyAssistantClassExpression();
         generateNewProxies();
         persist();
 
     }
 
+    private String proxyFactoryInterfaceName = "ProxyFactory";
+
     private void persist()
     {
+        Writer pfWriter = new WriterImp();
+        getClassExpression(proxyFactoryInterfaceName).build(pfWriter);
+        ioService.writeToFile(resolveAbsoluteFilePath(proxyFactoryInterfaceName), pfWriter.getExpression());
         for (Map.Entry<String, ClassExpression> proxyClassData : proxyClassExpressions.entrySet())
         {
             Writer w = new WriterImp();
@@ -96,14 +101,16 @@ ProxyGenerator
 
     }
 
-    private String resolveAbsoluteFilePath(String proxyClassName)
+    private String resolveAbsoluteFilePath(String className)
     {
-        return String.format("%s%s%s.java", proxiesDirectory, File.separator, proxyClassName);
+        String dir = className.equals(proxyFactoryInterfaceName) ? String.format("%s%sinterfaces" , proxiesDirectory
+                , File.separator) : proxiesDirectory;
+        return String.format("%s%s%s.java", dir, File.separator, className);
     }
 
     private void generateNewProxies()
     {
-        generateProxyAssistantClassExpression();
+
         for (ProxyAnnotationProcessor.ProxyMetaData mData : proxyAnnotationProcessor.getProxyEntities())
         {
             generateNewProxy(mData);
@@ -111,25 +118,43 @@ ProxyGenerator
 
     }
 
+
+    private void generateTheProxyFactoryClassExpression()
+    {
+        ClassExpression pfClassExpression = getClassExpression(proxyFactoryInterfaceName);
+
+    }
+
+
     private final String PROXY_ASSISTANT_CLASS_NAME = "ProxyAssistant";
 
     private String proxiesPackageName;
 
     private Expression.AccessModifier _public = Expression.AccessModifier.Public;
 
-    private void generateProxyAssistantClassExpression()
+
+
+    private ClassExpression getClassExpression(String className)
     {
-        ClassExpression proxyAssistant = proxyClassExpressions.computeIfAbsent(PROXY_ASSISTANT_CLASS_NAME, key ->
+        return proxyClassExpressions.computeIfAbsent(className, key ->
         {
             ClassExpression c = new ClassExpression();
-            c.access(_public).name(n -> n.name(key)).package_(px -> px.paths(pl -> pl.value(ea -> ea.constant(proxiesPackageName))));
+            c.access(_public).name(n -> n.name(key)).package_(px -> px.paths(pl -> pl.value(consX.apply(className
+                    .equals(proxyFactoryInterfaceName) ? String.format("%s.interfaces", proxiesPackageName)
+                    : proxiesPackageName))));
             return c;
         });
+    }
 
+
+    private void generateProxyAssistantClassExpression()
+    {
+        ClassExpression proxyAssistant = getClassExpression(PROXY_ASSISTANT_CLASS_NAME);
         addProxyAssistantFieldExpressions(proxyAssistant);
 
 
     }
+
 
     private Expression.AccessModifier _private = Expression.AccessModifier.Private;
 
@@ -137,6 +162,12 @@ ProxyGenerator
     {
         classExpression.import_(ix -> ix.paths(dsvx -> dsvx.value(vx -> vx.constant(fullyBuiltPackage))));
     }
+
+    private Consumer<MethodCallExpression> getClass = gcx -> gcx.objectReference(ea -> ea.constant("this"))
+            .name(nx -> nx.constant("getClass"));
+
+    private Function<String, Function<ExpressionAssistant, Expression>> consX = _const -> x -> x.constant(_const);
+
 
     private void addProxyAssistantFieldExpressions(ClassExpression proxyAssistant)
     {
@@ -150,8 +181,6 @@ ProxyGenerator
 
             */
 
-        Consumer<MethodCallExpression> getClass = gcx -> gcx.objectReference(ea -> ea
-                .constant("this")).name(nx -> nx.constant("getClass"));
 
 //        BiFunction<ExpressionAssistant, String, Expression> constX = ExpressionAssistant::constant;
 
@@ -161,7 +190,6 @@ ProxyGenerator
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.function.Supplier");
         addFullyBuiltPackageExpression(proxyAssistant, "java.util.function.Consumer");
         addFullyBuiltPackageExpression(proxyAssistant, "com.raphjava.softplanner.data.interfaces.EagerLoader");
-        Function<String, Function<ExpressionAssistant, Expression>> consX = _const -> x -> x.constant(_const);
 
         String propertyLoaded = "propertyLoaded";
         String loadFromRepo = "loadFromRepository";
@@ -405,8 +433,8 @@ ProxyGenerator
                                                                             .simple())))).withSemiColon()))))
                                             .bracketsInSeparateLines()))))
                                     .withSemiColon())
-                    .inlineCode(ix -> ix.return_(rx -> rx.statement(sx -> sx.cast(cx -> cx.type_(tx -> tx.name(t))
-                            .value(consX.apply(String.format("%s[0]", rez)))))).withSemiColon());
+                            .inlineCode(ix -> ix.return_(rx -> rx.statement(sx -> sx.cast(cx -> cx.type_(tx -> tx.name(t))
+                                    .value(consX.apply(String.format("%s[0]", rez)))))).withSemiColon());
                 });
 
 
@@ -423,6 +451,7 @@ ProxyGenerator
 
     private void generateNewProxy(ProxyAnnotationProcessor.ProxyMetaData proxyMetaData)
     {
+
 
     }
 

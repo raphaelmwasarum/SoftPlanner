@@ -3,10 +3,8 @@ package com.raphjava.softplanner.domain;
 import com.raphjava.softplanner.components.AbFactoryBean;
 import com.raphjava.softplanner.components.ComponentBase;
 import com.raphjava.softplanner.components.ConsoleInput;
-import com.raphjava.softplanner.data.models.Component;
-import com.raphjava.softplanner.data.models.Notification;
-import com.raphjava.softplanner.data.models.SubComponent;
-import com.raphjava.softplanner.data.models.SubComponentDetail;
+import com.raphjava.softplanner.data.models.*;
+import com.raphjava.softplanner.data.proxies.ComponentProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -88,6 +86,7 @@ public class ComponentAddition extends ComponentBase
     private void ensureParentExists()
     {
         Objects.requireNonNull(parent, "A sub-component must have a parent component.");
+
     }
 
 

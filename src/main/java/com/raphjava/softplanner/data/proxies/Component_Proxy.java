@@ -61,10 +61,10 @@ public class Component_Proxy extends Component
             - For each relationship property that requires lazy loading from the current entity in the loop:
                 - create its anonymous class expression
                 - override the getter and add the following code:
-                - add code expressions for the declaration of methods in the Outer class. These will be called by the
-                code expression below (loadFromModel and loadFromRepo)
-                - proxyAssistant.ensureLoaded method call.
-                - return relationship property field.
+                    - add code expressions for the declaration of methods in the Outer class. These will be called by the
+                    code expression below (loadFromModel and loadFromRepo)
+                    - proxyAssistant.ensureLoaded method call.
+                    - return relationship property field.
     */
 
 
